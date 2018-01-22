@@ -7,9 +7,9 @@ from .models import books
 
 from .serializers import bookSerilizer,\
     permissionSerializer,\
-    groupSerializer,\
-    userSerializer
-from django.contrib.auth.models import Permission,Group,User
+    groupSerializer,userSerializer
+from django.contrib.auth.models import Permission,Group
+from users.models import UserProfile
 
 class booklist(generics.GenericAPIView,mixins.ListModelMixin):
     queryset = books.objects.all()
@@ -35,5 +35,8 @@ class groupList(generics.GenericAPIView,mixins.ListModelMixin):
         return self.list(request, *args, **kwargs)
 
 class userList(generics.GenericAPIView,mixins.ListModelMixin):
-    queryset = User.objects.all()
+    queryset = UserProfile.objects.all()
     serializer_class = userSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)

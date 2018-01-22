@@ -38,8 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'permissionapi'
+    'permissionapi',
+    'users',
 ]
+
+AUTH_USER_MODEL = "users.UserProfile"
 
 REST_FRAMEWORK = {
      'DEFAULT_PERMISSION_CLASSES': (

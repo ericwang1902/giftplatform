@@ -5,7 +5,9 @@ __date__ = '2018/1/22 8:31'
 
 from .models import books
 from rest_framework.serializers import ModelSerializer
-from django.contrib.auth.models import Permission,Group,User
+from rest_framework import serializers
+from django.contrib.auth.models import Permission,Group
+from users.models import UserProfile
 
 class bookSerilizer(ModelSerializer):
     class Meta:
@@ -13,18 +15,26 @@ class bookSerilizer(ModelSerializer):
         fields = ('bookname')
 
 
+
 class permissionSerializer(ModelSerializer):
     class Meta:
         model = Permission
         fields = ('name','content_type','codename')
+        depth = 3
+
 
 
 class groupSerializer(ModelSerializer):
+    permissions =serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     class Meta:
-        module= Group
+        model= Group
         fields = ('name','permissions')
 
 class userSerializer(ModelSerializer):
+    #groups = serializers.PrimaryKeyRelatedField(many=True,read_only=True)
+    #groups = groupSerializer(source='group_set',many=True)
     class Meta:
-        module = User
-        fields = ('username','first_name','last_name','email','password',)
+        model = UserProfile
+        fields = ('username','first_name','last_name','email','password','groups')
+        depth =2
+
