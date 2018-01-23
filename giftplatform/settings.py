@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'permissionapi',
     'users',
+    'viplevels',
+    'products'
 ]
 
 AUTH_USER_MODEL = "users.UserProfile"
