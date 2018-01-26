@@ -92,9 +92,17 @@ WSGI_APPLICATION = 'giftplatform.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'giftplatform',  # 新建数据库名称
+        'USER': 'root',  # mysql用户名
+        'PASSWORD': 'qwer1234',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',  # mysql数据库的端口号
     }
 }
 
