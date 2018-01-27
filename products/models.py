@@ -1,4 +1,6 @@
 from django.db import models
+from django_mysql.models import JSONField,Model
+from users.models import UserProfile,privatearea
 
 # Create your models here.
 #场景
@@ -33,15 +35,23 @@ class product(models.Model):
     status = models.IntegerField(default=0)
     isdelete = models.BooleanField(default=False)
     categoryid = models.ForeignKey(category,on_delete=models.CASCADE)
-    #attibutes=json
+    attibutes=JSONField()
+    brand = models.ForeignKey(brands,on_delete=models.CASCADE)
+    yijiandaifa = models.BooleanField(default=False)
+    newup = models.BooleanField(default=False)
+    #brandlogo 用brand字段关联显示
+    belongs = models.ForeignKey(UserProfile,on_delete=models.CASCADE)
+    inprivatearea = models.BooleanField(default=False)
+    privatearea = models.ForeignKey(privatearea,on_delete=models.CASCADE)
+    scene = models.ForeignKey(scene,on_delete=models.CASCADE)
 
 #sku类
 class productItem(models.Model):
-    price=models.DecimalField(default=0)
-    #attributes = json
+    price=models.DecimalField(default=0,decimal_places=2,max_digits=2)
+    attibutes = JSONField()
     status = models.IntegerField(default=0)
     onshell = models.BooleanField(default=False)
-    favouredprice = models.DecimalField(default=0)
+    favouredprice = models.DecimalField(default=0,decimal_places=2,max_digits=2)
     isdelete = models.BooleanField(default=False)
 
 

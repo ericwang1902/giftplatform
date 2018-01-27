@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'permissionapi',
     'users',
     'viplevels',
+    'products'
 ]
 
 AUTH_USER_MODEL = "users.UserProfile"
