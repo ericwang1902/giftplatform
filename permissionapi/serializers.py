@@ -13,7 +13,8 @@ from users.models import UserProfile
 class bookSerilizer(ModelSerializer):
     class Meta:
         model= books
-        fields = ('bookname')
+        #fields = ('bookname')
+        fields = '__all__'
 
 
 

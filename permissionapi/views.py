@@ -11,12 +11,18 @@ from .serializers import bookSerilizer,\
 from django.contrib.auth.models import Permission,Group
 from users.models import UserProfile
 
-class booklist(generics.GenericAPIView,mixins.ListModelMixin):
+class booklist(generics.GenericAPIView,
+               mixins.ListModelMixin,
+               mixins.CreateModelMixin):
     queryset = books.objects.all()
     serializer_class = bookSerilizer
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
+
+    def post(self,request,*args,**kwargs):
+        return self.create(request,*args,**kwargs)
+
 
 
 class permissionList(generics.GenericAPIView,mixins.ListModelMixin):
