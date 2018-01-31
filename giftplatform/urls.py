@@ -26,7 +26,9 @@ urlpatterns = [
 
     path('admin/', admin.site.urls),
 
-    path('api/',include('permissionapi.urls'))
+    path('api/',include('permissionapi.urls')),
+
+    path('papi/',include('products.api.urls'))
 
 
 ]
