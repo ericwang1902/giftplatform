@@ -4,7 +4,7 @@ from .views import privateareaList,privateareaDetail
 
 app_name = "users"
 
-urlpatterms = [
+urlpatterns = [
 
     path('private-areas',privateareaList.as_view(),name= "privatelist")
 ]
