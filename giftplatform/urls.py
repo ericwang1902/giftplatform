@@ -28,7 +28,9 @@ urlpatterns = [
 
     path('api/',include('permissionapi.urls')),
 
-    path('api/privatearea/',include('users.api.urls'))
+    path('api/',include('users.api.urls')),
+
+    path('api/',include('products.api.urls'))
 
 
 ]
