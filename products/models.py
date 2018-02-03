@@ -64,5 +64,9 @@ class productImage(models.Model):
     type = models.IntegerField(default=0)
     productid = models.ForeignKey(product,on_delete=models.CASCADE)
 
+#tags
+class tags(models.Model):
+    tagname = models.CharField(max_length=50,null=False)
+
 
 
