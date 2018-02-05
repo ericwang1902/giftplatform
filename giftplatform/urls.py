@@ -19,7 +19,7 @@ from rest_framework_jwt.views import obtain_jwt_token
 
 
 urlpatterns = [
-    # token
+    # token,post方法获取token
     path('api-token-auth/', obtain_jwt_token),
     # rest framework 的viewset都会在这里进行认证
     re_path(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
