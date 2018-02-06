@@ -93,6 +93,7 @@ class adminstratorDetail(generics.GenericAPIView,mixins.RetrieveModelMixin,mixin
 
 
     def put(self,request,*args,**kwargs):
+        kwargs['partial'] = True
         return self.update(request,*args,**kwargs)
 
     def delete(self, request, *args, **kwargs):
