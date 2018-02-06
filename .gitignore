@@ -1,0 +1,8 @@
+
+*.iml
+*.xml
+giftplatform/__pycache__/urls.cpython-36.pyc
+giftplatform/__pycache__/settings.cpython-36.pyc
+giftplatform/__pycache__/__init__.cpython-36.pyc
+viplevels/migrations/__pycache__/__init__.cpython-36.pyc
+.idea/workspace.xml
