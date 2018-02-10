@@ -3,7 +3,9 @@ from django.shortcuts import render
 # Create your views here.
 
 from rest_framework import generics,mixins
+from rest_framework.pagination import PageNumberPagination
 from .models import books
+
 
 from .serializers import bookSerilizer,\
     permissionSerializer,\
@@ -28,6 +30,8 @@ class booklist(generics.GenericAPIView,
 class permissionList(generics.GenericAPIView,mixins.ListModelMixin):
     queryset = Permission.objects.all()
     serializer_class =permissionSerializer
+    pagination_class = PageNumberPagination
+    pagination_class.page_size = 1000
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -39,6 +43,9 @@ class groupList(generics.GenericAPIView,mixins.ListModelMixin):
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
+
+    def post(self,request,*args,**kwargs):
+        return self.create(request,*args,**kwargs)
 
 class userList(generics.GenericAPIView,mixins.ListModelMixin):
     queryset = UserProfile.objects.all()

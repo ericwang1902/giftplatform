@@ -21,7 +21,7 @@ class bookSerilizer(ModelSerializer):
 class permissionSerializer(ModelSerializer):
     class Meta:
         model = Permission
-        fields = ('name','content_type','codename')
+        fields = ('name','content_type','codename', 'id')
         depth = 3
 
 
