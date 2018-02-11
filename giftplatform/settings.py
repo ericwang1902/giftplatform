@@ -121,8 +121,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'giftplatform',  # 新建数据库名称
-        'USER': 'onepoint',  # mysql用户名
-        'PASSWORD': 'onepoint',
+        'USER': 'root',  # mysql用户名
+        'PASSWORD': 'qwer1234',
         'HOST': '127.0.0.1',
         'PORT': '3306',  # mysql数据库的端口号
     }

@@ -1,6 +1,6 @@
 from  rest_framework import generics,mixins
 
-from .serializers import privateareaSerialzer,groupSerialzer,userprofileSerializer
+from .serializers import privateareaSerialzer,groupSerialzer,userprofileSerializer,permissionSerializer
 
 from users.models import privatearea,UserProfile
 
@@ -9,6 +9,7 @@ from django.contrib.auth.models import Permission,Group
 from django.db.models import Q
 
 from rest_framework import filters
+from rest_framework.pagination import PageNumberPagination
 
 
 class privateareaList(generics.GenericAPIView,mixins.ListModelMixin,mixins.CreateModelMixin):
@@ -39,6 +40,15 @@ class privateareaDetail(generics.GenericAPIView,mixins.RetrieveModelMixin,mixins
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+
+class permissionList(generics.GenericAPIView,mixins.ListModelMixin):
+    queryset = Permission.objects.all()
+    serializer_class =permissionSerializer
+    pagination_class = PageNumberPagination
+    pagination_class.page_size = 1000
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
 
 class groupList(generics.GenericAPIView,mixins.ListModelMixin,mixins.CreateModelMixin):

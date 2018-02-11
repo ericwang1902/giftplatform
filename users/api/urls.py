@@ -5,6 +5,7 @@ from .views import groupList,groupDetail
 from .views import adminstratorList,adminstratorDetail
 from .views import GiftDealersList,GiftDealerDetail
 from .views import supplierList,supplierDetail
+from .views import permissionList
 
 app_name = "users"
 
@@ -12,6 +13,8 @@ urlpatterns = [
 
     path('private-areas',privateareaList.as_view(),name= "privatelist"),
     path('private-areas/<int:pk>',privateareaDetail.as_view(),name="privatedetail"),
+
+    path('permissionlist/',permissionList.as_view(),name="permissionlist"),
 
     path('groups',groupList.as_view(),name = "grouplist"),
     path('groups/<int:pk>',groupDetail.as_view(),name = "groupdetail"),

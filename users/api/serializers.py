@@ -18,3 +18,10 @@ class userprofileSerializer(ModelSerializer):
     class Meta:
         model = UserProfile
         fields='__all__'
+
+
+class permissionSerializer(ModelSerializer):
+    class Meta:
+        model = Permission
+        fields = "__all__"
+
