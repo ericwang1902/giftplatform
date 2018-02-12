@@ -29,7 +29,7 @@ urlpatterns=[
     path('suppliers/<int:pk>/goods',supplierProdcutsList.as_view(),name="supplisergoodslist"),
     path('suppliers/<int:pk>/goods/<int:productid>',subcategoryDetail.as_view(),name="supplisergoodsdetail"),
 
-    path('tags/',tagsList.as_view(),name="tagslist"),
+    path('tags',tagsList.as_view(),name="tagslist"),
     path('tags/<int:pk>',tagsDetail.as_view(),name="tagsdetail")
 
 
