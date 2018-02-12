@@ -119,7 +119,7 @@ class GiftDealersList(generics.ListAPIView,generics.CreateAPIView):
         return queryset
 
     def perform_create(self, serializer):
-        serializer.save(category=self.request.data)
+        serializer.save(type='giftcompany')
 
 class GiftDealerDetail(generics.GenericAPIView,mixins.RetrieveModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin):
     queryset = UserProfile.objects.all()

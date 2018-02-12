@@ -10,6 +10,6 @@ from .views import viplevelList,viplevelDetail
 app_name = "viplevel"
 
 urlpatterns=[
-    path('viplevels/',viplevelList.as_view(),name="viplevellist"),
+    path('viplevels',viplevelList.as_view(),name="viplevellist"),
     path('viplevels/<int:pk>',viplevelDetail.as_view(),name="vipleveldetail")
 ]

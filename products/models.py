@@ -12,7 +12,7 @@ class  category(models.Model):
     name = models.CharField(max_length=200,null=False)
     isroot = models.BooleanField(default=False)
     isleaf = models.BooleanField(default=False)
-    parent = models.ForeignKey("category",on_delete=models.CASCADE,null=True)
+    parent = models.ForeignKey("category",on_delete=models.CASCADE,blank=True,null=True)
     isdelete = models.BooleanField(default=False)
 
 
@@ -34,7 +34,7 @@ class product(models.Model):
     updatetime = models.DateTimeField(auto_now=True)
     status = models.IntegerField(default=0)
     isdelete = models.BooleanField(default=False)
-    categoryid = models.ForeignKey(category,on_delete=models.CASCADE,null=True)
+    categoryid = models.ForeignKey(category,on_delete=models.CASCADE,blank=True,null=True)
     attibutes=JSONField()
     brand = models.ForeignKey(brands,on_delete=models.CASCADE,null=True)
     yijiandaifa = models.BooleanField(default=False)
@@ -42,7 +42,7 @@ class product(models.Model):
     #brandlogo 用brand字段关联显示
     belongs = models.ForeignKey(UserProfile,on_delete=models.CASCADE,null=True)
     inprivatearea = models.BooleanField(default=False)
-    privatearea = models.ForeignKey(privatearea,on_delete=models.CASCADE,null=True)
+    privatearea = models.ForeignKey(privatearea,on_delete=models.CASCADE,blank=True,null=True)
     scene = models.ForeignKey(scene,on_delete=models.CASCADE,null=True)
 
 #sku类
