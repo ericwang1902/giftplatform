@@ -8,10 +8,16 @@ from .serializers import brandSerializer,categorySerializer,productSerializer,ta
 from products.models import brands,category,product,tags
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
+from rest_framework import filters
+from django.db.models import Q
+from rest_framework.parsers import MultiPartParser
 
 class brandsList(generics.GenericAPIView,mixins.ListModelMixin,mixins.CreateModelMixin):
     queryset = brands.objects.all()
     serializer_class = brandSerializer
+    parser_classes = (MultiPartParser,)
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('name',)
 
     def get(self,request,*args,**kwargs):
         return self.list(request,*args,**kwargs)
@@ -29,6 +35,7 @@ class brandsDetail(generics.GenericAPIView,mixins.RetrieveModelMixin,mixins.Upda
 
 
     def put(self,request,*args,**kwargs):
+        kwargs['partial'] = True
         return self.update(request,*args,**kwargs)
 
     def delete(self, request, *args, **kwargs):
@@ -129,6 +136,15 @@ class supplierProductDetail(generics.RetrieveAPIView,generics.UpdateAPIView,gene
 class tagsList(generics.GenericAPIView,mixins.ListModelMixin,mixins.CreateModelMixin):
     queryset = tags.objects.all()
     serializer_class = tagsSerializer
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('tagname',)
+
+    def get_queryset(self):
+        queryset = tags.objects.all()
+        tagname = self.request.query_params.get('tagname', None)
+        if tagname is not None:
+            queryset = queryset.filter(Q(tagname=tagname))
+        return queryset
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
