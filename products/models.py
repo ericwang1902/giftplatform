@@ -19,7 +19,7 @@ class  category(models.Model):
 #品牌的图片
 def brand_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/brands_<id>/<filename>
-    return 'brands_{0}/{1}'.format(instance.user.id, filename)
+    return 'images/brands/brands_{0}/{1}'.format(instance.name, filename)
 
 class brands(models.Model):
     name = models.CharField(max_length=100,null=False)

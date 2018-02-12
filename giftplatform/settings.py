@@ -121,8 +121,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'giftplatform',  # 新建数据库名称
-        'USER': 'root',  # mysql用户名
-        'PASSWORD': 'qwer1234',
+        'USER': 'onepoint',  # mysql用户名
+        'PASSWORD': 'onepoint',
         'HOST': '127.0.0.1',
         'PORT': '3306',  # mysql数据库的端口号
     }
@@ -168,3 +168,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 TEMPLATE_DIRS = (os.path.join(BASE_DIR,  'templates'),)
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL='/media/'
