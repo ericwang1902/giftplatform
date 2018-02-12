@@ -16,6 +16,8 @@ class brandsList(generics.GenericAPIView,mixins.ListModelMixin,mixins.CreateMode
     queryset = brands.objects.all()
     serializer_class = brandSerializer
     parser_classes = (MultiPartParser,)
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('name',)
 
     def get(self,request,*args,**kwargs):
         return self.list(request,*args,**kwargs)
@@ -33,6 +35,7 @@ class brandsDetail(generics.GenericAPIView,mixins.RetrieveModelMixin,mixins.Upda
 
 
     def put(self,request,*args,**kwargs):
+        kwargs['partial'] = True
         return self.update(request,*args,**kwargs)
 
     def delete(self, request, *args, **kwargs):
