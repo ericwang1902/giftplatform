@@ -10,10 +10,12 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from rest_framework import filters
 from django.db.models import Q
+from rest_framework.parsers import MultiPartParser
 
 class brandsList(generics.GenericAPIView,mixins.ListModelMixin,mixins.CreateModelMixin):
     queryset = brands.objects.all()
     serializer_class = brandSerializer
+    parser_classes = (MultiPartParser,)
 
     def get(self,request,*args,**kwargs):
         return self.list(request,*args,**kwargs)
