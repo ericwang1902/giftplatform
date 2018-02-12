@@ -30,7 +30,9 @@ urlpatterns = [
 
     path('api/',include('users.api.urls')),
 
-    path('api/',include('products.api.urls'))
+    path('api/',include('products.api.urls')),
+
+    path('api/',include('viplevels.api.urls'))
 
 
 ]
