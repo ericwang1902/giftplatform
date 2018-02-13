@@ -1,8 +1,11 @@
 from  rest_framework import generics,mixins
 
 from .serializers import privateareaSerialzer,groupSerialzer,userprofileSerializer,permissionSerializer
+from viplevels.api.serializers import viplevelsSerializer 
+from rest_framework import serializers
 
 from users.models import privatearea,UserProfile
+from viplevels.models import vipLevel
 
 from django.contrib.auth.models import Permission,Group
 
@@ -119,7 +122,19 @@ class GiftDealersList(generics.ListAPIView,generics.CreateAPIView):
         return queryset
 
     def perform_create(self, serializer):
-        serializer.save(type='giftcompany')
+        servicestaff_id = self.request.data.pop('servicestaff', None)
+        viplevel_id = self.request.data.pop('viplevel', None)
+        if not viplevel_id:
+            viplevel_id = None
+        if not servicestaff_id:
+            servicestaff_id = None
+        servicestaff = None
+        viplevel = None
+        if servicestaff_id is not None:
+            servicestaff = UserProfile.objects.get(id=servicestaff_id)
+        if viplevel_id is not None:
+            viplevel = vipLevel.objects.get(id=viplevel_id)
+        serializer.save(type='giftcompany', servicestaff=servicestaff, viplevel=viplevel)
 
 class GiftDealerDetail(generics.GenericAPIView,mixins.RetrieveModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin):
     queryset = UserProfile.objects.all()
@@ -128,7 +143,24 @@ class GiftDealerDetail(generics.GenericAPIView,mixins.RetrieveModelMixin,mixins.
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
+    def perform_update(self, serializer):
+        servicestaff_id = self.request.data.pop('servicestaff', None)
+        viplevel_id = self.request.data.pop('viplevel', None)
+        if not viplevel_id:
+            viplevel_id = None
+        if not servicestaff_id:
+            servicestaff_id = None
+        servicestaff = None
+        viplevel = None
+        if servicestaff_id is not None:
+            servicestaff = UserProfile.objects.get(id=servicestaff_id)
+        if viplevel_id is not None:
+            viplevel = vipLevel.objects.get(id=viplevel_id)
+        serializer.save(servicestaff=servicestaff, viplevel=viplevel)
+        
+
     def put(self, request, *args, **kwargs):
+        kwargs['partial'] = True
         return self.update(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
