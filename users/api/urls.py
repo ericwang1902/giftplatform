@@ -25,7 +25,7 @@ urlpatterns = [
     path('gift-dealers',GiftDealersList.as_view(),name='giftdealerslist'),
     path('gift-dealers/<int:pk>',GiftDealerDetail.as_view(),name='giftdealerdetail'),
 
-    path('suppliers/',supplierList.as_view(),name="suppliersList"),
+    path('suppliers',supplierList.as_view(),name="suppliersList"),
     path('suppliers/<int:pk>',supplierDetail.as_view(),name='supplierDetail')
 
 ]

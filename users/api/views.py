@@ -175,6 +175,8 @@ class GiftDealerDetail(generics.GenericAPIView,mixins.RetrieveModelMixin,mixins.
 class supplierList(generics.ListAPIView,generics.CreateAPIView):
     queryset = UserProfile.objects.all()
     serializer_class = userprofileSerializer
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('username', 'mobile', 'email')
 
     def get_queryset(self):
         queryset = self.queryset.filter(Q(type='supplier'))
