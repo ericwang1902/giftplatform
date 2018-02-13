@@ -116,9 +116,14 @@ class adminstratorDetail(generics.GenericAPIView,mixins.RetrieveModelMixin,mixin
 class GiftDealersList(generics.ListAPIView,generics.CreateAPIView):
     queryset = UserProfile.objects.all()
     serializer_class = userprofileSerializer
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('username', 'mobile', 'email')
 
     def get_queryset(self):
         queryset = self.queryset.filter(Q(type='giftcompany'))
+        username = self.request.query_params.get('username', None)
+        if username is not None:
+            queryset = queryset.filter(Q(username=username))
         return queryset
 
     def perform_create(self, serializer):

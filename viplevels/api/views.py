@@ -6,10 +6,21 @@ __date__ = '2018/2/12 8:42'
 from viplevels.api.serializers import viplevelsSerializer
 from rest_framework import generics,mixins
 from viplevels.models import vipLevel
+from rest_framework import filters
+from django.db.models import Q
 
 class viplevelList(generics.GenericAPIView,mixins.ListModelMixin,mixins.CreateModelMixin):
     queryset = vipLevel.objects.all()
     serializer_class = viplevelsSerializer
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('vipname',)
+
+    def get_queryset(self):
+        queryset = vipLevel.objects.all()
+        vipname = self.request.query_params.get('vipname', None)
+        if vipname is not None:
+            queryset = queryset.filter(Q(vipname=vipname))
+        return queryset
 
     def get(self,request,*args,**kwargs):
         return self.list(request,*args,**kwargs)
