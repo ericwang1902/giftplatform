@@ -183,7 +183,7 @@ class supplierList(generics.ListAPIView,generics.CreateAPIView):
         return queryset
 
     def perform_create(self, serializer):
-        serializer.save(category=self.request.data)
+        serializer.save(type='supplier')
 
 class supplierDetail(generics.GenericAPIView,mixins.RetrieveModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin):
     queryset = UserProfile.objects.all()
@@ -193,6 +193,7 @@ class supplierDetail(generics.GenericAPIView,mixins.RetrieveModelMixin,mixins.Up
         return self.retrieve(request, *args, **kwargs)
 
     def put(self, request, *args, **kwargs):
+        kwargs['partial'] = True
         return self.update(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
