@@ -11,7 +11,7 @@ app_name = "users"
 
 urlpatterns = [
 
-    path('private-areas/',privateareaList.as_view(),name= "privatelist"),
+    path('private-areas',privateareaList.as_view(),name= "privatelist"),
     path('private-areas/<int:pk>',privateareaDetail.as_view(),name="privatedetail"),
 
     path('permissionlist/',permissionList.as_view(),name="permissionlist"),

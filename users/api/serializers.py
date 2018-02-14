@@ -27,6 +27,7 @@ class ServiceStaffSerializer(ModelSerializer):
 class userprofileSerializer(ModelSerializer):
     viplevel = viplevelsSerializer(read_only=True)
     servicestaff = ServiceStaffSerializer(read_only=True)
+    privatearea = privateareaSerialzer(read_only=True)
     class Meta:
         model = UserProfile
         fields='__all__'
