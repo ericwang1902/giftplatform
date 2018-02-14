@@ -43,8 +43,10 @@ class brandsDetail(generics.GenericAPIView,mixins.RetrieveModelMixin,mixins.Upda
 
 
 class categoryList(generics.GenericAPIView,mixins.ListModelMixin,mixins.CreateModelMixin):
-    queryset = category.objects.all()
+    queryset = category.objects.all().filter(Q(isroot=True))
     serializer_class = categorySerializer
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('name',)
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -57,11 +59,11 @@ class categoryDetail(generics.GenericAPIView,mixins.RetrieveModelMixin,mixins.Up
     serializer_class = categorySerializer
 
     def get(self,request,*args,**kwargs):
-        print(args)
         return self.retrieve(request,*args,**kwargs)
 
 
     def put(self,request,*args,**kwargs):
+        kwargs['partial'] = True
         return self.update(request,*args,**kwargs)
 
     def delete(self, request, *args, **kwargs):
@@ -81,13 +83,18 @@ class subcategoryList(generics.ListAPIView,generics.CreateAPIView):
         return queryset
 
     def perform_create(self, serializer):
-        serializer.save(category=self.request.data)
+        upper_id = self.kwargs.get('parent', None)
+        if upper_id is not None:
+            parent_category = category.objects.get(pk=upper_id)
+        serializer.save(parent=parent_category)
 
 
 
 class subcategoryDetail(generics.RetrieveAPIView,generics.UpdateAPIView,generics.DestroyAPIView):
     queryset = category.objects.all()
     serializer_class = categorySerializer
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('name',)
 
     def get_object(self):
         pk=self.kwargs.get('pk',None)
@@ -96,8 +103,9 @@ class subcategoryDetail(generics.RetrieveAPIView,generics.UpdateAPIView,generics
         obj = get_object_or_404(self.queryset,parent=parent,id=pk)
         return obj
 
-    def perform_update(self, serializer):
-        instance = serializer.save()
+    def put(self,request,*args,**kwargs):
+        kwargs['partial'] = True
+        return self.update(request,*args,**kwargs)
 
     def perform_destroy(self, instance):
         pk = self.kwargs.get('pk', None)

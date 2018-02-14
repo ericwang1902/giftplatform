@@ -20,7 +20,7 @@ urlpatterns=[
     path('brands/',brandsList.as_view(),name="productslist"),
     path('brands/<int:pk>',brandsDetail.as_view(),name="productdetail"),
 
-    path('categories/',categoryList.as_view(),name="categorylist"),
+    path('categories',categoryList.as_view(),name="categorylist"),
     path('categories/<int:pk>',categoryDetail.as_view(),name="categorydetail"),
 
     path('categories/<int:parent>/categories',subcategoryList.as_view(),name="subcategorylist"),
