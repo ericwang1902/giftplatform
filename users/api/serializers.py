@@ -1,4 +1,4 @@
-from users.models import privatearea,UserProfile
+from users.models import privatearea,UserProfile,userAuthinfo
 from  rest_framework.serializers import ModelSerializer
 from  rest_framework import serializers
 from  django.contrib.auth.models import Permission,Group
@@ -7,6 +7,11 @@ from viplevels.api.serializers import viplevelsSerializer
 class permissionSerializer(ModelSerializer):
     class Meta:
         model = Permission
+        fields = "__all__"
+
+class AuthInfoSerializer(ModelSerializer):
+    class Meta:
+        model = userAuthinfo
         fields = "__all__"
 
 class privateareaSerialzer(ModelSerializer):

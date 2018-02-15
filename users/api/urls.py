@@ -6,10 +6,12 @@ from .views import adminstratorList,adminstratorDetail
 from .views import GiftDealersList,GiftDealerDetail
 from .views import supplierList,supplierDetail
 from .views import permissionList
+from .views import AuthInfoList
 
 app_name = "users"
 
 urlpatterns = [
+    path('auth-info', AuthInfoList.as_view(),name="authInfoList"),
 
     path('private-areas',privateareaList.as_view(),name= "privatelist"),
     path('private-areas/<int:pk>',privateareaDetail.as_view(),name="privatedetail"),

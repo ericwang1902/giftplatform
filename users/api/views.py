@@ -1,10 +1,10 @@
 from rest_framework import generics, mixins
 
-from .serializers import privateareaSerialzer, groupSerialzer, userprofileSerializer, permissionSerializer
+from .serializers import privateareaSerialzer, groupSerialzer, userprofileSerializer, permissionSerializer, AuthInfoSerializer
 from viplevels.api.serializers import viplevelsSerializer
 from rest_framework import serializers
 
-from users.models import privatearea, UserProfile
+from users.models import privatearea, UserProfile, userAuthinfo
 from viplevels.models import vipLevel
 
 from django.contrib.auth.models import Permission, Group
@@ -133,6 +133,12 @@ class GiftDealersList(generics.ListAPIView, generics.CreateAPIView):
         queryset = self.queryset.filter(Q(type='giftcompany'))
         username = self.request.query_params.get('username', None)
         inprivatearea = self.request.query_params.get('inprivatearea', None)
+        is_auth = self.request.query_params.get('is_auth', None)
+        if is_auth is not None:
+            if is_auth.lower() == 'true':
+                queryset = queryset.filter(Q(authStatus=True))
+            else:
+                queryset = queryset.filter(Q(authStatus=False))
         if username is not None:
             queryset = queryset.filter(Q(username=username))
         if inprivatearea is not None:
@@ -198,6 +204,12 @@ class supplierList(generics.ListAPIView, generics.CreateAPIView):
 
     def get_queryset(self):
         queryset = self.queryset.filter(Q(type='supplier'))
+        is_auth = self.request.query_params.get('is_auth', None)
+        if is_auth is not None:
+            if is_auth.lower() == 'true':
+                queryset = queryset.filter(Q(authStatus=True))
+            else:
+                queryset = queryset.filter(Q(authStatus=False))
         return queryset
 
     def perform_create(self, serializer):
@@ -218,3 +230,14 @@ class supplierDetail(generics.GenericAPIView, mixins.RetrieveModelMixin, mixins.
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+
+class AuthInfoList(generics.ListAPIView):
+    queryset = userAuthinfo.objects.all()
+    serializer_class = AuthInfoSerializer
+
+    def get_queryset(self):
+        userid = self.request.query_params.get("userid", None)
+        if userid is not None:
+            queryset = self.queryset.filter(Q(userid=userid))
+        return queryset
+
