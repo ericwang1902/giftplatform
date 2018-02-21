@@ -14,6 +14,7 @@ from django.db.models import Q
 from rest_framework import filters
 from rest_framework.pagination import PageNumberPagination
 from django.db import transaction
+from rest_framework.exceptions import PermissionDenied
 
 
 class privateareaList(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin):
@@ -114,12 +115,24 @@ class adminstratorList(generics.ListAPIView, generics.CreateAPIView):
     filter_backends = (filters.SearchFilter,)
     search_fields = ('username', 'mobile', 'email')
 
+    def get(self, request, *args, **kwargs):
+        if request.user.has_perm('users.list_userprofile'):
+            return self.list(request, *args, **kwargs)
+        else:
+            raise PermissionDenied()
+
     def get_queryset(self):
         queryset = self.queryset.filter(Q(type='admin') | Q(type="service"))
         username = self.request.query_params.get('username', None)
         if username is not None:
             queryset = queryset.filter(Q(username=username))
         return queryset
+
+    def post(self, request, *args, **kwargs):
+        if request.user.has_perm('users.add_userprofile'):
+            self.create(self,request,*args,**kwargs)
+        else:
+            raise PermissionDenied()
 
     def perform_create(self, serializer):
         serializer.save(type='admin')
