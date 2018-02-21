@@ -51,6 +51,25 @@ class privateareaDetail(generics.GenericAPIView, mixins.RetrieveModelMixin, mixi
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
 
+class PermissionListOfMe(generics.GenericAPIView, mixins.ListModelMixin):
+    queryset = Permission.objects.all()
+    serializer_class = permissionSerializer
+    pagination_class = None
+
+    def get_queryset(self):
+        username = self.request.user.username
+        user = UserProfile.objects.get(username=username)
+        if user is not None:
+            if user.is_superuser:
+                return Permission.objects.all()
+            group = user.groups.all().first()
+            return group.permissions
+        else:
+            return None
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
 
 class permissionList(generics.GenericAPIView, mixins.ListModelMixin):
     queryset = Permission.objects.all()

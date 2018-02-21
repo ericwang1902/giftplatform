@@ -7,6 +7,7 @@ from .views import GiftDealersList,GiftDealerDetail
 from .views import supplierList,supplierDetail
 from .views import permissionList
 from .views import AuthInfoList
+from .views import PermissionListOfMe
 
 app_name = "users"
 
@@ -15,6 +16,8 @@ urlpatterns = [
 
     path('private-areas',privateareaList.as_view(),name= "privatelist"),
     path('private-areas/<int:pk>',privateareaDetail.as_view(),name="privatedetail"),
+
+    path('me/permissions', PermissionListOfMe.as_view(),name="permission_of_me"),
 
     path('permissionlist/',permissionList.as_view(),name="permissionlist"),
 
