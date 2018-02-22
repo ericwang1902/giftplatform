@@ -1,5 +1,6 @@
 from django.urls import path
 
+
 from .views import privateareaList,privateareaDetail
 from .views import groupList,groupDetail
 from .views import adminstratorList,adminstratorDetail
@@ -8,6 +9,7 @@ from .views import supplierList,supplierDetail
 from .views import permissionList
 from .views import AuthInfoList
 from .views import PermissionListOfMe
+from .views import CustomJSONWebTokenAPIView
 
 app_name = "users"
 

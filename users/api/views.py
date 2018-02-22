@@ -15,6 +15,43 @@ from rest_framework import filters
 from rest_framework.pagination import PageNumberPagination
 from django.db import transaction
 from rest_framework.exceptions import PermissionDenied
+from rest_framework_jwt.views import JSONWebTokenAPIView
+from rest_framework_jwt.settings import api_settings
+from rest_framework_jwt.serializers import JSONWebTokenSerializer
+from rest_framework.response import Response
+from rest_framework import status
+from datetime import datetime
+
+jwt_response_payload_handler = api_settings.JWT_RESPONSE_PAYLOAD_HANDLER
+
+
+class CustomJSONWebTokenAPIView(JSONWebTokenAPIView):
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+
+        if serializer.is_valid():
+            user = serializer.object.get('user') or request.user
+            token = serializer.object.get('token')
+            response_data = jwt_response_payload_handler(token, user, request)
+            response = Response(response_data)
+            user.last_login = datetime.now()
+            user.save()
+            if api_settings.JWT_AUTH_COOKIE:
+                expiration = (datetime.utcnow() +
+                              api_settings.JWT_EXPIRATION_DELTA)
+                response.set_cookie(api_settings.JWT_AUTH_COOKIE,
+                                    token,
+                                    expires=expiration,
+                                    httponly=True)
+            return response
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ObtainJSONWebToken(CustomJSONWebTokenAPIView):
+    """
+    API View that receives a POST with a user's username and password.
+    Returns a JSON Web Token that can be used for authenticated requests.
+    """
+    serializer_class = JSONWebTokenSerializer
 
 
 class privateareaList(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin):
@@ -22,7 +59,10 @@ class privateareaList(generics.GenericAPIView, mixins.ListModelMixin, mixins.Cre
     serializer_class = privateareaSerialzer
 
     def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
+        if request.user.has_perm('users.list_privatearea'):
+            return self.list(request, *args, **kwargs)
+        else:
+            raise PermissionDenied()
 
     def perform_create(self, serializer):
         with transaction.atomic():
@@ -34,7 +74,10 @@ class privateareaList(generics.GenericAPIView, mixins.ListModelMixin, mixins.Cre
             giftdealer.save()
 
     def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+        if request.user.has_perm('users.add_privatearea'):
+            return self.create(request, *args, **kwargs)
+        else:
+            raise PermissionDenied()
 
 
 class privateareaDetail(generics.GenericAPIView, mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
@@ -46,11 +89,17 @@ class privateareaDetail(generics.GenericAPIView, mixins.RetrieveModelMixin, mixi
         return self.retrieve(request, *args, **kwargs)
 
     def put(self, request, *args, **kwargs):
-        kwargs['partial'] = True
-        return self.update(request, *args, **kwargs)
+        if request.user.has_perm('users.add_privatearea'):
+            kwargs['partial'] = True
+            return self.update(request, *args, **kwargs)
+        else:
+            raise PermissionDenied()
 
     def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
+        if request.user.has_perm('users.delete_privatearea'):
+            return self.destroy(request, *args, **kwargs)
+        else:
+            raise PermissionDenied()
 
 class PermissionListOfMe(generics.GenericAPIView, mixins.ListModelMixin):
     queryset = Permission.objects.all()
@@ -87,10 +136,16 @@ class groupList(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateMod
     serializer_class = groupSerialzer
 
     def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
+        if request.user.has_perm('auth.list_group'):
+            return self.list(request, *args, **kwargs)
+        else:
+            raise PermissionDenied()
 
     def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+        if request.user.has_perm('auth.add_group'):
+            return self.create(request, *args, **kwargs)
+        else:
+            raise PermissionDenied()
 
 
 class groupDetail(generics.GenericAPIView, mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
@@ -102,10 +157,16 @@ class groupDetail(generics.GenericAPIView, mixins.RetrieveModelMixin, mixins.Upd
         return self.retrieve(request, *args, **kwargs)
 
     def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+        if request.user.has_perm('auth.change_group'):
+            return self.update(request, *args, **kwargs)
+        else:
+            raise PermissionDenied()
 
     def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
+        if request.user.has_perm('auth.delete_group'):
+            return self.destroy(request, *args, **kwargs)
+        else:
+            raise PermissionDenied()
 
 
 # 管理员用来查询系统管理员和客服人员的所有帐号信息
@@ -147,11 +208,17 @@ class adminstratorDetail(generics.GenericAPIView, mixins.RetrieveModelMixin, mix
         return self.retrieve(request, *args, **kwargs)
 
     def put(self, request, *args, **kwargs):
-        kwargs['partial'] = True
-        return self.update(request, *args, **kwargs)
+        if request.user.has_perm('users.change_userprofile'):
+            kwargs['partial'] = True
+            return self.update(request, *args, **kwargs)
+        else:
+            raise PermissionDenied()
 
     def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
+        if request.user.has_perm('users.delete_userprofile'):
+            return self.destroy(request, *args, **kwargs)
+        else:
+            raise PermissionDenied()
 
 
 # 礼品公司
@@ -160,6 +227,12 @@ class GiftDealersList(generics.ListAPIView, generics.CreateAPIView):
     serializer_class = userprofileSerializer
     filter_backends = (filters.SearchFilter,)
     search_fields = ('username', 'mobile', 'email')
+
+    def get(self, request, *args, **kwargs):
+        if request.user.has_perm('users.list_giftdealer'):
+            return self.list(self, request, *args, **kwargs)
+        else:
+            raise PermissionDenied()
 
     def get_queryset(self):
         queryset = self.queryset.filter(Q(type='giftcompany'))
@@ -179,6 +252,12 @@ class GiftDealersList(generics.ListAPIView, generics.CreateAPIView):
             else:
                 queryset = queryset.filter(Q(inprivatearea=False))
         return queryset
+
+    def post(self, request, *args, **kwargs):
+        if request.user.has_perm('users.add_giftdealer'):
+            return self.create(self, request, *args, **kwargs)
+        else:
+            raise PermissionDenied()
 
     def perform_create(self, serializer):
         servicestaff_id = self.request.data.pop('servicestaff', None)
@@ -220,11 +299,17 @@ class GiftDealerDetail(generics.GenericAPIView, mixins.RetrieveModelMixin, mixin
         serializer.save(servicestaff=servicestaff, viplevel=viplevel)
 
     def put(self, request, *args, **kwargs):
-        kwargs['partial'] = True
-        return self.update(request, *args, **kwargs)
+        if request.user.has_perm('users.change_giftdealer'):
+            kwargs['partial'] = True
+            return self.update(request, *args, **kwargs)
+        else:
+            raise PermissionDenied()
 
     def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
+        if request.user.has_perm('users.delete_giftdealer'):
+            return self.destroy(request, *args, **kwargs)
+        else:
+            raise PermissionDenied()
 
 
 # 供应商
@@ -233,6 +318,18 @@ class supplierList(generics.ListAPIView, generics.CreateAPIView):
     serializer_class = userprofileSerializer
     filter_backends = (filters.SearchFilter,)
     search_fields = ('username', 'mobile', 'email')
+
+    def get(self, request, *args, **kwargs):
+        if request.user.has_perm('users.list_supplier'):
+            return self.list(self, request, *args, **kwargs)
+        else:
+            raise PermissionDenied()
+
+    def post(self, request, *args, **kwargs):
+        if request.user.has_perm('users.add_supplier'):
+            return self.create(self, request, *args, **kwargs)
+        else:
+            raise PermissionDenied()
 
     def get_queryset(self):
         queryset = self.queryset.filter(Q(type='supplier'))
@@ -257,15 +354,27 @@ class supplierDetail(generics.GenericAPIView, mixins.RetrieveModelMixin, mixins.
         return self.retrieve(request, *args, **kwargs)
 
     def put(self, request, *args, **kwargs):
-        kwargs['partial'] = True
-        return self.update(request, *args, **kwargs)
+        if request.user.has_perm('users.change_supplier'):
+            kwargs['partial'] = True
+            return self.update(request, *args, **kwargs)
+        else:
+            raise PermissionDenied()
 
     def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
+        if request.user.has_perm('users.delete_supplier'):
+            return self.destroy(request, *args, **kwargs)
+        else:
+            raise PermissionDenied()
 
 class AuthInfoList(generics.ListAPIView):
     queryset = userAuthinfo.objects.all()
     serializer_class = AuthInfoSerializer
+
+    def get(self, request, *args, **kwargs):
+        if request.user.has_perm('users.auth_supplier') or request.user.has_perm('users.auth_giftdealer'):
+            return self.list(self, request, *args, **kwargs)
+        else:
+            raise PermissionDenied()
 
     def get_queryset(self):
         userid = self.request.query_params.get("userid", None)
