@@ -325,6 +325,15 @@ class supplierList(generics.ListAPIView, generics.CreateAPIView):
         else:
             raise PermissionDenied()
 
+    def perform_create(self, serializer):
+        servicestaff_id = self.request.data.pop('servicestaff', None)
+        if not servicestaff_id:
+            servicestaff_id = None
+        servicestaff = None
+        if servicestaff_id is not None:
+            servicestaff = UserProfile.objects.get(id=servicestaff_id)
+        serializer.save(type='supplier', servicestaff=servicestaff)
+
     def post(self, request, *args, **kwargs):
         if request.user.has_perm('users.add_supplier'):
             return self.create(self, request, *args, **kwargs)
@@ -341,10 +350,6 @@ class supplierList(generics.ListAPIView, generics.CreateAPIView):
                 queryset = queryset.filter(Q(authStatus=False))
         return queryset
 
-    def perform_create(self, serializer):
-        serializer.save(type='supplier')
-
-
 class supplierDetail(generics.GenericAPIView, mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
                      mixins.DestroyModelMixin):
     queryset = UserProfile.objects.all()
@@ -352,6 +357,16 @@ class supplierDetail(generics.GenericAPIView, mixins.RetrieveModelMixin, mixins.
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
+
+    def perform_update(self, serializer):
+        servicestaff_id = self.request.data.pop('servicestaff', None)
+        if not servicestaff_id:
+            servicestaff_id = None
+        servicestaff = None
+        if servicestaff_id is not None:
+            servicestaff = UserProfile.objects.get(id=servicestaff_id)
+        serializer.save(servicestaff=servicestaff)
+
 
     def put(self, request, *args, **kwargs):
         if request.user.has_perm('users.change_supplier'):
