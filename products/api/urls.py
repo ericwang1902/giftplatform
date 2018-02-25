@@ -13,10 +13,16 @@ from .views import supplierProdcutsList,subcategoryDetail
 
 from  .views import tagsList,tagsDetail
 
+from .views import ProductsList,ProductDetails,ProductImageUploaderView
 
 app_name="products"
 
 urlpatterns=[
+    path('products/image', ProductImageUploaderView.as_view()),
+    path('products/', ProductsList.as_view()),
+
+    path('products/<int:id>', ProductDetails.as_view()),
+
     path('brands/',brandsList.as_view(),name="productslist"),
     path('brands/<int:pk>',brandsDetail.as_view(),name="productdetail"),
 

@@ -35,7 +35,7 @@ class product(models.Model):
     status = models.IntegerField(default=0)
     isdelete = models.BooleanField(default=False)
     categoryid = models.ForeignKey(category,on_delete=models.CASCADE,blank=True,null=True)
-    attibutes=JSONField()
+    attributes=JSONField()
     brand = models.ForeignKey(brands,on_delete=models.CASCADE,null=True)
     yijiandaifa = models.BooleanField(default=False)
     newup = models.BooleanField(default=False)
@@ -48,21 +48,23 @@ class product(models.Model):
 #sku类
 class productItem(models.Model):
     price=models.DecimalField(default=0,decimal_places=2,max_digits=2)
-    attibutes = JSONField()
+    attributes = JSONField()
     status = models.IntegerField(default=0)
     onshell = models.BooleanField(default=False)
     favouredprice = models.DecimalField(default=0,decimal_places=2,max_digits=2)
     isdelete = models.BooleanField(default=False)
+    product = models.ForeignKey(product, related_name='productItems', on_delete=models.CASCADE, blank=True,null=True)
 
 
 #产品的图片
 def product_directory_path(instance,filename):
-    return 'product_{0}/{1}'.format(instance.user.id,filename)
+    return 'product_{0}/{1}'.format(instance.productid,filename)
 
 class productImage(models.Model):
     productimage = models.ImageField(upload_to=product_directory_path)
-    type = models.IntegerField(default=0)
+    type = models.IntegerField(default=0) # 0 主图 1 规格图
     productid = models.ForeignKey(product,on_delete=models.CASCADE,null=True)
+    product_item_id = models.ForeignKey(productItem, on_delete=models.CASCADE,null=True)
 
 #tags
 class tags(models.Model):

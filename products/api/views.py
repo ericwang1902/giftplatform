@@ -4,7 +4,7 @@ __author__ = 'ericwang'
 __date__ = '2018/2/2 18:42'
 
 from  rest_framework import generics,mixins
-from .serializers import brandSerializer,categorySerializer,productSerializer,tagsSerializer
+from .serializers import brandSerializer,categorySerializer,ProductSerializer,tagsSerializer,ProductImageUploaderSerializer
 from products.models import brands,category,product,tags
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
@@ -112,19 +112,45 @@ class subcategoryDetail(generics.RetrieveAPIView,generics.UpdateAPIView,generics
         parent = self.kwargs.get('parent', None)
         category.objects.filter(id=pk,parent=parent).update(isdelete=0)
 
+#商品创建统一接口
+class ProductImageUploaderView(generics.CreateAPIView):
+    serializer_class = ProductImageUploaderSerializer
+
+class ProductsList(generics.ListCreateAPIView):
+    queryset = product.objects.all()
+    serializer_class = ProductSerializer
+
+    def get_queryset(self):
+        queryset = self.queryset.filter(belgons=self.request.user)
+        return queryset
+
+class ProductDetails(generics.RetrieveAPIView,generics.UpdateAPIView,generics.DestroyAPIView):
+    def get_object(self):
+        productid = self.kwargs.get('id',None)
+        obj = get_object_or_404(self.queryset,belongs = self.request.user,id = productid)
+        return obj
+
+    def perform_update(self, serializer):
+        instance = serializer.save()
+
+    def perform_destroy(self, instance):
+        supplierid = self.kwargs.get('pk', None)
+        productid = self.kwargs.get('productid', None)
+        category.objects.filter(id=productid,belongs=supplierid).update(isdelete=0)
+
+
 #供应商/产品接口,根据供应商id获取该供应商的产品列表
 class supplierProdcutsList(generics.ListAPIView):
     queryset = product.objects.all()
-    serializer_class = productSerializer
+    serializer_class = ProductSerializer
 
     def get_queryset(self):
-        pk = self.kwargs.get('pk',None)
-        queryset = self.queryset.filter(belongs=pk)
+        queryset = self.queryset.filter(belongs=self.request.user)
         return queryset
 
 class supplierProductDetail(generics.RetrieveAPIView,generics.UpdateAPIView,generics.DestroyAPIView):
     queryset = product.objects.all()
-    serializer_class = productSerializer
+    serializer_class = ProductSerializer
 
     def get_object(self):
         supplierid = self.kwargs.get('pk',None)
