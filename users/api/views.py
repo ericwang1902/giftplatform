@@ -191,7 +191,7 @@ class adminstratorList(generics.ListAPIView, generics.CreateAPIView):
 
     def post(self, request, *args, **kwargs):
         if request.user.has_perm('users.add_userprofile'):
-            self.create(self,request,*args,**kwargs)
+            return self.create(request,*args,**kwargs)
         else:
             raise PermissionDenied()
 
@@ -230,7 +230,7 @@ class GiftDealersList(generics.ListAPIView, generics.CreateAPIView):
 
     def get(self, request, *args, **kwargs):
         if request.user.has_perm('users.list_giftdealer'):
-            return self.list(self, request, *args, **kwargs)
+            return self.list(request, *args, **kwargs)
         else:
             raise PermissionDenied()
 
@@ -255,7 +255,7 @@ class GiftDealersList(generics.ListAPIView, generics.CreateAPIView):
 
     def post(self, request, *args, **kwargs):
         if request.user.has_perm('users.add_giftdealer'):
-            return self.create(self, request, *args, **kwargs)
+            return self.create(request, *args, **kwargs)
         else:
             raise PermissionDenied()
 
@@ -321,7 +321,7 @@ class supplierList(generics.ListAPIView, generics.CreateAPIView):
 
     def get(self, request, *args, **kwargs):
         if request.user.has_perm('users.list_supplier'):
-            return self.list(self, request, *args, **kwargs)
+            return self.list(request, *args, **kwargs)
         else:
             raise PermissionDenied()
 
@@ -336,7 +336,7 @@ class supplierList(generics.ListAPIView, generics.CreateAPIView):
 
     def post(self, request, *args, **kwargs):
         if request.user.has_perm('users.add_supplier'):
-            return self.create(self, request, *args, **kwargs)
+            return self.create(request, *args, **kwargs)
         else:
             raise PermissionDenied()
 
@@ -387,7 +387,7 @@ class AuthInfoList(generics.ListAPIView):
 
     def get(self, request, *args, **kwargs):
         if request.user.has_perm('users.auth_supplier') or request.user.has_perm('users.auth_giftdealer'):
-            return self.list(self, request, *args, **kwargs)
+            return self.list(request, *args, **kwargs)
         else:
             raise PermissionDenied()
 
