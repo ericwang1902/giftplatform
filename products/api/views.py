@@ -147,13 +147,43 @@ class ProductsList(generics.ListCreateAPIView):
         return queryset
 
 class ProductDetails(generics.RetrieveAPIView,generics.UpdateAPIView,generics.DestroyAPIView):
+    queryset = product.objects.all()
+    serializer_class = ProductSerializer
+
     def get_object(self):
         productid = self.kwargs.get('id',None)
+        print(productid)
         obj = get_object_or_404(self.queryset,belongs = self.request.user,id = productid)
         return obj
 
-    def perform_update(self, serializer):
-        instance = serializer.save()
+    def update(self, request, *args, **kwargs):
+        data = dict.copy(request.data)
+        images = data.pop("images", None)
+        if images is not None:
+            data["images"] = []
+            for image_id in images:
+                image = productImage.objects.get(pk=image_id)
+                if image is not None:
+                    data["images"].append(image)
+        if "productItems" in data:
+            for item in data["productItems"]:
+                item_images = item.pop("images", None)
+                item["images"] = []
+                for image_id in item_images:
+                    image = productImage.objects.get(pk=image_id)
+                    if image is not None:
+                        item["images"].append(image)
+
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        if getattr(instance, '_prefetched_objects_cache', None):
+        # If 'prefetch_related' has been applied to a queryset, we need to
+        # forcibly invalidate the prefetch cache on the instance.
+            instance._prefetched_objects_cache = {}
+        return Response(serializer.data)
 
     def perform_destroy(self, instance):
         supplierid = self.kwargs.get('pk', None)
