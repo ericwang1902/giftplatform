@@ -152,7 +152,6 @@ class ProductDetails(generics.RetrieveAPIView,generics.UpdateAPIView,generics.De
 
     def get_object(self):
         productid = self.kwargs.get('id',None)
-        print(productid)
         obj = get_object_or_404(self.queryset,belongs = self.request.user,id = productid)
         return obj
 
