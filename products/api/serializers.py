@@ -27,18 +27,18 @@ class ProductImageUploaderSerializer(ModelSerializer):
         fields = "__all__"
 
 class ProductItemSerializer(ModelSerializer):
-    images = serializers.ListField(
-        child=serializers.IntegerField()
-    )
+
+    images = ProductImageUploaderSerializer(many=True, read_only=True)
     class Meta:
         model = productItem
         fields = "__all__"
 
 class ProductSerializer(ModelSerializer):
     productItems = ProductItemSerializer(many=True)
-    images = serializers.ListField(
-        child=serializers.IntegerField()
-    )
+    images = ProductImageUploaderSerializer(many=True, read_only=True)
+
+    def run_validation(self, data):
+        return data
 
     class Meta:
         model = product
@@ -46,26 +46,24 @@ class ProductSerializer(ModelSerializer):
 
     def create(self, validated_data):
         product_items = validated_data.pop('productItems', None)
+        main_images = validated_data.pop('images', None)
+        name = validated_data.pop('name', None)
         product_instance = product.objects.create(createtime=datetime.now, updatetime=datetime.now,belongs=self.context['request'].user, **validated_data)
-        main_image_id_list = validated_data.pop('images', None)
-        for id in main_image_id_list:
-            product_image = productImage.objects.get(pk=id) # 查找前端已经上传的图片信息
-            if product_image is not None:
-                if product_image.productid is not None: # 确保是绑定新上传的图片，防止恶意更改
-                    product_image.productid = product_instance
-                    product_image.type = 0
-                    product_image.save()
+        for product_image in main_images:
+            if product_image.productid is None: # 确保是绑定新上传的图片，防止恶意更改
+                product_image = productImage.objects.get(pk=product_image.id)
+                product_image.productid = product_instance
+                product_image.type = 0
+                product_image.save()
         for product_item_data in product_items:
-            item_image_id_list = product_item_data.pop('images', None)
+            item_images = product_item_data.pop('images', None)
             product_item = productItem.objects.create(product=product_instance, **product_item_data)
-            for id in item_image_id_list:
-                product_item_image = productImage.objects.get(pk=id)
-                if product_item_image is not None:
-                    if product_image.productid is not None: # 确保是新上传的图片，防止恶意更改
-                        product_item_image.productid = product_instance
-                        product_item_image.product_item_id = product_item
-                        product_item_image.type = 1
-                        product_item_image.save()
+            for product_item_image in item_images:
+                if product_item_image.productid is None: # 确保是新上传的图片，防止恶意更改
+                    product_item_image.productid = product_instance
+                    product_item_image.product_item_id = product_item
+                    product_item_image.type = 1
+                    product_item_image.save()
         return product_instance
 
     def update(self, instance, validated_data):

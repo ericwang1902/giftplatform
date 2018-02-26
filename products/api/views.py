@@ -5,10 +5,11 @@ __date__ = '2018/2/2 18:42'
 
 from  rest_framework import generics,mixins
 from .serializers import brandSerializer,categorySerializer,ProductSerializer,tagsSerializer,ProductImageUploaderSerializer
-from products.models import brands,category,product,tags
+from products.models import brands,category,product,tags,productImage
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from rest_framework import filters
+from rest_framework import status
 from django.db.models import Q
 from rest_framework.parsers import MultiPartParser
 
@@ -119,6 +120,27 @@ class ProductImageUploaderView(generics.CreateAPIView):
 class ProductsList(generics.ListCreateAPIView):
     queryset = product.objects.all()
     serializer_class = ProductSerializer
+
+    def create(self, request, *args, **kwargs):
+        data = dict.copy(request.data)
+        images = data.pop("images", None)
+        data["images"] = []
+        for image_id in images:
+            image = productImage.objects.get(pk=image_id)
+            if image is not None:
+                data["images"].append(image)
+        for item in data["productItems"]:
+            item_images = item.pop("images", None)
+            item["images"] = []
+            for image_id in item_images:
+                image = productImage.objects.get(pk=image_id)
+                if image is not None:
+                    item["images"].append(image)
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     def get_queryset(self):
         queryset = self.queryset.filter(belgons=self.request.user)
