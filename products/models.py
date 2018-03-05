@@ -43,7 +43,7 @@ class product(models.Model):
     belongs = models.ForeignKey(UserProfile,on_delete=models.CASCADE,null=True)
     inprivatearea = models.BooleanField(default=False)
     privatearea = models.ForeignKey(privatearea,on_delete=models.CASCADE,blank=True,null=True)
-    scene = models.ForeignKey(scene,on_delete=models.CASCADE,null=True)
+    scenes = models.ManyToManyField(scene)
 
 #sku类
 class productItem(models.Model):
