@@ -50,7 +50,6 @@ class ProductSerializer(ModelSerializer):
         name = validated_data.pop('name', None)
         scenes = validated_data.pop('scenes', None)
         category = validated_data.pop('category', None)
-        print(validated_data)
         product_instance = product.objects.create(createtime=datetime.now, updatetime=datetime.now,belongs=self.context['request'].user, **validated_data)
         if category is not None:
             product_instance.category = category
@@ -86,6 +85,19 @@ class ProductSerializer(ModelSerializer):
         """
         product_items = validated_data.pop('productItems', None)
         main_images = validated_data.pop('images', None)
+        scenes = validated_data.pop('scenes', None)
+        category = validated_data.pop('category', None)
+
+        # 更新场景标签
+        if scenes is not None:
+            instance.scenes.clear()
+            for scene in scenes:
+                instance.scenes.add(scene)
+            instance.save()
+        # 分组更新
+        if category is not None:
+            instance.category = category
+            instance.save()
 
         # 更新商品主属性相关信息
         instance.name = validated_data.get('name', instance.name)

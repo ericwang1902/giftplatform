@@ -120,6 +120,8 @@ class ProductImageUploaderView(generics.CreateAPIView):
 class ProductsList(generics.ListCreateAPIView):
     queryset = product.objects.all()
     serializer_class = ProductSerializer
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('name',)
 
     def create(self, request, *args, **kwargs):
         data = dict.copy(request.data)
@@ -152,7 +154,7 @@ class ProductsList(generics.ListCreateAPIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     def get_queryset(self):
-        queryset = self.queryset.filter(belgons=self.request.user)
+        queryset = self.queryset.filter(belongs=self.request.user)
         return queryset
 
 class ProductDetails(generics.RetrieveAPIView,generics.UpdateAPIView,generics.DestroyAPIView):
@@ -181,6 +183,16 @@ class ProductDetails(generics.RetrieveAPIView,generics.UpdateAPIView,generics.De
                     image = productImage.objects.get(pk=image_id)
                     if image is not None:
                         item["images"].append(image)
+
+        brand_id = data.pop("brand", None)
+        if brand_id is not None:
+            data["brand"] = brands.objects.get(pk=brand_id)
+        scenes_ids = data.pop("scenes", None)
+        if scenes_ids is not None:
+            data["scenes"] = list(map(lambda id:tags.objects.get(pk=id), scenes_ids))
+        category_id = data.pop("category", None)
+        if category_id is not None:
+            data["category"] = category.objects.get(pk=category_id)
 
         partial = kwargs.pop('partial', False)
         instance = self.get_object()
