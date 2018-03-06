@@ -26,6 +26,10 @@ class brands(models.Model):
     logo = models.ImageField(upload_to=brand_directory_path)
     isdelete = models.BooleanField(default=False)
 
+#tags
+class tags(models.Model):
+    tagname = models.CharField(max_length=50,null=False)
+
 #产品类
 class product(models.Model):
     name = models.CharField(max_length=100,null=True),
@@ -43,11 +47,11 @@ class product(models.Model):
     belongs = models.ForeignKey(UserProfile,on_delete=models.CASCADE,null=True)
     inprivatearea = models.BooleanField(default=False)
     privatearea = models.ForeignKey(privatearea,on_delete=models.CASCADE,blank=True,null=True)
-    scenes = models.ManyToManyField(scene)
+    scenes = models.ManyToManyField(tags)
 
 #sku类
 class productItem(models.Model):
-    price=models.DecimalField(default=0,decimal_places=2,max_digits=2)
+    price=models.DecimalField(default=0,decimal_places=2,max_digits=10)
     attributes = JSONField()
     status = models.IntegerField(default=0)
     onshell = models.BooleanField(default=False)
@@ -65,10 +69,6 @@ class productImage(models.Model):
     type = models.IntegerField(default=0) # 0 主图 1 规格图
     productid = models.ForeignKey(product,on_delete=models.CASCADE,null=True)
     product_item_id = models.ForeignKey(productItem, on_delete=models.CASCADE,null=True)
-
-#tags
-class tags(models.Model):
-    tagname = models.CharField(max_length=50,null=False)
 
 
 

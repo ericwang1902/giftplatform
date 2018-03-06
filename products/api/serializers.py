@@ -48,7 +48,17 @@ class ProductSerializer(ModelSerializer):
         product_items = validated_data.pop('productItems', None)
         main_images = validated_data.pop('images', None)
         name = validated_data.pop('name', None)
+        scenes = validated_data.pop('scenes', None)
+        category = validated_data.pop('category', None)
+        print(validated_data)
         product_instance = product.objects.create(createtime=datetime.now, updatetime=datetime.now,belongs=self.context['request'].user, **validated_data)
+        if category is not None:
+            product_instance.category = category
+            product_instance.save()
+        if scenes is not None:
+            for scene in scenes:
+                product_instance.scenes.add(scene)
+            product_instance.save()
         for product_image in main_images:
             if product_image.productid is None: # 确保是绑定新上传的图片，防止恶意更改
                 product_image = productImage.objects.get(pk=product_image.id)
@@ -56,6 +66,7 @@ class ProductSerializer(ModelSerializer):
                 product_image.type = 0
                 product_image.save()
         for product_item_data in product_items:
+            print(product_item_data)
             item_images = product_item_data.pop('images', None)
             product_item = productItem.objects.create(product=product_instance, **product_item_data)
             for product_item_image in item_images:

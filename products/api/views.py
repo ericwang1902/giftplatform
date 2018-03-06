@@ -136,6 +136,15 @@ class ProductsList(generics.ListCreateAPIView):
                 image = productImage.objects.get(pk=image_id)
                 if image is not None:
                     item["images"].append(image)
+        brand_id = data.pop("brand", None)
+        if brand_id is not None:
+            data["brand"] = brands.objects.get(pk=brand_id)
+        scenes_ids = data.pop("scenes", None)
+        if scenes_ids is not None:
+            data["scenes"] = list(map(lambda id:tags.objects.get(pk=id), scenes_ids))
+        category_id = data.pop("category", None)
+        if category_id is not None:
+            data["category"] = category.objects.get(pk=category_id)
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
