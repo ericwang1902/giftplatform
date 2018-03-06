@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 import datetime
+from corsheaders.defaults import default_headers
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -27,6 +28,10 @@ SECRET_KEY = '4z)zj_o$#c(@a1=z6y(cniu^t-o&&p0+d!lotq$1(c79v$r@fz'
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+CORS_ALLOW_HEADERS = default_headers + (
+    'x-file-name',
+)
 
 
 # Application definition

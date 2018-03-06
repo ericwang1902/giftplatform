@@ -33,9 +33,17 @@ class ProductItemSerializer(ModelSerializer):
         model = productItem
         fields = "__all__"
 
+class tagsSerializer(ModelSerializer):
+    class Meta:
+        model=tags
+        fields ="__all__"
+
+
 class ProductSerializer(ModelSerializer):
     productItems = ProductItemSerializer(many=True)
     images = ProductImageUploaderSerializer(many=True, read_only=True)
+    brand = brandSerializer(read_only=True)
+    scenes = tagsSerializer(many=True, read_only=True)
 
     def run_validation(self, data):
         return data
@@ -180,9 +188,4 @@ class ProductSerializer(ModelSerializer):
                     product_item_instance.save()
         instance.save()
         return instance
-
-class tagsSerializer(ModelSerializer):
-    class Meta:
-        model=tags
-        fields ="__all__"
 
