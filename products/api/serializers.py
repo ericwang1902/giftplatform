@@ -44,6 +44,17 @@ class ProductSerializer(ModelSerializer):
     images = ProductImageUploaderSerializer(many=True, read_only=True)
     brand = brandSerializer(read_only=True)
     scenes = tagsSerializer(many=True, read_only=True)
+    category = serializers.SerializerMethodField()
+
+    def get_category(self, obj):
+        """
+        因为只有两层所以此处暂定为两层结构
+        返回分组数组，数组结构为[parent, child]
+        :param obj:
+        :return:
+        """
+        if obj.categoryid is not None:
+            return [{ "id": obj.categoryid.parent.id, "name" : obj.categoryid.parent.name}, {"id": obj.categoryid.id, "name": obj.categoryid.name}]
 
     def run_validation(self, data):
         return data
@@ -55,12 +66,11 @@ class ProductSerializer(ModelSerializer):
     def create(self, validated_data):
         product_items = validated_data.pop('productItems', None)
         main_images = validated_data.pop('images', None)
-        name = validated_data.pop('name', None)
         scenes = validated_data.pop('scenes', None)
         category = validated_data.pop('category', None)
         product_instance = product.objects.create(createtime=datetime.now, updatetime=datetime.now,belongs=self.context['request'].user, **validated_data)
         if category is not None:
-            product_instance.category = category
+            product_instance.categoryid = category
             product_instance.save()
         if scenes is not None:
             for scene in scenes:
@@ -104,14 +114,14 @@ class ProductSerializer(ModelSerializer):
             instance.save()
         # 分组更新
         if category is not None:
-            instance.category = category
+            instance.categoryid = category
             instance.save()
 
         # 更新商品主属性相关信息
         instance.name = validated_data.get('name', instance.name)
         instance.description = validated_data.get('description', instance.description)
         instance.updatetime = datetime.now()
-        instance.categoryid = validated_data.get('categoryid', instance.categoryid)
+        instance.categoryid = validated_data.get('category', instance.categoryid)
         instance.attributes = validated_data.get('attributes', instance.attributes)
         instance.brand = validated_data.get('brand', instance.brand)
         instance.yijiandaifa = validated_data.get('yijiandaifa', instance.yijiandaifa)
