@@ -17,6 +17,7 @@ from giftplatform.settings import MEDIA_ROOT
 import os
 
 class ProductDescriptionMedia(APIView):
+
     def post(self, request, format=None):
         file = request.FILES["file"]
         dest_folder = os.path.join(MEDIA_ROOT, 'products/description/')
@@ -25,7 +26,7 @@ class ProductDescriptionMedia(APIView):
         with open(os.path.join(dest_folder, '{0}'.format(file.name)), 'wb+') as destination:
             for chunk in file.chunks():
                 destination.write(chunk)
-        return Response({'success': True, 'msg': 'ok', 'file_path': 'products/description/{0}/{1}'})
+        return Response({'success': True, 'msg': 'ok', 'file_path': ('http://' + request.get_host() + '/media/products/description/{0}'.format(file.name))})
 
 
 class brandsList(generics.GenericAPIView,mixins.ListModelMixin,mixins.CreateModelMixin):
