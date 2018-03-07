@@ -67,8 +67,8 @@ def product_directory_path(instance,filename):
 class productImage(models.Model):
     productimage = models.ImageField(upload_to=product_directory_path)
     type = models.IntegerField(default=0) # 0 主图 1 规格图
-    productid = models.ForeignKey(product,on_delete=models.CASCADE,null=True)
-    product_item_id = models.ForeignKey(productItem, on_delete=models.CASCADE,null=True)
+    productid = models.ForeignKey(product,on_delete=models.CASCADE,null=True, related_name='images')
+    product_item_id = models.ForeignKey(productItem, on_delete=models.CASCADE,null=True,related_name='images')
 
 
 

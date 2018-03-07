@@ -27,8 +27,8 @@ class ProductImageUploaderSerializer(ModelSerializer):
         fields = "__all__"
 
 class ProductItemSerializer(ModelSerializer):
-
     images = ProductImageUploaderSerializer(many=True, read_only=True)
+
     class Meta:
         model = productItem
         fields = "__all__"
@@ -41,10 +41,19 @@ class tagsSerializer(ModelSerializer):
 
 class ProductSerializer(ModelSerializer):
     productItems = ProductItemSerializer(many=True)
-    images = ProductImageUploaderSerializer(many=True, read_only=True)
     brand = brandSerializer(read_only=True)
     scenes = tagsSerializer(many=True, read_only=True)
     category = serializers.SerializerMethodField()
+    images = serializers.SerializerMethodField()
+
+    def get_images(self, obj):
+        request = self.context.get('request')
+        images = obj.images.filter(type=0)
+        serializer = ProductImageUploaderSerializer(instance=images, many=True)
+        data = serializer.data
+        for item in data:
+            item['productimage'] = request.build_absolute_uri(item['productimage'])
+        return data;
 
     def get_category(self, obj):
         """
@@ -126,7 +135,6 @@ class ProductSerializer(ModelSerializer):
         instance.brand = validated_data.get('brand', instance.brand)
         instance.yijiandaifa = validated_data.get('yijiandaifa', instance.yijiandaifa)
         instance.newup = validated_data.get('newup', instance.newup)
-        instance.scene = validated_data.get('scene', instance.scene)
 
         # 开始删除所有已经不使用的product image
         old_product_main_image_items = productImage.objects.filter(Q(productid=instance, product_item_id=None))
