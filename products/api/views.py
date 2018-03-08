@@ -5,7 +5,7 @@ __date__ = '2018/2/2 18:42'
 
 from  rest_framework import generics,mixins
 from .serializers import brandSerializer,categorySerializer,ProductSerializer,tagsSerializer,ProductImageUploaderSerializer
-from products.models import brands,category,product,tags,productImage
+from products.models import brands,category,product,tags,productImage,productItem
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from rest_framework import filters
@@ -134,7 +134,7 @@ class ProductImageUploaderView(generics.CreateAPIView):
     serializer_class = ProductImageUploaderSerializer
 
 class ProductsList(generics.ListCreateAPIView):
-    queryset = product.objects.all()
+    queryset = product.objects.all().filter(isdelete=False)
     serializer_class = ProductSerializer
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name',)
@@ -224,7 +224,8 @@ class ProductDetails(generics.RetrieveAPIView,generics.UpdateAPIView,generics.De
     def perform_destroy(self, instance):
         supplierid = self.kwargs.get('pk', None)
         productid = self.kwargs.get('productid', None)
-        category.objects.filter(id=productid,belongs=supplierid).update(isdelete=0)
+        instance.isdelete = True
+        productItem.objects.filter(product=instance).update(isdelete = True)
 
 
 #供应商/产品接口,根据供应商id获取该供应商的产品列表
