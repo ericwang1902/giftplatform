@@ -35,7 +35,9 @@ urlpatterns = [
 
     path('api/',include('products.api.urls')),
 
-    path('api/',include('viplevels.api.urls'))
+    path('api/',include('viplevels.api.urls')),
+
+    path('', include('gift_platform_site.urls'))
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

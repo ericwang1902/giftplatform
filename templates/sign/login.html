@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>一点礼品登录</title>
+    {%  load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'gift_platform_site/style.css' %}">
+</head>
+<body>
+<div class="container">
+    <div class="reg-login-wrap">
+        <img class="logo" src="{%  static 'gift_platform_site/images/logo.png' %}">
+
+    </div>
+</div>
+<hr class="hrline"/>
+<div class="container">
+    <div class="login-center">
+        <div><img src="{% static 'gift_platform_site/images/Bitmap.png' %}"></div>
+        <div class="loginform">
+            <p>请登录</p>
+            <div class="usernamelogin">
+                <img id="uricon" src="{% static 'gift_platform_site/images/loginusername.png' %}">
+                <input placeholder="请输入用户名"/>
+                <img id="clearicon" src="{% static 'gift_platform_site/images/clear.png' %}">
+            </div>
+            <div class="pwdlogin">
+                <img id="pwdicon" src="{% static 'gift_platform_site/images/pwd.png' %}">
+                <input placeholder="请输入密码"/>
+                <img id="clearicon2" src="{% static 'gift_platform_site/images/clear.png' %}">
+            </div>
+            <div class="loginbtndiv">
+                <a href="#">登录</a>
+            </div>
+            <div class="otherdiv">
+                <a href="#">免费注册</a>
+                <a href="#">忘记账号密码</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="footer1">
+    <div class="container">
+        <div class="item-wrap">
+            <div class="footer-icon-group1">
+                <img src="{% static 'gift_platform_site/images/footer_icon_1t.png' %}">
+                <span>物流送货上门</span>
+            </div>
+        </div>
+        <div class="item-wrap">
+            <div class="footer-icon-group1">
+                <img src="{% static 'gift_platform_site/images/footer_icon_2t.png' %}">
+                <span>正规渠道进货</span>
+            </div>
+        </div>
+        <div class="item-wrap">
+            <div class="footer-icon-group1">
+                <img src="{% static 'gift_platform_site/images/footer_icon_3t.png' %}">
+                <span>商品品质保证</span>
+            </div>
+        </div>
+    </div>
+    <div class="copyright1">
+        <div>
+            <a href="#">关于我们</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">帮助中心</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">售后服务</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">友情链接</a>
+        </div>
+        <div>
+            <p>一点公司版权所有 © 1997-2018   食品经营许可证：JY133****0111719</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
