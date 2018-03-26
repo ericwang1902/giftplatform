@@ -1,25 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>一点礼品登录</title>
-    {%  load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'gift_platform_site/style.css' %}">
-</head>
-<body>
-<div class="container">
-    <div class="reg-login-wrap">
-        <img class="logo" src="{%  static 'gift_platform_site/images/logo.png' %}">
-
-    </div>
-</div>
-<hr class="hrline"/>
+{% extends "share/base_layout.html" %}
+{% block title %}一点礼品-登录{% endblock %}
+{% block content %}
+    {% load static %}
 <div class="container">
     <div class="login-center">
         <div><img src="{% static 'gift_platform_site/images/Bitmap.png' %}"></div>
         <div class="loginform">
             <p>请登录</p>
-            <form action="{% url 'gift_platform_site:Login' %}" method="post">
+            <form action="{% url 'gift_platform_site:login' %}" method="post">
                 {% csrf_token %}
             <div class="usernamelogin">
                 <img id="uricon" src="{% static 'gift_platform_site/images/loginusername.png' %}">
@@ -43,35 +31,4 @@
 
     </div>
 </div>
-<div class="footer1">
-    <div class="container">
-        <div class="item-wrap">
-            <div class="footer-icon-group1">
-                <img src="{% static 'gift_platform_site/images/footer_icon_1t.png' %}">
-                <span>物流送货上门</span>
-            </div>
-        </div>
-        <div class="item-wrap">
-            <div class="footer-icon-group1">
-                <img src="{% static 'gift_platform_site/images/footer_icon_2t.png' %}">
-                <span>正规渠道进货</span>
-            </div>
-        </div>
-        <div class="item-wrap">
-            <div class="footer-icon-group1">
-                <img src="{% static 'gift_platform_site/images/footer_icon_3t.png' %}">
-                <span>商品品质保证</span>
-            </div>
-        </div>
-    </div>
-    <div class="copyright1">
-        <div>
-            <a href="#">关于我们</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">帮助中心</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">售后服务</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">友情链接</a>
-        </div>
-        <div>
-            <p>一点公司版权所有 © 1997-2018   食品经营许可证：JY133****0111719</p>
-        </div>
-    </div>
-</div>
-</body>
-</html>
+{% endblock %}
