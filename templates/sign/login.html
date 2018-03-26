@@ -19,23 +19,26 @@
         <div><img src="{% static 'gift_platform_site/images/Bitmap.png' %}"></div>
         <div class="loginform">
             <p>请登录</p>
+            <form action="{% url 'gift_platform_site:Login' %}" method="post">
+                {% csrf_token %}
             <div class="usernamelogin">
                 <img id="uricon" src="{% static 'gift_platform_site/images/loginusername.png' %}">
-                <input placeholder="请输入用户名"/>
+                <input name="username" placeholder="请输入用户名"/>
                 <img id="clearicon" src="{% static 'gift_platform_site/images/clear.png' %}">
             </div>
             <div class="pwdlogin">
                 <img id="pwdicon" src="{% static 'gift_platform_site/images/pwd.png' %}">
-                <input placeholder="请输入密码"/>
+                <input name="password" placeholder="请输入密码"/>
                 <img id="clearicon2" src="{% static 'gift_platform_site/images/clear.png' %}">
             </div>
             <div class="loginbtndiv">
-                <a href="#">登录</a>
+                <a href="javascript:void(0)">登录</a>
             </div>
             <div class="otherdiv">
                 <a href="#">免费注册</a>
                 <a href="#">忘记账号密码</a>
             </div>
+            </form>
         </div>
 
     </div>
