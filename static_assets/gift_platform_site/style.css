@@ -365,7 +365,7 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
     width: 350px;
     height: 100%;
     background-color: #B19B70;
-    background-image: url("../images/supplier.png"); }
+    background-image: url(images/supplier.png); }
     .regtypes .choose1 div {
       border-radius: 100px;
       width: 108px;
@@ -393,7 +393,7 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
     height: 100%;
     width: 350px;
     background-color: #B19B70;
-    background-image: url("../images/giftcompany.png"); }
+    background-image: url(images/giftcompany.png); }
     .regtypes .choose2 div {
       border-radius: 100px;
       width: 108px;
