@@ -22,3 +22,7 @@ class LoginView(View):
                 'error_message': "用户名或者密码错误"
             })
 
+class RegView1(View):
+    def get(self,request):
+        return render(request,"sign/register1.html")
+
