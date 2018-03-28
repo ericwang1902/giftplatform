@@ -4,6 +4,8 @@ from django.views import View
 from django.contrib.auth.backends import ModelBackend
 from users.models import UserProfile
 from django.db.models import Q
+from django.contrib.auth.hashers import make_password
+from . import forms
 
 #支持手机号或者用户名登陆
 class CustomBackend(ModelBackend):
@@ -50,5 +52,41 @@ class RegView1(View):
 
 class RegView2(View):
     def get(self,request):
-        return render(request, "sign/register2.html")
+        usertype = request.GET.get("type")
+        return render(request, "sign/register2.html",{"usertype":usertype})
+    def post(self,request):
+        regForm = forms.regForm(request.POST)
+        if regForm.is_valid():
+            username = request.POST.get('username')
+            mobile  = request.POST.get('mobile')
+            checkcode = request.POST.get('checkcode')
+            email = request.POST.get('email')
+            password = request.POST.get('pwd1')
+            password2 = request.POST.get('pwd2')
+            usertype = request.POST.get('usertype')
+            if usertype != '1' and usertype != '2':
+                print("用户类型错误！")
+
+            #校验验证码逻辑
+            if checkcode :
+                #校验重复输入的密码逻辑
+                if password == password2:
+                    userInstance = UserProfile()
+                    userInstance.username = username
+                    userInstance.mobile = mobile
+                    userInstance.email = email
+                    userInstance.password =make_password(password)
+                    if usertype == '1':
+                        userInstance.type="supplier"
+                    elif usertype =='2':
+                        userInstance.type="giftcompany"
+                    userInstance.save()
+                    ###写跳转
+                else:
+                    print("两次输入的密码不相同")
+
+            else:
+                print("验证码错误，页面要显示出错误")
+        else:
+            print("表单有错误")
 

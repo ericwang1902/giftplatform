@@ -604,8 +604,94 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
           text-decoration: none; }
     .regform .emailreg div:nth-child(3) {
       flex: 1; }
-  .regform .yingyezhizhaoreg {
+  .regform .pwd1 {
     order: 4;
+    display: flex;
+    margin-top: 30px; }
+    .regform .pwd1 div:nth-child(1) {
+      flex: 1; }
+    .regform .pwd1 div:nth-child(2) {
+      flex: 1;
+      display: flex;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-justify-content: center;
+      justify-content: center; }
+      .regform .pwd1 div:nth-child(2) p {
+        font-size: 18px;
+        color: #333333;
+        letter-spacing: 0;
+        line-height: 24px;
+        flex: 1; }
+      .regform .pwd1 div:nth-child(2) div {
+        border: 1px solid #B19B70;
+        border-radius: 53px;
+        height: 42px;
+        flex: 4;
+        justify-content: flex-start; }
+        .regform .pwd1 div:nth-child(2) div input, .regform .pwd1 div:nth-child(2) div .form-item .drop-down, .form-item .regform .pwd1 div:nth-child(2) div .drop-down {
+          height: 40px;
+          width: 70%;
+          margin-left: 26px;
+          border: none; }
+        .regform .pwd1 div:nth-child(2) div input:focus, .regform .pwd1 div:nth-child(2) div .form-item .drop-down:focus, .form-item .regform .pwd1 div:nth-child(2) div .drop-down:focus {
+          outline: none;
+          border: 0;
+          box-shadow: none; }
+        .regform .pwd1 div:nth-child(2) div a {
+          width: 30%;
+          color: #B19B70;
+          font-size: 14px;
+          text-decoration: none; }
+    .regform .pwd1 div:nth-child(3) {
+      flex: 1; }
+  .regform .pwd2 {
+    order: 5;
+    display: flex;
+    margin-top: 30px; }
+    .regform .pwd2 div:nth-child(1) {
+      flex: 1; }
+    .regform .pwd2 div:nth-child(2) {
+      flex: 1;
+      display: flex;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-justify-content: center;
+      justify-content: center; }
+      .regform .pwd2 div:nth-child(2) p {
+        font-size: 18px;
+        color: #333333;
+        letter-spacing: 0;
+        line-height: 24px;
+        flex: 1; }
+      .regform .pwd2 div:nth-child(2) div {
+        border: 1px solid #B19B70;
+        border-radius: 53px;
+        height: 42px;
+        flex: 4;
+        justify-content: flex-start; }
+        .regform .pwd2 div:nth-child(2) div input, .regform .pwd2 div:nth-child(2) div .form-item .drop-down, .form-item .regform .pwd2 div:nth-child(2) div .drop-down {
+          height: 40px;
+          width: 70%;
+          margin-left: 26px;
+          border: none; }
+        .regform .pwd2 div:nth-child(2) div input:focus, .regform .pwd2 div:nth-child(2) div .form-item .drop-down:focus, .form-item .regform .pwd2 div:nth-child(2) div .drop-down:focus {
+          outline: none;
+          border: 0;
+          box-shadow: none; }
+        .regform .pwd2 div:nth-child(2) div a {
+          width: 30%;
+          color: #B19B70;
+          font-size: 14px;
+          text-decoration: none; }
+    .regform .pwd2 div:nth-child(3) {
+      flex: 1; }
+  .regform .yingyezhizhaoreg {
+    order: 6;
     display: flex;
     margin-top: 30px; }
     .regform .yingyezhizhaoreg div:nth-child(1) {
@@ -642,7 +728,7 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
     .regform .yingyezhizhaoreg div:nth-child(3) {
       flex: 1; }
   .regform .yingyezhizhaotupianreg {
-    order: 5;
+    order: 7;
     display: flex;
     margin-top: 10px; }
     .regform .yingyezhizhaotupianreg div:nth-child(1) {
@@ -671,7 +757,7 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
     .regform .yingyezhizhaotupianreg div:nth-child(3) {
       flex: 1; }
   .regform .xieyireg {
-    order: 6;
+    order: 8;
     display: flex;
     margin-top: 10px; }
     .regform .xieyireg div:nth-child(1) {
@@ -707,7 +793,7 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
     .regform .xieyireg div:nth-child(3) {
       flex: 1; }
   .regform .regbtninstance, .regform .forgetpwdbtn {
-    order: 7;
+    order: 8;
     display: flex; }
     .regform .regbtninstance div:nth-child(1), .regform .forgetpwdbtn div:nth-child(1) {
       flex: 1; }

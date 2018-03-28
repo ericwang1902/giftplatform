@@ -24,11 +24,12 @@
 <hr class="hrline2"/>
 <div  class="choosetype"><div>供应商注册/礼品公司注册</div></div>
 <div class="regform">
+    <form method="post" action="{% url 'gift_platform_site:reg2' %}" id="reg2form">
     <div class="usernamereg">
         <div></div>
         <div>
             <p>用户名：</p>
-            <div><input placeholder="请输入用户名"/></div>
+            <div><input placeholder="请输入用户名" name="username"/></div>
         </div>
         <div>
                 <img src="{% static 'gift_platform_site/images/wrong.png' %}">
@@ -41,7 +42,7 @@
         <div></div>
         <div>
             <p>手机号：</p>
-            <div><input placeholder="请输入手机号"/><a href="#">发送验证码</a></div>
+            <div><input placeholder="请输入手机号" name="mobile"/><a href="#">发送验证码</a></div>
         </div>
         <div></div>
     </div>
@@ -49,7 +50,7 @@
         <div></div>
         <div>
             <p>验证码：</p>
-            <div><input placeholder="请输入验证码"/></div>
+            <div><input placeholder="请输入验证码" name="checkcode"/></div>
         </div>
         <div></div>
     </div>
@@ -57,10 +58,27 @@
         <div></div>
         <div>
             <p>邮箱：</p>
-            <div><input placeholder="请输入邮箱"/></div>
+            <div><input placeholder="请输入邮箱" name="email"/></div>
         </div>
         <div></div>
     </div>
+    <div class="pwd1">
+        <div></div>
+        <div>
+            <p>密&nbsp;&nbsp;&nbsp;&nbsp;码：</p>
+            <div><input placeholder="请输入密码" name="pwd1"/></div>
+        </div>
+        <div></div>
+    </div>
+    <div class="pwd2">
+        <div></div>
+        <div>
+            <p>确认密码：</p>
+            <div><input placeholder="请再次输入密码" name="pwd2"/></div>
+        </div>
+        <div></div>
+    </div>
+    <input hidden name="usertype" value="{{ usertype }}"/>
     <div class="yingyezhizhaoreg">
         <div></div>
         <div>
@@ -94,11 +112,13 @@
         <div>
             <p></p>
             <div>
-                <a href="#">注册</a>
+                <a href="javascript:void(0)" onclick="document.getElementById('reg2form').submit()">注册</a>
             </div>
         </div>
         <div></div>
     </div>
+        {% csrf_token %}
+    </form>
 
 </div>
 <hr class="hrline2"/>
