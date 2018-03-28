@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>一点礼品注册</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'gift_platform_site/style.css' %}">
+
+</head>
+<body>
+
+<div class="container">
+    <div class="reg-login-wrap">
+        <img class="logo" src="{% static 'gift_platform_site/images/logo.png' %}">
+        <p class="infotolog">已有账号？去<a href="#">登录</a></p>
+    </div>
+</div>
+<hr class="hrline"/>
+<div class="reg-step-div">
+    <div class="nocurrentstep">1.选择类型</div>
+    <div class="btwsteps"></div>
+    <div class="currentstep">2.填写信息</div>
+</div>
+<hr class="hrline2"/>
+<div  class="choosetype"><div>供应商注册/礼品公司注册</div></div>
+<div class="regform">
+    <div class="usernamereg">
+        <div></div>
+        <div>
+            <p>用户名：</p>
+            <div><input placeholder="请输入用户名"/></div>
+        </div>
+        <div>
+                <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                <p class="usernamewrong">该账号已存在</p>
+                <img src="{% static 'gift_platform_site/images/right.png' %}">
+                <p class="usernameright">该账号可以使用</p>
+        </div>
+    </div>
+    <div class="mobilereg">
+        <div></div>
+        <div>
+            <p>手机号：</p>
+            <div><input placeholder="请输入手机号"/><a href="#">发送验证码</a></div>
+        </div>
+        <div></div>
+    </div>
+    <div class="yanzhengmareg">
+        <div></div>
+        <div>
+            <p>验证码：</p>
+            <div><input placeholder="请输入验证码"/></div>
+        </div>
+        <div></div>
+    </div>
+    <div class="emailreg">
+        <div></div>
+        <div>
+            <p>邮箱：</p>
+            <div><input placeholder="请输入邮箱"/></div>
+        </div>
+        <div></div>
+    </div>
+    <div class="yingyezhizhaoreg">
+        <div></div>
+        <div>
+            <p>营业执照：</p>
+            <div class="upyyzz"><a href="#">上传营业执照</a></div>
+            <div class="zwreg"></div>
+        </div>
+        <div></div>
+    </div>
+    <div class="yingyezhizhaotupianreg">
+        <div></div>
+        <div>
+            <p></p>
+            <div><img src="{% static 'gift_platform_site/images/giftcompany.png' %}"></div>
+        </div>
+        <div></div>
+    </div>
+    <div class="xieyireg">
+        <div></div>
+        <div>
+            <p></p>
+            <div>
+                <input type="checkbox" name="vehicle" value="Bike" />
+                <p>我同意并遵守<a href="#">《一点礼品系统服务条款》</a></p>
+            </div>
+        </div>
+        <div></div>
+    </div>
+    <div class="regbtninstance">
+        <div></div>
+        <div>
+            <p></p>
+            <div>
+                <a href="#">注册</a>
+            </div>
+        </div>
+        <div></div>
+    </div>
+
+</div>
+<hr class="hrline2"/>
+<div class="footer1">
+    <div class="container">
+        <div class="item-wrap">
+            <div class="footer-icon-group1">
+                <img src="{% static 'gift_platform_site/images/footer_icon_1t.png' %}">
+                <span>物流送货上门</span>
+            </div>
+        </div>
+        <div class="item-wrap">
+            <div class="footer-icon-group1">
+                <img src="{% static 'gift_platform_site/images/footer_icon_2t.png' %}">
+                <span>正规渠道进货</span>
+            </div>
+        </div>
+        <div class="item-wrap">
+            <div class="footer-icon-group1">
+                <img src="{% static 'gift_platform_site/images/footer_icon_3t.png' %}">
+                <span>商品品质保证</span>
+            </div>
+        </div>
+    </div>
+    <div class="copyright1">
+        <div>
+            <a href="#">关于我们</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">帮助中心</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">售后服务</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">友情链接</a>
+        </div>
+        <div>
+            <p>一点公司版权所有 © 1997-2018   食品经营许可证：JY133****0111719</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

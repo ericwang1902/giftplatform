@@ -11,7 +11,7 @@
 <div class="container">
     <div class="reg-login-wrap">
         <img class="logo" src="{% static 'gift_platform_site/images/logo.png' %}">
-        <p class="infotolog">已有账号？去<a href="#">登录</a></p>
+        <p class="infotolog">已有账号？去<a href="{% url 'gift_platform_site:login' %}">登录</a></p>
     </div>
 </div>
 <hr class="hrline"/>
@@ -23,8 +23,8 @@
 <hr class="hrline2"/>
 <div  class="choosetype"><div>请选择注册类型</div></div>
 <div class="regtypes">
-    <div class="choose1"><div><a href="#">供应商</a></div></div>
-    <div class="choose2"><div><a href="#">礼品公司</a></div></div>
+    <div class="choose1"><div><a href="{% url 'gift_platform_site:reg2' %}?type=1">供应商</a></div></div>
+    <div class="choose2"><div><a href="{% url 'gift_platform_site:reg2' %}?type=2">礼品公司</a></div></div>
 </div>
 <hr class="hrline3"/>
 <div class="footer1">

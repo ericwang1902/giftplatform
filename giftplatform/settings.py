@@ -33,6 +33,9 @@ CORS_ALLOW_HEADERS = default_headers + (
     'x-file-name',
 )
 
+AUTHENTICATION_BACKENDS=(
+    'gift_platform_site.views.CustomBackend',
+)
 
 # Application definition
 
@@ -49,7 +52,7 @@ INSTALLED_APPS = [
     'users',
     'viplevels',
     'products',
-    'gift_platform_site.apps.GiftPlatformSiteConfig'
+    'gift_platform_site'
 ]
 
 AUTH_USER_MODEL = "users.UserProfile"
