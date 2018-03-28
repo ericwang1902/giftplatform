@@ -3,7 +3,7 @@
 __author__ = 'ericwang'
 __date__ = '2018/2/12 8:41'
 
-from viplevels.models import (vipLevel,vipFunction)
+from apps.viplevels.models import (vipLevel, vipFunction)
 from rest_framework.serializers import ModelSerializer
 
 class viplevelsSerializer(ModelSerializer):

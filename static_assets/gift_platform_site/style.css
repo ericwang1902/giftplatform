@@ -469,10 +469,10 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
       justify-content: flex-start; }
       .regform .usernamereg div:nth-child(3) img {
         margin-left: 12px; }
-      .regform .usernamereg div:nth-child(3) .usernamewrong {
+      .regform .usernamereg div:nth-child(3) .wrong {
         font-size: 14px;
         color: #D0021B; }
-      .regform .usernamereg div:nth-child(3) .usernameright {
+      .regform .usernamereg div:nth-child(3) .right {
         font-size: 14px;
         color: #7ED321; }
   .regform .mobilereg {
@@ -517,7 +517,22 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
           font-size: 14px;
           text-decoration: none; }
     .regform .mobilereg div:nth-child(3) {
-      flex: 1; }
+      flex: 1;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      justify-content: flex-start; }
+      .regform .mobilereg div:nth-child(3) img {
+        margin-left: 12px; }
+      .regform .mobilereg div:nth-child(3) .wrong {
+        font-size: 14px;
+        color: #D0021B; }
+      .regform .mobilereg div:nth-child(3) .right {
+        font-size: 14px;
+        color: #7ED321; }
   .regform .yanzhengmareg {
     order: 2;
     display: flex;
@@ -560,7 +575,22 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
           font-size: 14px;
           text-decoration: none; }
     .regform .yanzhengmareg div:nth-child(3) {
-      flex: 1; }
+      flex: 1;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      justify-content: flex-start; }
+      .regform .yanzhengmareg div:nth-child(3) img {
+        margin-left: 12px; }
+      .regform .yanzhengmareg div:nth-child(3) .wrong {
+        font-size: 14px;
+        color: #D0021B; }
+      .regform .yanzhengmareg div:nth-child(3) .right {
+        font-size: 14px;
+        color: #7ED321; }
   .regform .emailreg {
     order: 3;
     display: flex;
@@ -603,7 +633,22 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
           font-size: 14px;
           text-decoration: none; }
     .regform .emailreg div:nth-child(3) {
-      flex: 1; }
+      flex: 1;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      justify-content: flex-start; }
+      .regform .emailreg div:nth-child(3) img {
+        margin-left: 12px; }
+      .regform .emailreg div:nth-child(3) .wrong {
+        font-size: 14px;
+        color: #D0021B; }
+      .regform .emailreg div:nth-child(3) .right {
+        font-size: 14px;
+        color: #7ED321; }
   .regform .pwd1 {
     order: 4;
     display: flex;
@@ -646,7 +691,22 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
           font-size: 14px;
           text-decoration: none; }
     .regform .pwd1 div:nth-child(3) {
-      flex: 1; }
+      flex: 1;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      justify-content: flex-start; }
+      .regform .pwd1 div:nth-child(3) img {
+        margin-left: 12px; }
+      .regform .pwd1 div:nth-child(3) .wrong {
+        font-size: 14px;
+        color: #D0021B; }
+      .regform .pwd1 div:nth-child(3) .right {
+        font-size: 14px;
+        color: #7ED321; }
   .regform .pwd2 {
     order: 5;
     display: flex;
@@ -689,7 +749,22 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
           font-size: 14px;
           text-decoration: none; }
     .regform .pwd2 div:nth-child(3) {
-      flex: 1; }
+      flex: 1;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      justify-content: flex-start; }
+      .regform .pwd2 div:nth-child(3) img {
+        margin-left: 12px; }
+      .regform .pwd2 div:nth-child(3) .wrong {
+        font-size: 14px;
+        color: #D0021B; }
+      .regform .pwd2 div:nth-child(3) .right {
+        font-size: 14px;
+        color: #7ED321; }
   .regform .yingyezhizhaoreg {
     order: 6;
     display: flex;
@@ -726,7 +801,22 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
       .regform .yingyezhizhaoreg div:nth-child(2) .zwreg {
         flex: 2; }
     .regform .yingyezhizhaoreg div:nth-child(3) {
-      flex: 1; }
+      flex: 1;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      justify-content: flex-start; }
+      .regform .yingyezhizhaoreg div:nth-child(3) img {
+        margin-left: 12px; }
+      .regform .yingyezhizhaoreg div:nth-child(3) .wrong {
+        font-size: 14px;
+        color: #D0021B; }
+      .regform .yingyezhizhaoreg div:nth-child(3) .right {
+        font-size: 14px;
+        color: #7ED321; }
   .regform .yingyezhizhaotupianreg {
     order: 7;
     display: flex;
@@ -755,7 +845,22 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
           width: 100%;
           color: #B19B70; }
     .regform .yingyezhizhaotupianreg div:nth-child(3) {
-      flex: 1; }
+      flex: 1;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      justify-content: flex-start; }
+      .regform .yingyezhizhaotupianreg div:nth-child(3) img {
+        margin-left: 12px; }
+      .regform .yingyezhizhaotupianreg div:nth-child(3) .wrong {
+        font-size: 14px;
+        color: #D0021B; }
+      .regform .yingyezhizhaotupianreg div:nth-child(3) .right {
+        font-size: 14px;
+        color: #7ED321; }
   .regform .xieyireg {
     order: 8;
     display: flex;

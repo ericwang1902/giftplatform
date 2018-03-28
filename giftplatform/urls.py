@@ -15,8 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include,re_path
-from rest_framework_jwt.views import obtain_jwt_token
-from users.api.views import ObtainJSONWebToken
+from apps.users.api.views import ObtainJSONWebToken
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -29,15 +28,15 @@ urlpatterns = [
 
     path('admin/', admin.site.urls),
 
-    path('api/',include('permissionapi.urls')),
+    path('api/', include('apps.permissionapi.urls')),
 
-    path('api/',include('users.api.urls')),
+    path('api/', include('apps.users.api.urls')),
 
-    path('api/',include('products.api.urls')),
+    path('api/', include('apps.products.api.urls')),
 
-    path('api/',include('viplevels.api.urls')),
+    path('api/', include('apps.viplevels.api.urls')),
 
-    path('', include('gift_platform_site.urls'))
+    path('', include('apps.gift_platform_site.urls'))
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

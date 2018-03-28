@@ -34,7 +34,7 @@ CORS_ALLOW_HEADERS = default_headers + (
 )
 
 AUTHENTICATION_BACKENDS=(
-    'gift_platform_site.views.CustomBackend',
+    'apps.gift_platform_site.views.CustomBackend',
 )
 
 # Application definition
@@ -48,11 +48,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
-    'permissionapi',
-    'users',
-    'viplevels',
-    'products',
-    'gift_platform_site'
+    'apps.permissionapi',
+    'apps.users',
+    'apps.viplevels',
+    'apps.products',
+    'apps.gift_platform_site'
 ]
 
 AUTH_USER_MODEL = "users.UserProfile"

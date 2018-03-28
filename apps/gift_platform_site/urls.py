@@ -1,5 +1,5 @@
-from django.urls import path,include,re_path
-from gift_platform_site.views import LoginView,RegView1,RegView2
+from django.urls import path
+from apps.gift_platform_site.views import LoginView,RegView1,RegView2
 
 
 app_name = 'gift_platform_site'

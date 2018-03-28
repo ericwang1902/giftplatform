@@ -7,7 +7,7 @@ from .models import books
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 from django.contrib.auth.models import Permission,Group
-from users.models import UserProfile
+from apps.users.models import UserProfile
 
 
 class bookSerilizer(ModelSerializer):

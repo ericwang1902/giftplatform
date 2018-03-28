@@ -29,54 +29,83 @@
         <div></div>
         <div>
             <p>用户名：</p>
-            <div><input placeholder="请输入用户名" name="username"/></div>
+            <div><input placeholder="请输入用户名" name="username" value="{{ formsets.username }}"/></div>
         </div>
         <div>
-                <img src="{% static 'gift_platform_site/images/wrong.png' %}">
-                <p class="usernamewrong">该账号已存在</p>
-                <img src="{% static 'gift_platform_site/images/right.png' %}">
-                <p class="usernameright">该账号可以使用</p>
+                {% if regForm.errors.username %}
+                    <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                    <p class="wrong">{{ regForm.errors.username.0 }}</p>
+                {% endif %}
+{#                <img src="{% static 'gift_platform_site/images/wrong.png' %}">#}
+{#                <p class="usernamewrong">该账号已存在</p>#}
+{#                <img src="{% static 'gift_platform_site/images/right.png' %}">#}
+{#                <p class="usernameright">该账号可以使用</p>#}
         </div>
     </div>
     <div class="mobilereg">
         <div></div>
         <div>
             <p>手机号：</p>
-            <div><input placeholder="请输入手机号" name="mobile"/><a href="#">发送验证码</a></div>
+            <div><input placeholder="请输入手机号" name="mobile" value="{{ formsets.mobile }}"/><a href="#">发送验证码</a></div>
         </div>
-        <div></div>
+        <div>
+            {% if regForm.errors.mobile %}
+                <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                <p class="wrong">{{ regForm.errors.mobile.0 }}</p>
+            {% endif %}
+        </div>
     </div>
     <div class="yanzhengmareg">
         <div></div>
         <div>
             <p>验证码：</p>
-            <div><input placeholder="请输入验证码" name="checkcode"/></div>
+            <div><input placeholder="请输入验证码" name="checkcode" value="{{ formsets.checkcode }}"/></div>
         </div>
-        <div></div>
+        <div>
+            {% if regForm.errors.checkcode %}
+                <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                <p class="wrong">{{ regForm.errors.checkcode.0 }}</p>
+            {% endif %}
+        </div>
     </div>
     <div class="emailreg">
         <div></div>
         <div>
             <p>邮箱：</p>
-            <div><input placeholder="请输入邮箱" name="email"/></div>
+            <div><input placeholder="请输入邮箱" name="email" value="{{ formsets.email }}"/></div>
         </div>
-        <div></div>
+        <div>
+            {% if regForm.errors.email %}
+                <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                <p class="wrong">{{ regForm.errors.email.0 }}</p>
+            {% endif %}
+        </div>
     </div>
     <div class="pwd1">
         <div></div>
         <div>
             <p>密&nbsp;&nbsp;&nbsp;&nbsp;码：</p>
-            <div><input placeholder="请输入密码" name="pwd1"/></div>
+            <div><input placeholder="请输入密码" name="pwd1" value="{{ formsets.pwd1 }}"/></div>
         </div>
-        <div></div>
+        <div>
+            {% if regForm.errors.password %}
+                <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                <p class="wrong">{{ regForm.errors.password.0 }}</p>
+            {% endif %}
+        </div>
     </div>
     <div class="pwd2">
         <div></div>
         <div>
             <p>确认密码：</p>
-            <div><input placeholder="请再次输入密码" name="pwd2"/></div>
+            <div><input placeholder="请再次输入密码" name="pwd2" value="{{ formsets.pwd2 }}"/></div>
         </div>
-        <div></div>
+        <div>
+            {% if regForm.errors.password2 %}
+                <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                <p class="wrong">{{ regForm.errors.password2.0 }}</p>
+            {% endif %}
+        </div>
     </div>
     <input hidden name="usertype" value="{{ usertype }}"/>
     <div class="yingyezhizhaoreg">

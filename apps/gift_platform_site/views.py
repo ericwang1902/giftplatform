@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate,login
 from django.views import View
 from django.contrib.auth.backends import ModelBackend
-from users.models import UserProfile
+from apps.users.models import UserProfile
 from django.db.models import Q
 from django.contrib.auth.hashers import make_password
 from . import forms
@@ -23,7 +23,7 @@ class CustomBackend(ModelBackend):
 
 class LoginView(View):
     def get(self, request):
-        return render(request,"sign/login.html")
+        return render(request, "sign/login.html")
 
     def post(self, request):
         user = authenticate(username=request.POST['username'], password=request.POST['password'])
@@ -44,7 +44,7 @@ class LoginView(View):
 
 class RegView1(View):
     def get(self,request):
-        return render(request,"sign/register1.html")
+        return render(request, "sign/register1.html")
 
     def post(self,request):
         return render(request, "sign/register1.html")
@@ -53,7 +53,7 @@ class RegView1(View):
 class RegView2(View):
     def get(self,request):
         usertype = request.GET.get("type")
-        return render(request, "sign/register2.html",{"usertype":usertype})
+        return render(request, "sign/register2.html", {"usertype":usertype})
     def post(self,request):
         regForm = forms.regForm(request.POST)
         if regForm.is_valid():
@@ -88,5 +88,5 @@ class RegView2(View):
             else:
                 print("验证码错误，页面要显示出错误")
         else:
-            print("表单有错误")
+            return  render(request, 'sign/register2.html', {"regForm":regForm, "formsets":request.POST})
 

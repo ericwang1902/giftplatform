@@ -3,9 +3,9 @@
 __author__ = 'ericwang'
 __date__ = '2018/2/12 8:42'
 
-from viplevels.api.serializers import (viplevelsSerializer, VipFunctionsSerializer)
+from apps.viplevels.api.serializers import (viplevelsSerializer, VipFunctionsSerializer)
 from rest_framework import generics,mixins
-from viplevels.models import (vipLevel, vipFunction, levelToFunction)
+from apps.viplevels.models import (vipLevel, vipFunction, levelToFunction)
 from rest_framework import filters
 from django.db.models import Q
 from django.db import transaction

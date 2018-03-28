@@ -1,5 +1,3 @@
-from django.shortcuts import render
-
 # Create your views here.
 
 from rest_framework import generics,mixins
@@ -11,7 +9,7 @@ from .serializers import bookSerilizer,\
     permissionSerializer,\
     groupSerializer,userSerializer
 from django.contrib.auth.models import Permission,Group
-from users.models import UserProfile
+from apps.users.models import UserProfile
 
 class booklist(generics.GenericAPIView,
                mixins.ListModelMixin,
