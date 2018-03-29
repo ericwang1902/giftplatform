@@ -21,8 +21,8 @@
     <div class="btwsteps"></div>
     <div class="currentstep">2.填写信息</div>
 </div>
-<hr class="hrline2"/>
-<div  class="choosetype"><div>供应商注册/礼品公司注册</div></div>
+{#<hr class="hrline2"/>#}
+{#<div  class="choosetype"><div>请填写注册信息</div></div>#}
 <div class="regform">
     <form method="post" enctype="multipart/form-data" action="{% url 'gift_platform_site:reg2' %}" id="reg2form">
     <div class="usernamereg">
@@ -113,30 +113,33 @@
         </div>
     </div>
     <input hidden name="usertype" value="{{ usertype }}"/>
-    <div class="yingyezhizhaoreg">
-        <div></div>
-        <div>
-            <p>营业执照：</p>
-            <div class="upyyzz">
-{#                <input hidden name="yyzz" type="file" id="yyzz" >#}
-                <a href="javascript:void(0)" onclick="document.getElementById('yyzz').click();document.getElementById('reg2form').submit();">上传营业执照</a></div>
-            <div class="zwreg"></div>
-        </div>
-        <div></div>
-    </div>
-    <div class="yingyezhizhaotupianreg">
-        <div></div>
-        <div>
-            <p></p>
-            <div><img src="{% static 'gift_platform_site/images/giftcompany.png' %}"></div>
-        </div>
-        <div>
-            {% if regForm.errors.yyzz %}
-                <img src="{% static 'gift_platform_site/images/wrong.png' %}">
-                <p class="wrong">{{ regForm.errors.yyzz.0 }}</p>
-            {% endif %}
-        </div>
-    </div>
+    {% csrf_token %}
+
+{#    <form method="post"  enctype="multipart/form-data" action="{% url 'gift_platform_site:uploadimg' %}" id="reg2zp" >#}
+{#    <div class="yingyezhizhaoreg">#}
+{#        <div></div>#}
+{#        <div>#}
+{#            <p>营业执照：</p>#}
+{#            <div><input hidden type="text" name="pp" value="1"><input type="file"  accept="image/png,image/jpg" name="yyzz"/><a href="javascript:void(0)" onclick="document.getElementById('reg2zp').submit()">上传</a></div>#}
+{#        </div>#}
+{#        <div></div>#}
+{#    </div>#}
+{#        {% csrf_token %}#}
+{#    </form>#}
+
+{#    <div class="yingyezhizhaotupianreg">#}
+{#        <div></div>#}
+{#        <div>#}
+{#            <p></p>#}
+{#            <div><img src="{{ MEDIA_URL }}{{ yyzz }}"></div>#}
+{#        </div>#}
+{#        <div>#}
+{#            {% if regForm.errors.yyzz %}#}
+{#                <img src="{% static 'gift_platform_site/images/wrong.png' %}">#}
+{#                <p class="wrong">{{ regForm.errors.yyzz.0 }}</p>#}
+{#            {% endif %}#}
+{#        </div>#}
+{#    </div>#}
     <div class="xieyireg">
         <div></div>
         <div>
@@ -153,13 +156,12 @@
         <div>
             <p></p>
             <div>
-                <a href="javascript:void(0)" onclick="">注册</a>
+                <a href="javascript:void(0)" onclick="document.getElementById('reg2form').submit()">注册</a>
             </div>
         </div>
         <div></div>
     </div>
-        {% csrf_token %}
-    </form>
+ </form>
 
 </div>
 <hr class="hrline2"/>
@@ -194,10 +196,6 @@
     </div>
 </div>
 
-<form method="post" hidden enctype="multipart/form-data" action="{% url 'gift_platform_site:uploadimg' %}" id="reg2zp" >
-    <input hidden name="yyzz" type="file" id="yyzz" onchange="document.getElementById('reg2zp').submit()" >
-    {% csrf_token %}
-</form>
 
 </body>
 </html>

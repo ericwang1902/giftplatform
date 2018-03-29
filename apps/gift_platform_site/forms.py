@@ -10,4 +10,5 @@ class regForm(forms.Form):
     usertype = forms.CharField(required=True)
 
 class reg2tpForm(forms.Form):
+    pp=forms.CharField(required=True,error_messages={'required':u'sss'})
     yyzz =forms.ImageField(required=True,error_messages={'required':u"请上传营业执照照片"})
