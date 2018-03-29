@@ -6,6 +6,7 @@ from apps.users.models import UserProfile
 from django.db.models import Q
 from django.contrib.auth.hashers import make_password
 from . import forms
+from apps.users.models import userAuthinfo
 
 #支持手机号或者用户名登陆
 class CustomBackend(ModelBackend):
@@ -55,14 +56,27 @@ class RegView2(View):
         usertype = request.GET.get("type")
         return render(request, "sign/register2.html", {"usertype":usertype})
     def post(self,request):
+        #接受图片上传逻辑
+        reg2tpForm = forms.reg2tpForm(request.FILES)
+
+        userauthinfoInstance = userAuthinfo()
+        if reg2tpForm.is_valid():
+            # 存照片
+            yyzz = request.FILES.get('yyzz')
+
+            userauthinfoInstance.img = yyzz
+
+
+
+
         regForm = forms.regForm(request.POST)
         if regForm.is_valid():
             username = request.POST.get('username')
             mobile  = request.POST.get('mobile')
             checkcode = request.POST.get('checkcode')
             email = request.POST.get('email')
-            password = request.POST.get('pwd1')
-            password2 = request.POST.get('pwd2')
+            pwd1 = request.POST.get('pwd1')
+            pwd2 = request.POST.get('pwd2')
             usertype = request.POST.get('usertype')
             if usertype != '1' and usertype != '2':
                 print("用户类型错误！")
@@ -70,23 +84,28 @@ class RegView2(View):
             #校验验证码逻辑
             if checkcode :
                 #校验重复输入的密码逻辑
-                if password == password2:
+                if pwd1 == pwd2:
                     userInstance = UserProfile()
                     userInstance.username = username
                     userInstance.mobile = mobile
                     userInstance.email = email
-                    userInstance.password =make_password(password)
+                    userInstance.password =make_password(pwd1)
                     if usertype == '1':
                         userInstance.type="supplier"
                     elif usertype =='2':
                         userInstance.type="giftcompany"
                     userInstance.save()
-                    ###写跳转
+                    #补全图片信息
+                    userauthinfoInstance.userid = userInstance
+                    userauthinfoInstance.save()
+                    #
+
                 else:
-                    print("两次输入的密码不相同")
+                    return render(request, 'sign/register2.html',
+                                  {"wronginfo": "两次输入的密码不相同", "formsets": request.POST})  #
+
 
             else:
                 print("验证码错误，页面要显示出错误")
         else:
-            return  render(request, 'sign/register2.html', {"regForm":regForm, "formsets":request.POST})
-
+            return  render(request, 'sign/register2.html', {"regForm":regForm, "formsets":request.POST})#form验证信息回显

@@ -24,7 +24,7 @@
 <hr class="hrline2"/>
 <div  class="choosetype"><div>供应商注册/礼品公司注册</div></div>
 <div class="regform">
-    <form method="post" action="{% url 'gift_platform_site:reg2' %}" id="reg2form">
+    <form method="post" enctype="multipart/form-data" action="{% url 'gift_platform_site:reg2' %}" id="reg2form">
     <div class="usernamereg">
         <div></div>
         <div>
@@ -72,7 +72,7 @@
         <div></div>
         <div>
             <p>邮箱：</p>
-            <div><input placeholder="请输入邮箱" name="email" value="{{ formsets.email }}"/></div>
+            <div><input placeholder="请输入邮箱" type="email" name="email" value="{{ formsets.email }}"/></div>
         </div>
         <div>
             {% if regForm.errors.email %}
@@ -85,12 +85,12 @@
         <div></div>
         <div>
             <p>密&nbsp;&nbsp;&nbsp;&nbsp;码：</p>
-            <div><input placeholder="请输入密码" name="pwd1" value="{{ formsets.pwd1 }}"/></div>
+            <div><input placeholder="请输入密码" type="password" name="pwd1" value="{{ formsets.pwd1 }}"/></div>
         </div>
         <div>
-            {% if regForm.errors.password %}
+            {% if regForm.errors.pwd1 %}
                 <img src="{% static 'gift_platform_site/images/wrong.png' %}">
-                <p class="wrong">{{ regForm.errors.password.0 }}</p>
+                <p class="wrong">{{ regForm.errors.pwd1.0 }}</p>
             {% endif %}
         </div>
     </div>
@@ -98,13 +98,18 @@
         <div></div>
         <div>
             <p>确认密码：</p>
-            <div><input placeholder="请再次输入密码" name="pwd2" value="{{ formsets.pwd2 }}"/></div>
+            <div><input placeholder="请再次输入密码" type="password" name="pwd2" value="{{ formsets.pwd2 }}"/></div>
         </div>
         <div>
-            {% if regForm.errors.password2 %}
+            {% if regForm.errors.pwd2 %}
                 <img src="{% static 'gift_platform_site/images/wrong.png' %}">
-                <p class="wrong">{{ regForm.errors.password2.0 }}</p>
+                <p class="wrong">{{ regForm.errors.pwd2.0 }}</p>
             {% endif %}
+            {% if wronginfo %}
+                <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                <p class="wrong">{{ wronginfo }}</p>
+            {% endif %}
+
         </div>
     </div>
     <input hidden name="usertype" value="{{ usertype }}"/>
@@ -112,7 +117,9 @@
         <div></div>
         <div>
             <p>营业执照：</p>
-            <div class="upyyzz"><a href="#">上传营业执照</a></div>
+            <div class="upyyzz">
+{#                <input hidden name="yyzz" type="file" id="yyzz" >#}
+                <a href="javascript:void(0)" onclick="document.getElementById('yyzz').click();">上传营业执照</a></div>
             <div class="zwreg"></div>
         </div>
         <div></div>
@@ -123,7 +130,12 @@
             <p></p>
             <div><img src="{% static 'gift_platform_site/images/giftcompany.png' %}"></div>
         </div>
-        <div></div>
+        <div>
+            {% if regForm.errors.yyzz %}
+                <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                <p class="wrong">{{ regForm.errors.yyzz.0 }}</p>
+            {% endif %}
+        </div>
     </div>
     <div class="xieyireg">
         <div></div>
@@ -181,6 +193,11 @@
         </div>
     </div>
 </div>
+
+<form method="post" hidden enctype="multipart/form-data" action="{% url 'gift_platform_site:reg2' %}" id="reg2zp" >
+    <input hidden name="yyzz" type="file" id="yyzz" onchange="document.getElementById('reg2zp').submit()" >
+    {% csrf_token %}
+</form>
 
 </body>
 </html>

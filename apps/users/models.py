@@ -30,7 +30,7 @@ def user_directory_path(instance, filename):
 
 #认证图片
 class userAuthinfo(models.Model):
-    imgurl = models.ImageField(upload_to=user_directory_path)
+    img = models.ImageField(upload_to=user_directory_path)
     userid = models.ForeignKey(UserProfile,on_delete=models.CASCADE)
 
 
