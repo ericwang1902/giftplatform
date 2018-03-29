@@ -50,25 +50,12 @@ class RegView1(View):
     def post(self,request):
         return render(request, "sign/register1.html")
 
-
+#传到session中
 class RegView2(View):
     def get(self,request):
         usertype = request.GET.get("type")
         return render(request, "sign/register2.html", {"usertype":usertype})
     def post(self,request):
-        #接受图片上传逻辑
-        reg2tpForm = forms.reg2tpForm(request.FILES)
-
-        userauthinfoInstance = userAuthinfo()
-        if reg2tpForm.is_valid():
-            # 存照片
-            yyzz = request.FILES.get('yyzz')
-
-            userauthinfoInstance.img = yyzz
-
-
-
-
         regForm = forms.regForm(request.POST)
         if regForm.is_valid():
             username = request.POST.get('username')
@@ -85,20 +72,21 @@ class RegView2(View):
             if checkcode :
                 #校验重复输入的密码逻辑
                 if pwd1 == pwd2:
-                    userInstance = UserProfile()
-                    userInstance.username = username
-                    userInstance.mobile = mobile
-                    userInstance.email = email
-                    userInstance.password =make_password(pwd1)
+                    request.session["username"]= username
+                    request.session["mobile"] = mobile
+                    request.session["email"] = email
+                    request.session["pwd1"] = pwd1
+                    request.session["pwd2"] = pwd2
+                    request.session["usertype"] = usertype
+                    request.session['checkcode']=checkcode
+
                     if usertype == '1':
-                        userInstance.type="supplier"
+                        request.session["usertype"] = "supplier"
                     elif usertype =='2':
-                        userInstance.type="giftcompany"
-                    userInstance.save()
-                    #补全图片信息
-                    userauthinfoInstance.userid = userInstance
-                    userauthinfoInstance.save()
-                    #
+                        request.session["usertype"] = "giftcompany"
+
+                    return render(request, 'sign/register2.html',
+                                  {"formsets": request.session})
 
                 else:
                     return render(request, 'sign/register2.html',
@@ -109,3 +97,30 @@ class RegView2(View):
                 print("验证码错误，页面要显示出错误")
         else:
             return  render(request, 'sign/register2.html', {"regForm":regForm, "formsets":request.POST})#form验证信息回显
+
+class uploadImg(View):
+    def post(self,request):
+        # 接受图片上传逻辑
+        print('test')
+        reg2tpForm = forms.reg2tpForm(request.FILES)
+
+        yyzz = request.FILES.get('yyzz')
+        request.session["yyzz"]=yyzz
+
+
+        # userauthinfoInstance = userAuthinfo()
+        # if reg2tpForm.is_valid():
+        #     # 存照片
+        #     yyzz = request.FILES.get('yyzz')
+        #     userauthinfoInstance.img = yyzz
+
+#最终点击注册提交，讲session中暂存的数据进行提交
+class RegFinal(View):
+    def post(self,request):
+        # userInstance = UserProfile()
+        # userInstance.username = username
+        # userInstance.mobile = mobile
+        # userInstance.email = email
+        # userInstance.password = make_password(pwd1)
+
+        return 111
