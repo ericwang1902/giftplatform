@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate,login
 from django.views import View
 from django.contrib.auth.backends import ModelBackend
@@ -7,6 +7,14 @@ from django.db.models import Q
 from django.contrib.auth.hashers import make_password
 from . import forms
 from apps.users.models import userAuthinfo
+
+def index(request):
+    """
+    首页内容
+    :param request:
+    :return:
+    """
+    return render(request, "home/index.html")
 
 #支持手机号或者用户名登陆
 class CustomBackend(ModelBackend):
@@ -28,11 +36,14 @@ class LoginView(View):
 
     def post(self, request):
         user = authenticate(username=request.POST['username'], password=request.POST['password'])
+        print(user)
         if user is not None:
             # 如果用户不为空，则继续检查该账户类型，只能由商户登录进入
-            if user.type is 'giftcompany':
+            print(user.type)
+            if user.type == 'giftcompany':
                 login(request, user)
                 print("登陆成功")
+                return redirect('')
             else:
                 return render(request, 'sign/login.html', {
                     'error_message': "用户名或者密码错误"

@@ -7,6 +7,9 @@
         <div><img src="{% static 'gift_platform_site/images/Bitmap.png' %}"></div>
         <div class="loginform">
             <p>请登录</p>
+            {% if error_message %}
+            <span>{{ error_message }}</span>
+            {% endif %}
             <form action="{% url 'gift_platform_site:login' %}" method="post" id="loginform">
                 {% csrf_token %}
             <div class="usernamelogin">
