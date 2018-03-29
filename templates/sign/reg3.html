@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>一点礼品注册</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'gift_platform_site/style.css' %}">
+
+</head>
+<body>
+
+<div class="container">
+    <div class="reg-login-wrap">
+        <img class="logo" src="{% static 'gift_platform_site/images/logo.png' %}">
+        <p class="infotolog">已有账号？去<a href="#">登录</a></p>
+    </div>
+</div>
+<hr class="hrline"/>
+<div class="reg-step-div">
+    <div class="currentstep">企业认证</div>
+</div>
+{#<hr class="hrline2"/>#}
+<div class="regform">
+    <form method="post"  enctype="multipart/form-data" action="{% url 'gift_platform_site:reg3' %}" id="reg3zp" >
+    <div class="yingyezhizhaoreg">
+        <div></div>
+        <div>
+            <p>营业执照：</p>
+            <div>
+                <input hidden type="text" name="pp" value="1">
+                <input hidden type="file" id="uploadinput" accept="image/png,image/jpg" name="yyzz"/>
+                <a href="javascript:void(0)" onclick="document.getElementById('uploadinput').click()">选择图片</a>
+                <a href="javascript:void(0)" onclick="document.getElementById('reg3zp').submit()">上传</a>
+            </div>
+
+        </div>
+        <div></div>
+    </div>
+        {% csrf_token %}
+    </form>
+    <div class="yingyezhizhaotupianreg">
+        <div></div>
+        <div>
+            <p></p>
+            <div><img src="{{ yyzz }}"></div>
+
+        </div>
+        <div></div>
+    </div>
+
+    <div class="regbtninstance">
+        <div></div>
+        <div>
+            <p></p>
+            <div>
+                <a href="#">确定</a>
+            </div>
+        </div>
+        <div></div>
+    </div>
+
+</div>
+<hr class="hrline2"/>
+<div class="footer1">
+    <div class="container">
+        <div class="item-wrap">
+            <div class="footer-icon-group1">
+                <img src="images/footer_icon_1t.png">
+                <span>物流送货上门</span>
+            </div>
+        </div>
+        <div class="item-wrap">
+            <div class="footer-icon-group1">
+                <img src="images/footer_icon_2t.png">
+                <span>正规渠道进货</span>
+            </div>
+        </div>
+        <div class="item-wrap">
+            <div class="footer-icon-group1">
+                <img src="images/footer_icon_3t.png">
+                <span>商品品质保证</span>
+            </div>
+        </div>
+    </div>
+    <div class="copyright1">
+        <div>
+            <a href="#">关于我们</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">帮助中心</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">售后服务</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">友情链接</a>
+        </div>
+        <div>
+            <p>一点公司版权所有 © 1997-2018   食品经营许可证：JY133****0111719</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

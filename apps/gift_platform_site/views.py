@@ -7,6 +7,7 @@ from django.db.models import Q
 from django.contrib.auth.hashers import make_password
 from . import forms
 from apps.users.models import userAuthinfo
+from django.shortcuts import redirect
 
 #支持手机号或者用户名登陆
 class CustomBackend(ModelBackend):
@@ -80,13 +81,24 @@ class RegView2(View):
                     request.session["usertype"] = usertype
                     request.session['checkcode']=checkcode
 
+
+
+                    userins = UserProfile()
+                    userins.username = username
+                    userins.mobile =mobile
+                    userins.email = email
+                    userins.password = make_password(pwd1)
                     if usertype == '1':
                         request.session["usertype"] = "supplier"
+                        userins.type = "supplier"
+
                     elif usertype =='2':
                         request.session["usertype"] = "giftcompany"
+                        userins.type = "giftcompany"
 
-                    return render(request, 'sign/register2.html',
-                                  {"formsets": request.session})
+                    userins.save()
+
+                    return redirect('/sign/reg3')
 
                 else:
                     return render(request, 'sign/register2.html',
@@ -98,29 +110,39 @@ class RegView2(View):
         else:
             return  render(request, 'sign/register2.html', {"regForm":regForm, "formsets":request.POST})#form验证信息回显
 
-class uploadImg(View):
+class RegView3(View):
+    def get(self,request):
+        print(request.session["username"])
+        return render(request,'sign/reg3.html')
     def post(self,request):
+
+        username1 = request.session['username']
+        usernow = UserProfile.objects.get(username=username1)
         # 接受图片上传逻辑
-        print('test')
-        reg2tpForm = forms.reg2tpForm(request.FILES)
+        reg2tpform = forms.reg2tpForm(request.POST,request.FILES)
+        print(reg2tpform.is_valid())
+        #判断是新上传，还是要替换原来老的上传的营业执照
+        if reg2tpform.is_valid():
+            ui=userAuthinfo.objects.get(userid=usernow)
+            if ui:
+                yyzz = request.FILES.get('yyzz')
+                ui.img=yyzz
+                ui.save()
+                return render(request, 'sign/reg3.html',
+                              {"yyzz": ui.img.url,
+                               "img1": yyzz
+                               })
+            else:
+                # 存照片
+                userauthinfoInstance = userAuthinfo()
+                yyzz = request.FILES.get('yyzz')
+                userauthinfoInstance.img = yyzz
+                userauthinfoInstance.userid=usernow
+                userauthinfoInstance.save()
 
-        yyzz = request.FILES.get('yyzz')
-        request.session["yyzz"]=yyzz
+                print('ss')
+                return render(request, 'sign/reg3.html',
+                              {"yyzz": userauthinfoInstance.img.url,
+                               "img1":yyzz
+                               })
 
-
-        # userauthinfoInstance = userAuthinfo()
-        # if reg2tpForm.is_valid():
-        #     # 存照片
-        #     yyzz = request.FILES.get('yyzz')
-        #     userauthinfoInstance.img = yyzz
-
-#最终点击注册提交，讲session中暂存的数据进行提交
-class RegFinal(View):
-    def post(self,request):
-        # userInstance = UserProfile()
-        # userInstance.username = username
-        # userInstance.mobile = mobile
-        # userInstance.email = email
-        # userInstance.password = make_password(pwd1)
-
-        return 111

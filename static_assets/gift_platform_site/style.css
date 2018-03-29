@@ -786,17 +786,23 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
         letter-spacing: 0;
         line-height: 24px;
         flex: 1; }
-      .regform .yingyezhizhaoreg div:nth-child(2) .upyyzz {
+      .regform .yingyezhizhaoreg div:nth-child(2) div {
         border: 1px solid #B19B70;
         border-radius: 53px;
         height: 42px;
-        flex: 2; }
-        .regform .yingyezhizhaoreg div:nth-child(2) .upyyzz a {
-          width: 100%;
+        flex: 4;
+        display: flex;
+        align-items: center;
+        justify-content: space-around; }
+        .regform .yingyezhizhaoreg div:nth-child(2) div input, .regform .yingyezhizhaoreg div:nth-child(2) div .form-item .drop-down, .form-item .regform .yingyezhizhaoreg div:nth-child(2) div .drop-down {
+          vertical-align: middle;
+          width: 70%;
+          margin-left: 26px;
+          border: none; }
+        .regform .yingyezhizhaoreg div:nth-child(2) div a {
+          width: 30%;
           color: #B19B70;
           font-size: 14px;
-          text-align: center;
-          line-height: 42px;
           text-decoration: none; }
       .regform .yingyezhizhaoreg div:nth-child(2) .zwreg {
         flex: 2; }
