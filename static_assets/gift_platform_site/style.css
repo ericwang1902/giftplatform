@@ -946,8 +946,7 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
   margin-top: 90px; }
   .login-center div:nth-child(1) {
     height: 402px;
-    width: 600px;
-    background-color: #D0021B; }
+    width: 600px; }
     .login-center div:nth-child(1) image {
       height: 100%;
       width: 100%; }

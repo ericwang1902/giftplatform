@@ -44,7 +44,7 @@ class LoginView(View):
             if user.type == 'giftcompany':
                 login(request, user)
                 print("登陆成功")
-                return redirect('')
+                return redirect('/home')
             else:
                 return render(request, 'sign/login.html', {
                     'error_message': "用户名或者密码错误"
@@ -92,8 +92,6 @@ class RegView2(View):
                     request.session["usertype"] = usertype
                     request.session['checkcode']=checkcode
 
-
-
                     userins = UserProfile()
                     userins.username = username
                     userins.mobile =mobile
@@ -117,7 +115,8 @@ class RegView2(View):
 
 
             else:
-                print("验证码错误，页面要显示出错误")
+                return render(request, 'sign/register2.html',
+                              {"wronginfo2": "验证码错误", "formsets": request.POST})
         else:
             return  render(request, 'sign/register2.html', {"regForm":regForm, "formsets":request.POST})#form验证信息回显
 
@@ -134,26 +133,26 @@ class RegView3(View):
         print(reg2tpform.is_valid())
         #判断是新上传，还是要替换原来老的上传的营业执照
         if reg2tpform.is_valid():
-            ui=userAuthinfo.objects.get(userid=usernow)
-            if ui:
+            try:#查询是否有记录，如果有就更新照片
+                ui=userAuthinfo.objects.get(userid=usernow)
                 yyzz = request.FILES.get('yyzz')
-                ui.img=yyzz
+                ui.img = yyzz
                 ui.save()
                 return render(request, 'sign/reg3.html',
                               {"yyzz": ui.img.url,
                                "img1": yyzz
                                })
-            else:
-                # 存照片
-                userauthinfoInstance = userAuthinfo()
-                yyzz = request.FILES.get('yyzz')
-                userauthinfoInstance.img = yyzz
-                userauthinfoInstance.userid=usernow
-                userauthinfoInstance.save()
+            except :#如果没有记录，就上传照片
+                    userauthinfoInstance = userAuthinfo()
+                    yyzz = request.FILES.get('yyzz')
+                    userauthinfoInstance.img = yyzz
+                    userauthinfoInstance.userid=usernow
+                    userauthinfoInstance.save()
 
-                print('ss')
-                return render(request, 'sign/reg3.html',
-                              {"yyzz": userauthinfoInstance.img.url,
-                               "img1":yyzz
-                               })
-
+                    print('ss')
+                    return render(request, 'sign/reg3.html',
+                                  {"yyzz": userauthinfoInstance.img.url,
+                                   "img1":yyzz
+                                   })
+        else:
+            return render(request, 'sign/reg3.html', {"reg3Form": reg2tpform})  # form验证信息回显

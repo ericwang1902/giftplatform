@@ -7,9 +7,7 @@
         <div><img src="{% static 'gift_platform_site/images/Bitmap.png' %}"></div>
         <div class="loginform">
             <p>请登录</p>
-            {% if error_message %}
-            <span>{{ error_message }}</span>
-            {% endif %}
+
             <form action="{% url 'gift_platform_site:login' %}" method="post" id="loginform">
                 {% csrf_token %}
             <div class="usernamelogin">
@@ -24,7 +22,14 @@
             </div>
             <div class="loginbtndiv">
                 <a href="javascript:void(0)" onclick="document.getElementById('loginform').submit()">登录</a>
+
             </div>
+            <div class="loginbtndiv">
+                {% if error_message %}
+                <span style="color: red">{{ error_message }}</span>
+                {% endif %}
+            </div>
+
             <div class="otherdiv">
                 <a href="{% url 'gift_platform_site:reg1' %}">免费注册</a>
                 <a href="#">忘记账号密码</a>
