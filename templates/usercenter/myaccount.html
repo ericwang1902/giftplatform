@@ -59,24 +59,27 @@
             <span class="content-header">
                 我的资料
             </span>
-            <span class="tel">手机：12323******0</span>
+            <span class="tel">手机：{{ currentuser.mobile }}</span>
             <div class="group">
                 <div class="form-item mobile">
                     <label>姓名：</label>
-                    <input placeholder="请输入姓名" />
+                    <input placeholder="请输入姓名" value="{{ currentuser.username }}" />
                 </div>
                 <div class="form-item sex">
                     <label>性别：</label>
                     <div class="drop-down">
-                        <span class="selected">男</span>
-                        <span class="split"></span>
+                        <select class="selected">
+                            <option value ="1">男 ♂</option>
+                            <option  value ="0">女 ♀</option>
+                        </select>
+{#                        <span class="split"></span>#}
                     </div>
                 </div>
                 <div class="clear"></div>
             </div>
             <div class="form-item email">
                 <label>邮箱：</label>
-                <input placeholder="请输入邮箱" />
+                <input placeholder="请输入邮箱" value="{{ currentuser.email }}" />
             </div>
             <a class="save-btn">保存</a>
         </div>

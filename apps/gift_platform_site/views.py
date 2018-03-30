@@ -9,13 +9,9 @@ from . import forms
 from apps.users.models import userAuthinfo
 from django.shortcuts import redirect
 
-def index(request):
-    """
-    首页内容
-    :param request:
-    :return:
-    """
-    return render(request, "home/index.html")
+class indexView(View):
+    def get(self,request):
+        return render(request, "home/index.html")
 
 #支持手机号或者用户名登陆
 class CustomBackend(ModelBackend):
@@ -44,7 +40,8 @@ class LoginView(View):
             if user.type == 'giftcompany':
                 login(request, user)
                 print("登陆成功")
-                return redirect('/home')
+                #return redirect('/home')
+                return redirect('/usercenter/myaccount')
             else:
                 return render(request, 'sign/login.html', {
                     'error_message': "用户名或者密码错误"
@@ -163,4 +160,15 @@ class RegView3(View):
 
 class MyaccountView(View):
     def get(self,request):
-        return render(request,'usercenter/myaccount.html')
+        #获取当前登录的用户信息
+        try:
+            currentUser = request.user
+            if currentUser.is_authenticated:
+                return render(request, 'usercenter/myaccount.html',{'currentuser':currentUser})
+            else:
+                return redirect('/sign/login')
+        except:
+            return render(request, 'sign/login.html')
+
+
+

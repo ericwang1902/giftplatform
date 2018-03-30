@@ -1479,12 +1479,18 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
 .form-item input:focus, .form-item .drop-down:focus {
   outline: none; }
 .form-item .drop-down {
-  padding: 9px 0px 9px 58px;
-  background: url(../images/arrow_down.png) no-repeat;
   background-position: 135px;
   background-size: 12px 7px;
-  width: 100px;
   display: inline-block; }
+  .form-item .drop-down .selected {
+    border: none;
+    height: 100%;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    font-size: 18px;
+    padding-right: 14px;
+    background: url("http://ourjs.github.io/static/2015/arrow.png") no-repeat scroll right center transparent; }
   .form-item .drop-down .split {
     width: 1px;
     background: #B19B70;
@@ -1751,9 +1757,12 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
   text-align: center;
   display: block; }
 
-.right-content .content .sex, .right-content .content .mobile {
+.right-content .content .sex {
   float: left;
   width: 300px; }
+.right-content .content .mobile {
+  float: left;
+  width: 400px; }
 .right-content .content .group {
   margin-top: 38px; }
 .right-content .content .email {
