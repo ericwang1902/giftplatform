@@ -156,3 +156,11 @@ class RegView3(View):
                                    })
         else:
             return render(request, 'sign/reg3.html', {"reg3Form": reg2tpform})  # form验证信息回显
+
+
+
+
+
+class MyaccountView(View):
+    def get(self,request):
+        return render(request,'usercenter/myaccount.html')

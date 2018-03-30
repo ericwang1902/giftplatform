@@ -1,6 +1,7 @@
 from django.urls import path
 from apps.gift_platform_site.views import LoginView,RegView1,RegView2,RegView3
 from apps.gift_platform_site.views import index
+from apps.gift_platform_site.views import MyaccountView
 
 
 app_name = 'gift_platform_site'
@@ -11,6 +12,8 @@ urlpatterns =  [
     path('sign/register2',RegView2.as_view(),name="reg2"),
     path('sign/reg3', RegView3.as_view(), name="reg3"),
 
-    path('home', index,name="home")
+    path('home', index,name="home"),
+
+    path('usercenter/myaccount',MyaccountView.as_view(),name='myaccount')
 ]
 
