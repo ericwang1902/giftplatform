@@ -161,14 +161,44 @@ class RegView3(View):
 class MyaccountView(View):
     def get(self,request):
         #获取当前登录的用户信息
+        gender=True
         try:
             currentUser = request.user
             if currentUser.is_authenticated:
-                return render(request, 'usercenter/myaccount.html',{'currentuser':currentUser})
+                if currentUser.gender:
+                    gender=1
+                else:
+                    gender =0
+                return render(request, 'usercenter/myaccount.html',{'currentuser':currentUser,'gender':gender})
             else:
                 return redirect('/sign/login')
         except:
             return render(request, 'sign/login.html')
+
+
+    def post(self,request):
+        username = request.POST.get('username')
+        gender = request.POST.get('gender')
+        email = request.POST.get('email')
+
+        userinfo =UserProfile.objects.get(username=request.user.username)
+        userinfo.username = username
+        if gender == '1':
+            userinfo.gender = True
+        else:
+            userinfo.gender=False
+
+        userinfo.email = email
+        userinfo.save()
+
+        return redirect('/usercenter/myaccount')
+
+
+class ModifyPwdView(View):
+    def get(self,request):
+        return render(request,'usercenter/modifypassword.html')
+
+
 
 
 
