@@ -8,6 +8,7 @@ from django.contrib.auth.hashers import make_password
 from . import forms
 from apps.users.models import userAuthinfo
 from django.shortcuts import redirect
+from django.contrib.auth import logout
 
 class indexView(View):
     def get(self,request):
@@ -197,8 +198,37 @@ class MyaccountView(View):
 class ModifyPwdView(View):
     def get(self,request):
         return render(request,'usercenter/modifypassword.html')
+    def post(self,request):
 
+        mdform = forms.modifypwdform(request.POST)
+        if mdform.is_valid():
+            pwd = request.POST.get('pwd')
+            newpwd1 = request.POST.get('newpwd1')
+            newpwd2 = request.POST.get('newpwd2')
 
+            user = authenticate(username=request.user.username, password=pwd)
+            if user is not None:
+                if newpwd1==newpwd2:
+                    user.password = newpwd1
+                    user.save()
+                    logout()
+                    #要一个render
+                    redirect('/sign/login')
+                else:
+                    errormessge1 = "两次输入的密码不一致"
+                    return render(request,
+                                  'usercenter/modifypassword.html',
+                                  {'errormesg1': errormessge1})
+            else:
+                # 原密码错误
+                errormessge = "密码错误"
+                return render(request,
+                              'usercenter/modifypassword.html',
+                              {'errormesg': errormessge})
+        else:
+            return render(request,
+                          'usercenter/modifypassword.html',
+                          {'mdform': mdform})
 
 
 

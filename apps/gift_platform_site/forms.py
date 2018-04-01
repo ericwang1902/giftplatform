@@ -12,3 +12,8 @@ class regForm(forms.Form):
 class reg2tpForm(forms.Form):
     pp=forms.CharField(required=True,error_messages={'required':u'sss'})
     yyzz =forms.ImageField(required=True,error_messages={'required':u"请上传营业执照照片"})
+
+class modifypwdform(forms.Form):
+    pwd =forms.CharField(required=True,error_messages={'required':u'请输入密码'})
+    newpwd1 = forms.CharField(required=True,error_messages={'required':u'请输入新密码'})
+    newpwd2 = forms.CharField(required=True,error_messages={'required':u'请重复输入密码'})
