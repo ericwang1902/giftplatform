@@ -36,10 +36,10 @@
                     <img src="{% static 'gift_platform_site/images/wrong.png' %}">
                     <p class="wrong">{{ regForm.errors.username.0 }}</p>
                 {% endif %}
-{#                <img src="{% static 'gift_platform_site/images/wrong.png' %}">#}
-{#                <p class="usernamewrong">该账号已存在</p>#}
-{#                <img src="{% static 'gift_platform_site/images/right.png' %}">#}
-{#                <p class="usernameright">该账号可以使用</p>#}
+                {% if wronginfousername %}
+                    <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                    <p class="wrong">{{ wronginfousername }}</p>
+                {% endif %}
         </div>
     </div>
     <div class="mobilereg">
@@ -52,6 +52,10 @@
             {% if regForm.errors.mobile %}
                 <img src="{% static 'gift_platform_site/images/wrong.png' %}">
                 <p class="wrong">{{ regForm.errors.mobile.0 }}</p>
+            {% endif %}
+            {% if wronginfomobile %}
+                <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                <p class="wrong">{{ wronginfomobile }}</p>
             {% endif %}
         </div>
     </div>

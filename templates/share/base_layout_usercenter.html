@@ -11,9 +11,13 @@
     <div class="content-wrap">
         <span class="welcome">Hi，欢迎来到一点礼品公司！^o^</span>
         <div class="button-wrap">
-            <a href="#">用户名</a>
+            <a href="#">{{ currentuser.username }}</a>
             <a class="acls" href="#">消息</a>
-            <a href="#">退出</a>
+            <form hidden method="post" id="logoutform" action="{% url 'gift_platform_site:logoutv'%}">
+                <input name="logoutin" value="{{ request.user.username }}"/>
+                {% csrf_token %}
+            </form>
+            <a href="javascript:void(0)" onclick="document.getElementById('logoutform').submit()">退出</a>
         </div>
     </div>
 </div>

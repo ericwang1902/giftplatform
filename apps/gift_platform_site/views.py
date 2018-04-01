@@ -74,12 +74,28 @@ class RegView2(View):
             email = request.POST.get('email')
             pwd1 = request.POST.get('pwd1')
             pwd2 = request.POST.get('pwd2')
-            usertype = request.POST.get('usertype')
+
+            usertype='0'
+            if request.POST.get('usertype'):
+                request.session["usertype"] = request.POST.get('usertype')
+                usertype = request.session["usertype"]
+            else:
+                usertype=request.session["usertype"]
             if usertype != '1' and usertype != '2':
                 print("用户类型错误！")
+                return redirect('/sign/register1')
 
             #增加判断用户名、手机号是否重复的逻辑
+            #如果有该用户
+            usernamecount=  UserProfile.objects.filter(username=username).count()
+            if usernamecount>0:
+                return render(request, 'sign/register2.html', {"wronginfousername": "已存在该用户名，请更换", "formsets": request.POST})
+            mobilecount = UserProfile.objects.filter(mobile=mobile).count()
+            if mobilecount>0:
+                return render(request, 'sign/register2.html',
+                          {"wronginfomobile": "已存在该手机号，请更换", "formsets": request.POST})
 
+            #如果没有该用户
             #校验验证码逻辑
             if checkcode :
                 #校验重复输入的密码逻辑
@@ -199,7 +215,16 @@ class MyaccountView(View):
 
 class ModifyPwdView(View):
     def get(self,request):
-        return render(request,'usercenter/modifypassword.html')
+        gender = True
+        try:
+            currentUser = request.user
+            if currentUser.is_authenticated:
+                return render(request, 'usercenter/modifypassword.html')
+            else:
+                return redirect('/sign/login')
+        except:
+            return redirect('/sign/login')
+
     def post(self,request):
         mdform = forms.modifypwdform(request.POST)
         if mdform.is_valid():
@@ -212,9 +237,9 @@ class ModifyPwdView(View):
                 if newpwd1==newpwd2:
                     user.password = newpwd1
                     user.save()
-                    logout()
+                    logout(request)
                     #要一个render
-                    redirect('/sign/login')
+                    return redirect('/sign/login')
                 else:
                     errormessge1 = "两次输入的密码不一致"
                     return render(request,
@@ -231,5 +256,11 @@ class ModifyPwdView(View):
                           'usercenter/modifypassword.html',
                           {'mdform': mdform})
 
+
+class logoutView(View):
+    def post(self,request):
+        v = request.POST.get('logoutin')
+        logout(request)
+        return redirect('/sign/login')
 
 
