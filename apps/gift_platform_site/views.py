@@ -78,6 +78,8 @@ class RegView2(View):
             if usertype != '1' and usertype != '2':
                 print("用户类型错误！")
 
+            #增加判断用户名、手机号是否重复的逻辑
+
             #校验验证码逻辑
             if checkcode :
                 #校验重复输入的密码逻辑
@@ -110,11 +112,11 @@ class RegView2(View):
                 else:
                     return render(request, 'sign/register2.html',
                                   {"wronginfo": "两次输入的密码不相同", "formsets": request.POST})  #
-
-
             else:
                 return render(request, 'sign/register2.html',
                               {"wronginfo2": "验证码错误", "formsets": request.POST})
+
+
         else:
             return  render(request, 'sign/register2.html', {"regForm":regForm, "formsets":request.POST})#form验证信息回显
 
@@ -199,7 +201,6 @@ class ModifyPwdView(View):
     def get(self,request):
         return render(request,'usercenter/modifypassword.html')
     def post(self,request):
-
         mdform = forms.modifypwdform(request.POST)
         if mdform.is_valid():
             pwd = request.POST.get('pwd')
