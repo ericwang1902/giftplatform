@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate,login
 from django.views import View
 from django.contrib.auth.backends import ModelBackend
 from apps.users.models import UserProfile
+from apps.products.models import product
 from django.db.models import Q
 from django.contrib.auth.hashers import make_password
 from . import forms
@@ -12,7 +13,8 @@ from django.contrib.auth import logout
 
 class indexView(View):
     def get(self,request):
-        return render(request, "home/index.html")
+        products = product.objects.filter(status=0)[0:16]
+        return render(request, "home/index.html", { "products": products })
 
 #支持手机号或者用户名登陆
 class CustomBackend(ModelBackend):
