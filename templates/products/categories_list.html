@@ -1,0 +1,25 @@
+{% extends "share/base_layout_with_search.html" %}
+{% block title %}一点礼品-所有分类{% endblock %}
+{% block content %}
+{% load gift_platform_extras %}
+<div class="container category-list">
+    {% for category in categories_list %}
+    <div class="category-item">
+        <span class="father-category">{{ category.name }}</span>
+        <div class="sub-category-wrap">
+            {% for child_category in category.category_set.all|slice:":8" %}
+            <a class="sub-category" href="#">{{ child_category.name }}</a>
+            {% endfor %}
+        </div>
+        {% for i in category.category_set.count|to_range %}
+            <div class="sub-category-wrap-new-line">
+            {% for child_category in category.category_set.all|take:i %}
+                    <a class="sub-category" href="#">{{ child_category.name }}</a>
+            {% endfor %}
+            </div>
+        {% endfor %}
+        <div class="clear"></div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

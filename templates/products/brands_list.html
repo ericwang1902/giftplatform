@@ -1,0 +1,16 @@
+{% extends "share/base_layout_with_search.html" %}
+{% block title %}一点礼品-所有品牌{% endblock %}
+{% block content %}
+<div class="container brand-list">
+    {% for brand in brands_list %}
+    <div class="brand-list-item">
+        <div class="brand-logo-wrap">
+            <img src="{{ brand.logo.url }}" />
+        </div>
+        <a class="brand-name">{{ brand.name }}</a>
+    </div>
+    {% endfor %}
+
+    <div class="clear"></div>
+</div>
+{% endblock %}

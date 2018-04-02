@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate,login
 from django.views import View
 from django.contrib.auth.backends import ModelBackend
 from apps.users.models import UserProfile
-from apps.products.models import product
+from apps.products.models import product,brands,category
 from django.db.models import Q
 from django.contrib.auth.hashers import make_password
 from . import forms
@@ -11,7 +11,7 @@ from apps.users.models import userAuthinfo
 from django.shortcuts import redirect
 from django.contrib.auth import logout
 
-class indexView(View):
+class IndexView(View):
     def get(self,request):
         products = product.objects.filter(status=0)[0:16]
         return render(request, "home/index.html", { "products": products })
@@ -266,3 +266,20 @@ class logoutView(View):
         return redirect('/sign/login')
 
 
+def brands_list(request):
+    """
+    展示所有的品牌信息
+    :param request:
+    :return:
+    """
+    brands_list = brands.objects.all()
+    return render(request, 'products/brands_list.html', { 'brands_list': brands_list })
+
+def categories_list(request):
+    """
+    展示所有的分组信息
+    :param request:
+    :return:
+    """
+    categories_list = category.objects.filter(isroot = True) # 查找所有的根级分组
+    return render(request, 'products/categories_list.html', { 'categories_list': categories_list  })
