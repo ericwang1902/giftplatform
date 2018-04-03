@@ -1,0 +1,91 @@
+{% extends "share/base_layout_with_search.html" %}
+{% block title %}一点礼品-所有品牌{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="bread-crumb">
+        <a href="#">首页</a>><a href="#">品牌专区</a>><a href="#">张三牌茶具</a>
+    </div>
+    <div class="query-area">
+        <div class="query-item-wrap">
+            <span class="query-name">分类</span>
+            <a class="query-param" href="#">不限</a>
+            {% for category in root_category.category_set.all %}
+            <a class="query-param" href="#">{{ category.name }}</a>
+            {% endfor %}
+        </div>
+        <div class="query-item-wrap">
+            <span class="query-name">单价</span>
+            <a class="query-param" href="#">不限</a>
+            <a class="query-param" href="#">0-20</a>
+            <a class="query-param" href="#">20-50</a>
+            <a class="query-param" href="#">50-100</a>
+            <a class="query-param" href="#">100-200</a>
+            <a class="query-param" href="#">200以上</a>
+        </div>
+        <div class="query-item-wrap">
+            <span class="query-name">数量</span>
+            <a class="query-param" href="#">不限</a>
+            <a class="query-param" href="#">0-20</a>
+            <a class="query-param" href="#">20-50</a>
+            <a class="query-param" href="#">50-100</a>
+            <a class="query-param" href="#">100-200</a>
+            <a class="query-param" href="#">200以上</a>
+        </div>
+        <div class="query-item-wrap">
+            <span class="query-name">区域</span>
+            <a class="query-param" href="#">不限</a>
+            <a class="query-param" href="#">公有</a>
+            <a class="query-param" href="#">私有</a>
+        </div>
+    </div>
+    <div class="sort-bar">
+        <a href="#" class="sort-btn">综合</a>
+        <a href="#" class="select sort-btn">人气↓</a>
+    </div>
+    <div class="product-list-wrap">
+        {% for product in products %}
+        <div class="product-list-item">
+            <img class="image-cover" src="../images/demo_cover_image.png" />
+            <div class="desc-wrap">
+                <div class="name">{{ product.name }}</div>
+                <div class="price">￥{{ product.productItems.first.price }}</div>
+            </div>
+        </div>
+        {% endfor %}
+        <div class="clear"></div>
+    </div>
+    <div class="pagination">
+        <span class="page-item">
+            <a href="#">上一页</a>
+        </span>
+        <span class="page-item">
+            <a href="#">1</a>
+        </span>
+        <span class="page-item">
+            <a href="#">2</a>
+        </span>
+        <span class="page-item">
+            <a href="#">3</a>
+        </span>
+        <span class="page-item">
+            <a href="#">4</a>
+        </span>
+        <span class="page-item more">
+            ...
+        </span>
+        <span class="page-item">
+            <a href="#">4</a>
+        </span>
+        <span class="page-item">
+            <a href="#">下一页</a>
+        </span>
+        <div class="jump-to">
+            <span>到</span>
+            <input type="text" class="jump-to-input" />
+            <span>页</span>
+            <a href="#" class="jump-btn">确定</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+{% endblock %}

@@ -8,13 +8,13 @@
         <span class="father-category">{{ category.name }}</span>
         <div class="sub-category-wrap">
             {% for child_category in category.category_set.all|slice:":8" %}
-            <a class="sub-category" href="#">{{ child_category.name }}</a>
+            <a class="sub-category" href="/product/categories/{{ category.id }}/{{ child_category.id }}/products">{{ child_category.name }}</a>
             {% endfor %}
         </div>
         {% for i in category.category_set.count|to_range %}
             <div class="sub-category-wrap-new-line">
             {% for child_category in category.category_set.all|take:i %}
-                    <a class="sub-category" href="#">{{ child_category.name }}</a>
+                    <a class="sub-category" href=href="/product/categories/{{ category.id }}/{{ child_category.id }}/products">{{ child_category.name }}</a>
             {% endfor %}
             </div>
         {% endfor %}
