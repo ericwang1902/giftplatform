@@ -292,8 +292,8 @@ def category_product_list(request, parent_category_id, child_category_id):
     :param request:
     :return:
     """
-    price_range = request.GET.get('price_range') # 1: 0-20 2: 20-50 3: 50-100 4: 100-200 5: 200以上
-    amount_range = request.GET.get('amount_range') # 1: 0-20 2: 20-50 3: 50-100 4: 100-200 5: 200以上
+    price_range = request.GET.get('price_range') # 1: 0-20 2: 20-50 3: 50-100 4: 100-200 5: 200以上 0: 无限
+    amount_range = request.GET.get('amount_range') # 1: 0-20 2: 20-50 3: 50-100 4: 100-200 5: 200以上 0：无限
     in_private = request.GET.get('private')
 
     result_data_dict = {} # 视图信息数据字典
@@ -340,6 +340,7 @@ def category_product_list(request, parent_category_id, child_category_id):
         if price_range not in ['1', '2', '3', '4', '5']:
             price_range = '0'
         query_set = price_query_switch[price_range](query_set)
+        result_data_dict['price_range']
 
 
     # 库存查询逻辑
@@ -375,10 +376,11 @@ def category_product_list(request, parent_category_id, child_category_id):
     '''
 
     if in_private is not None:
+        result_data_dict['in_private'] = in_private
         if in_private is '1':
             query_set = query_set.filter(privatearea = request.user.privatearea)
         elif in_private is '0': # 0 则是所有类型，不做任何处理
-            pass
+            query_set = query_set.filter(Q(privatearea = request.user.privatearea) | Q(inprivatearea=False))
         else:
             query_set = query_set.filter(inprivatearea = False)
 
@@ -390,6 +392,7 @@ def category_product_list(request, parent_category_id, child_category_id):
     products = paginator.get_page(page)
 
     result_data_dict['products'] = products
+    result_data_dict['page_range'] = range(1, products.paginator.num_pages)
 
     return render(request, 'products/category_product_list.html', result_data_dict)
 

@@ -19,3 +19,9 @@ def take(values, arg):
 @register.filter
 def to_range(value):
     return range(1, int(value / 8) + 1)
+
+
+@register.simple_tag
+def my_pagination(pagination_data):
+    pages_num = pagination_data.paginator.num_pages
+    current_page = pagination_data.number
