@@ -22,6 +22,7 @@
             <a class="query-param {% if price_range == '4' %} select {% endif %}" href="{% url 'gift_platform_site:root_category_product_list' parent_category_id=root_category.id  %}?price_range=4&in_private={{ in_private }}">100-200</a>
             <a class="query-param {% if price_range == '5' %} select {% endif %}" href="{% url 'gift_platform_site:root_category_product_list' parent_category_id=root_category.id  %}?price_range=5&in_private={{ in_private }}">200以上</a>
         </div>
+        <!--
         <div class="query-item-wrap">
             <span class="query-name">数量</span>
             <a class="query-param" href="#">不限</a>
@@ -31,6 +32,7 @@
             <a class="query-param" href="#">100-200</a>
             <a class="query-param" href="#">200以上</a>
         </div>
+        !-->
         {% if has_private_area %}
         <div class="query-item-wrap">
             <span class="query-name">区域</span>
@@ -42,7 +44,7 @@
     </div>
     <div class="sort-bar">
         <a href="#" class="sort-btn">综合</a>
-        <a href="#" class="select sort-btn">人气↓</a>
+        <!--<a href="#" class="select sort-btn">人气↓</a>-->
     </div>
     <div class="product-list-wrap">
         {% for product in products %}
