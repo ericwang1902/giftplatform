@@ -340,7 +340,7 @@ def category_product_list(request, parent_category_id, child_category_id):
 
     result_data_dict = {} # 视图信息数据字典
 
-    query_set = product.objects.all()
+    query_set = product.objects
     category_instance = get_object_or_404(category, pk=child_category_id) # 获取子分组实例
     parent_category_instance = get_object_or_404(category, pk=parent_category_id) # 获取父分组实例
 
@@ -355,19 +355,20 @@ def category_product_list(request, parent_category_id, child_category_id):
 
     # 价格查询逻辑
     def price_0_to_20(queryset):
-        return queryset.filter(productItems__price__range = [0, 20])
+        return queryset.filter(productItems__price__range = [0, 20]).distinct()
 
     def price_20_to_50(queryset):
-        return queryset.filter(productItems__price__range = [20, 50])
+        print(1)
+        return queryset.filter(productItems__price__range = [20, 50]).distinct()
 
     def price_50_to_100(queryset):
-        return queryset.filter(productItems__price__range = [50, 100])
+        return queryset.filter(productItems__price__range = [50, 100]).distinct()
 
     def price_100_to_200(queryset):
-        return queryset.filter(productItems__price__range = [100, 200])
+        return queryset.filter(productItems__price__range = [100, 200]).distinct()
 
     def price_gte_200(queryset):
-        return queryset.filter(productItems__price__gte = 200)
+        return queryset.filter(productItems__price__gte = 200).distinct()
 
     price_query_switch = {
         '1': price_0_to_20,
@@ -456,7 +457,7 @@ def root_category_product_list(request, parent_category_id):
 
     result_data_dict = {} # 视图信息数据字典
 
-    query_set = product.objects.all()
+    query_set = product.objects
     parent_category_instance = get_object_or_404(category, pk=parent_category_id) # 获取父分组实例
 
     query_set = query_set.filter(categoryid__parent = parent_category_instance)
@@ -465,19 +466,19 @@ def root_category_product_list(request, parent_category_id):
 
     # 价格查询逻辑
     def price_0_to_20(queryset):
-        return queryset.filter(productItems__price__range = [0, 20])
+        return queryset.filter(productItems__price__range = [0, 20]).distinct()
 
     def price_20_to_50(queryset):
-        return queryset.filter(productItems__price__range = [20, 50])
+        return queryset.filter(productItems__price__range = [20, 50]).distinct()
 
     def price_50_to_100(queryset):
-        return queryset.filter(productItems__price__range = [50, 100])
+        return queryset.filter(productItems__price__range = [50, 100]).distinct()
 
     def price_100_to_200(queryset):
-        return queryset.filter(productItems__price__range = [100, 200])
+        return queryset.filter(productItems__price__range = [100, 200]).distinct()
 
     def price_gte_200(queryset):
-        return queryset.filter(productItems__price__gte = 200)
+        return queryset.filter(productItems__price__gte = 200).distinct()
 
     price_query_switch = {
         '1': price_0_to_20,
