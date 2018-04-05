@@ -63,13 +63,13 @@
         </span>
         {% endif %}
         {% for i in pager_array %}
-            {% if i is '...' %}
+            {% if i == '...' %}
                 <span class="page-item more">
                     ...
                 </span>
             {% else %}
-                <span class="page-item">
-                    <a href="{% url 'gift_platform_site:root_category_product_list' parent_category_id=root_category.id  %}?page={{ 1 }}&in_private={{ in_private }}&price_range={{ price_range }}">{{ i }}</a>
+                <span class="page-item {% if i == products.number|stringformat:"i" %} current-page {% endif %}">
+                    <a href="{% url 'gift_platform_site:root_category_product_list' parent_category_id=root_category.id  %}?page={{ i }}&in_private={{ in_private }}&price_range={{ price_range }}">{{ i }}</a>
                 </span>
             {% endif %}
         {% endfor %}

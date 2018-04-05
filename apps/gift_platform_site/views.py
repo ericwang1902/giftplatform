@@ -295,13 +295,13 @@ def generate_pager_array(page_num, page_count):
     """
     window_size = 5
     if page_count <= 7:
-        return list(map(lambda x: str(x), range(1, page_num - 1))) + ['#{}#'.format(page_num)] + list(map(lambda x: str(x), range(page_num + 1, page_count + 1)))
+        return list(map(lambda x: str(x), range(1, page_num - 1))) + ['{}'.format(page_num)] + list(map(lambda x: str(x), range(page_num + 1, page_count + 1)))
     else:
         out = []
         if page_num - window_size <= 2:
             for i in map(lambda x: str(x), list(range(1, window_size + 1))):
                 if i == str(page_num):
-                    out.append('#{}#'.format(i))
+                    out.append('{}'.format(i))
                 else:
                     out.append(i)
             out.append('...')
@@ -311,7 +311,7 @@ def generate_pager_array(page_num, page_count):
             out.append('...')
             for i in map(lambda x: str(x), list(range(page_count - window_size + 1, page_count))):
                 if i == str(page_num):
-                    out.append('#{}#'.format(i))
+                    out.append('{}'.format(i))
                 else:
                     out.append(i)
             out.append(page_count)
@@ -320,7 +320,7 @@ def generate_pager_array(page_num, page_count):
             out.append('...')
             for i in map(lambda x: str(x), list(range(page_num - 2, page_num + 2 + 1))):
                 if i == str(page_num):
-                    out.append('#{}#'.format(i))
+                    out.append('{}'.format(i))
                 else:
                     out.append(i)
             out.append('...')

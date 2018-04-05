@@ -157,7 +157,7 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
             float: right;
             width: 15px;
             height: 15px;
-            background: url(f78b2e77f1f0eea475ce2b165b0c4d8e.png) no-repeat;
+            background: url(../images/close.png) no-repeat;
             background-size: 15px 15px; }
       .search-head-wrap .search-wrap .cart-wrap .cart {
         position: relative;
@@ -188,11 +188,11 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
         padding-right: 19px;
         margin-right: 7px; }
       .search-head-wrap .search-wrap .cart-wrap .drop-down {
-        background: url(c4d71663a3564c3713fdda9fc6a5334c.png) no-repeat;
+        background: url(../images/arrow_down.png) no-repeat;
         background-position: right;
         background-size: 12px 7px; }
       .search-head-wrap .search-wrap .cart-wrap .drop-up {
-        background: url(07a1995705407a455257a25d350d9811.png) no-repeat;
+        background: url(../images/arrow_up.png) no-repeat;
         background-position: right;
         background-size: 12px 7px; }
       .search-head-wrap .search-wrap .cart-wrap .split {
@@ -211,10 +211,8 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
 /*! sass-mixins - v0.12.0 - 2015-08-26 */
 .product-list-wrap .product-list-item {
   float: left; }
-
 .product-list-wrap .product-list-item:not(:nth-child(4n)) {
   margin-right: 24px; }
-
 .product-list-wrap .product-list-item {
   margin-top: 31px; }
 
@@ -367,7 +365,7 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
     width: 350px;
     height: 100%;
     background-color: #B19B70;
-    background-image: url(c8b13e36074f27a91f22d1546297dc2c.png); }
+    background-image: url("../images/supplier.png"); }
     .regtypes .choose1 div {
       border-radius: 100px;
       width: 108px;
@@ -395,7 +393,7 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
     height: 100%;
     width: 350px;
     background-color: #B19B70;
-    background-image: url(8197297633ea478a32d2d3029ab830c0.png); }
+    background-image: url("../images/giftcompany.png"); }
     .regtypes .choose2 div {
       border-radius: 100px;
       width: 108px;
@@ -911,7 +909,7 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
 /*! sass-mixins - v0.12.0 - 2015-08-26 */
 .search {
   border: 2px #B19B70 solid;
-  background: url(cb63fec92c417b1fe3a1ffbdfc504309.png) no-repeat;
+  background: url(../images/search.png) no-repeat;
   -webkit-background-size: 25px 25px;
   background-size: 25px 25px;
   background-position-y: center;
@@ -1028,7 +1026,7 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
           float: right;
           width: 15px;
           height: 15px;
-          background: url(f78b2e77f1f0eea475ce2b165b0c4d8e.png) no-repeat;
+          background: url(../images/close.png) no-repeat;
           background-size: 15px 15px; }
     .nav .cart-wrap .cart {
       position: relative;
@@ -1059,11 +1057,11 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
       padding-right: 19px;
       margin-right: 7px; }
     .nav .cart-wrap .drop-down {
-      background: url(c4d71663a3564c3713fdda9fc6a5334c.png) no-repeat;
+      background: url(../images/arrow_down.png) no-repeat;
       background-position: right;
       background-size: 12px 7px; }
     .nav .cart-wrap .drop-up {
-      background: url(07a1995705407a455257a25d350d9811.png) no-repeat;
+      background: url(../images/arrow_up.png) no-repeat;
       background-position: right;
       background-size: 12px 7px; }
     .nav .cart-wrap .split {
@@ -1209,6 +1207,10 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
     font-size: 14px;
     width: 28px;
     padding: 6px 6px; }
+  .pagination .current-page {
+    background: #B19B70 !important; }
+    .pagination .current-page a {
+      color: #FFFFFF !important; }
   .pagination .page-item {
     padding: 0;
     display: inline-block;
@@ -1264,7 +1266,6 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
 .container .brand-list-item {
   float: left;
   margin-top: 50px; }
-
 .container .brand-list-item:not(:nth-child(5n)) {
   margin-right: 85px; }
 
@@ -1272,7 +1273,6 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
 .form-item label {
   color: #333333;
   font-size: 18px; }
-
 .form-item input, .form-item .drop-down {
   -webkit-border-radius: 53px;
   border-radius: 53px;
@@ -1286,13 +1286,11 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
     color: #999999; }
   .form-item input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
     color: #999999; }
-
 .form-item input:focus, .form-item .drop-down:focus {
   outline: none; }
-
 .form-item .drop-down {
   padding: 9px 0px 9px 58px;
-  background: url(c4d71663a3564c3713fdda9fc6a5334c.png) no-repeat;
+  background: url(../images/arrow_down.png) no-repeat;
   background-position: 135px;
   background-size: 12px 7px;
   width: 100px;
@@ -1400,12 +1398,10 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
 
 .supplier-product-list .name {
   text-align: left; }
-
 .supplier-product-list .subscribe-btn {
   font-size: 14px;
   float: left !important;
   margin-top: 20px; }
-
 .supplier-product-list .social-btns-wrap {
   float: right; }
   .supplier-product-list .social-btns-wrap .social-btn {
@@ -1427,7 +1423,6 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
     width: 430px;
     height: 430px;
     border: 1px solid #CCCCCC; }
-
 .product-details-wrap .product-details-header .product-images .product-image-list {
   float: left;
   margin-left: 12px; }
@@ -1439,7 +1434,6 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
     .product-details-wrap .product-details-header .product-images .product-image-list ul li img {
       width: 78px;
       height: 78px; }
-
 .product-details-wrap .product-details-header .product-title {
   position: relative;
   margin-left: 60px;
@@ -1497,7 +1491,6 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
     left: 0px;
     -webkit-border-radius: 64px;
     border-radius: 64px; }
-
 .product-details-wrap .product-details {
   margin-top: 30px; }
   .product-details-wrap .product-details .product-details-header {
@@ -1571,18 +1564,17 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
 .right-content .content .sex, .right-content .content .mobile {
   float: left;
   width: 300px; }
-
 .right-content .content .group {
   margin-top: 38px; }
-
 .right-content .content .email {
   display: block;
   margin-top: 38px; }
   .right-content .content .email input, .right-content .content .email .form-item .drop-down, .form-item .right-content .content .email .drop-down {
     width: 424px; }
-
 .right-content .save-btn {
   width: 460px;
   padding: 10px 0px;
   margin-left: 58px;
   margin-top: 38px; }
+
+/*# sourceMappingURL=main.css.map */
