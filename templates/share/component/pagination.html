@@ -1,0 +1,51 @@
+<div class="pagination">
+    {% if products.has_previous %}
+        <span class="page-item">
+            <a href="{% url 'gift_platform_site:category_product_list' parent_category_id=root_category.id child_category_id=category.id  %}?page={{ products.previous_page_number }}&in_private={{ in_private }}&price_range={{ price_range }}">上一页</a>
+        </span>
+    {% endif %}
+    {% if products.paginator.num_pages < 5  %}
+        {% for i in page_range %}
+            <span class="page-item">
+                    <a href="{% url 'gift_platform_site:category_product_list' parent_category_id=root_category.id child_category_id=category.id  %}?page={{ i }}&in_private={{ in_private }}&price_range={{ price_range }}">{{ i }}</a>
+                </span>
+        {% endfor %}
+    {% else %}
+        <span class="page-item">
+                <a href="{% url 'gift_platform_site:category_product_list' parent_category_id=root_category.id child_category_id=category.id  %}?page={{ 1 }}&in_private={{ in_private }}&price_range={{ price_range }}">{{ i }}</a>
+            </span>
+        <span class="page-item more">
+                ...
+            </span>
+
+    {% endif %}
+    <span class="page-item">
+            <a href="#">1</a>
+        </span>
+    <span class="page-item">
+            <a href="#">2</a>
+        </span>
+    <span class="page-item">
+            <a href="#">3</a>
+        </span>
+    <span class="page-item">
+            <a href="#">4</a>
+        </span>
+    <span class="page-item more">
+            ...
+        </span>
+    <span class="page-item">
+            <a href="#">4</a>
+        </span>
+    <span class="page-item">
+            {% if products.has_next %}
+                <a href="{% url 'gift_platform_site:category_product_list' parent_category_id=root_category.id child_category_id=category.id  %}?page={{ products.next_page_number }}&in_private={{ in_private }}&price_range={{ price_range }}">下一页</a>
+            {% endif %}
+        </span>
+    <div class="jump-to">
+        <span>到</span>
+        <input type="text" class="jump-to-input" />
+        <span>页</span>
+        <a href="#" class="jump-btn">确定</a>
+    </div>
+</div>

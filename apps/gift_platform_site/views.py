@@ -286,6 +286,48 @@ def categories_list(request):
     categories_list = category.objects.filter(isroot = True) # 查找所有的根级分组
     return render(request, 'products/categories_list.html', { 'categories_list': categories_list  })
 
+def generate_pager_array(page_num, page_count):
+    """
+    根据相关规则生成分页信息
+    :param page_num:
+    :param page_count:
+    :return:
+    """
+    window_size = 5
+    if page_count <= 7:
+        return list(map(lambda x: str(x), range(1, page_num - 1))) + ['#{}#'.format(page_num)] + list(map(lambda x: str(x), range(page_num + 1, page_count + 1)))
+    else:
+        out = []
+        if page_num - window_size <= 2:
+            for i in map(lambda x: str(x), list(range(1, window_size + 1))):
+                if i == str(page_num):
+                    out.append('#{}#'.format(i))
+                else:
+                    out.append(i)
+            out.append('...')
+            out.append(page_count)
+        elif page_num - window_size > 2 and page_count - window_size <= page_num:
+            out.append('1')
+            out.append('...')
+            for i in map(lambda x: str(x), list(range(page_count - window_size + 1, page_count))):
+                if i == str(page_num):
+                    out.append('#{}#'.format(i))
+                else:
+                    out.append(i)
+            out.append(page_count)
+        else:
+            out.append('1')
+            out.append('...')
+            for i in map(lambda x: str(x), list(range(page_num - 2, page_num + 2 + 1))):
+                if i == str(page_num):
+                    out.append('#{}#'.format(i))
+                else:
+                    out.append(i)
+            out.append('...')
+            out.append(page_count)
+        return out
+
+
 def category_product_list(request, parent_category_id, child_category_id):
     """
     根据父分组和子分组来罗列出其中的所有商品
@@ -294,7 +336,7 @@ def category_product_list(request, parent_category_id, child_category_id):
     """
     price_range = request.GET.get('price_range') # 1: 0-20 2: 20-50 3: 50-100 4: 100-200 5: 200以上 0: 无限
     amount_range = request.GET.get('amount_range') # 1: 0-20 2: 20-50 3: 50-100 4: 100-200 5: 200以上 0：无限
-    in_private = request.GET.get('private')
+    in_private = request.GET.get('in_private')
 
     result_data_dict = {} # 视图信息数据字典
 
@@ -340,7 +382,10 @@ def category_product_list(request, parent_category_id, child_category_id):
         if price_range not in ['1', '2', '3', '4', '5']:
             price_range = '0'
         query_set = price_query_switch[price_range](query_set)
-        result_data_dict['price_range']
+        result_data_dict['price_range'] = price_range
+    else:
+        result_data_dict['price_range'] = '0'
+
 
 
     # 库存查询逻辑
@@ -375,15 +420,20 @@ def category_product_list(request, parent_category_id, child_category_id):
         query_set = amount_query_switch[price_range](query_set)
     '''
 
-    if in_private is not None:
-        result_data_dict['in_private'] = in_private
-        if in_private is '1':
-            query_set = query_set.filter(privatearea = request.user.privatearea)
-        elif in_private is '0': # 0 则是所有类型，不做任何处理
-            query_set = query_set.filter(Q(privatearea = request.user.privatearea) | Q(inprivatearea=False))
+    if request.user.privatearea is not None: # 如果当前用户不存在私有域
+        result_data_dict['has_private_area'] = True
+        if in_private is not None:
+            result_data_dict['in_private'] = in_private
+            if in_private is '1':
+                query_set = query_set.filter(privatearea = request.user.privatearea)
+            elif in_private is '0': # 0 则是所有类型，不做任何处理
+                query_set = query_set.filter(Q(privatearea = request.user.privatearea) | Q(inprivatearea=False))
+            else:
+                query_set = query_set.filter(inprivatearea = False)
         else:
-            query_set = query_set.filter(inprivatearea = False)
-
+            result_data_dict['in_private'] = '0'
+    else:
+        result_data_dict['has_private_area'] = False
 
     query_set = query_set.order_by('id')
     # 分页处理
@@ -394,7 +444,118 @@ def category_product_list(request, parent_category_id, child_category_id):
     result_data_dict['products'] = products
     result_data_dict['page_range'] = range(1, products.paginator.num_pages)
 
+    pager_array = generate_pager_array(products.number, products.paginator.num_pages)
+    result_data_dict['pager_array'] = pager_array
+
     return render(request, 'products/category_product_list.html', result_data_dict)
 
+def root_category_product_list(request, parent_category_id):
+    price_range = request.GET.get('price_range') # 1: 0-20 2: 20-50 3: 50-100 4: 100-200 5: 200以上 0: 无限
+    amount_range = request.GET.get('amount_range') # 1: 0-20 2: 20-50 3: 50-100 4: 100-200 5: 200以上 0：无限
+    in_private = request.GET.get('in_private')
 
+    result_data_dict = {} # 视图信息数据字典
+
+    query_set = product.objects.all()
+    parent_category_instance = get_object_or_404(category, pk=parent_category_id) # 获取父分组实例
+
+    query_set = query_set.filter(categoryid__parent = parent_category_instance)
+
+    result_data_dict['root_category'] = parent_category_instance
+
+    # 价格查询逻辑
+    def price_0_to_20(queryset):
+        return queryset.filter(productItems__price__range = [0, 20])
+
+    def price_20_to_50(queryset):
+        return queryset.filter(productItems__price__range = [20, 50])
+
+    def price_50_to_100(queryset):
+        return queryset.filter(productItems__price__range = [50, 100])
+
+    def price_100_to_200(queryset):
+        return queryset.filter(productItems__price__range = [100, 200])
+
+    def price_gte_200(queryset):
+        return queryset.filter(productItems__price__gte = 200)
+
+    price_query_switch = {
+        '1': price_0_to_20,
+        '2': price_20_to_50,
+        '3': price_50_to_100,
+        '4': price_100_to_200,
+        '5': price_gte_200,
+        '0': lambda x: x
+    }
+
+    if price_range is not None:
+        if price_range not in ['1', '2', '3', '4', '5']:
+            price_range = '0'
+        query_set = price_query_switch[price_range](query_set)
+        result_data_dict['price_range'] = price_range
+    else:
+        result_data_dict['price_range'] = '0'
+
+
+
+    # 库存查询逻辑
+    # TODO:待确认具体的库存逻辑
+    '''
+    def amount_0_to_20(queryset):
+        return queryset.filter(productItems__price__range = [0, 20])
+
+    def amount_20_to_50(queryset):
+        return queryset.filter(productItems__price__range = [20, 50])
+
+    def amount_50_to_100(queryset):
+        return queryset.filter(productItems__price__range = [50, 100])
+
+    def amount_100_to_200(queryset):
+        return queryset.filter(productItems__price__range = [100, 200])
+
+    def amount_gte_200(queryset):
+        return queryset.filter(productItems__price__gte = 200)
+
+    amount_query_switch = {
+        '1': amount_0_to_20,
+        '2': amount_20_to_50,
+        '3': amount_50_to_100,
+        '4': amount_100_to_200,
+        '5': amount_gte_200
+    }
+
+    if amount_query_switch is not None:
+        if amount_range not in ['1', '2', '3', '4', '5']:
+            amount_range = '1'
+        query_set = amount_query_switch[price_range](query_set)
+    '''
+
+    if request.user.privatearea is not None: # 如果当前用户不存在私有域
+        result_data_dict['has_private_area'] = True
+        if in_private is not None:
+            result_data_dict['in_private'] = in_private
+            if in_private is '1':
+                query_set = query_set.filter(privatearea = request.user.privatearea)
+            elif in_private is '0': # 0 则是所有类型，不做任何处理
+                query_set = query_set.filter(Q(privatearea = request.user.privatearea) | Q(inprivatearea=False))
+            else:
+                query_set = query_set.filter(inprivatearea = False)
+        else:
+            result_data_dict['in_private'] = '0'
+    else:
+        result_data_dict['has_private_area'] = False
+
+    query_set = query_set.order_by('id')
+    # 分页处理
+    paginator = Paginator(query_set, 12)
+    page = request.GET.get('page')
+    products = paginator.get_page(page)
+
+    result_data_dict['products'] = products
+    result_data_dict['page_range'] = range(1, products.paginator.num_pages)
+
+    pager_array = generate_pager_array(products.number, products.paginator.num_pages)
+    result_data_dict['pager_array'] = pager_array
+
+    return render(request, 'products/root_category_product_list.html', result_data_dict)
 

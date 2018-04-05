@@ -1,7 +1,7 @@
 from django.urls import path
 from apps.gift_platform_site.views import LoginView,RegView1,RegView2,RegView3
 from apps.gift_platform_site.views import IndexView
-from apps.gift_platform_site.views import MyaccountView,ModifyPwdView,logoutView, brands_list, categories_list, category_product_list
+from apps.gift_platform_site.views import MyaccountView,ModifyPwdView,logoutView, brands_list, categories_list, category_product_list, root_category_product_list
 
 
 app_name = 'gift_platform_site'
@@ -16,6 +16,7 @@ urlpatterns =  [
     path('home/', IndexView.as_view(),name="home"),
     path('product/brands', brands_list),
     path('product/categories', categories_list),
+    path('product/categories/<int:parent_category_id>/products', root_category_product_list, name="root_category_product_list"),
     path('product/categories/<int:parent_category_id>/<int:child_category_id>/products', category_product_list, name="category_product_list"),
 
     path('usercenter/myaccount',MyaccountView.as_view(),name='myaccount'),
