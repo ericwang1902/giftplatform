@@ -28,6 +28,12 @@
                 {% if error_message %}
                 <span style="color: red">{{ error_message }}</span>
                 {% endif %}
+                {% if sh_message %}
+                <span style="color: red">{{ sh_message }}</span>
+                {% endif %}
+                 {% if loginform.errors %}
+                     <span style="color: red">{{ loginform.errors.username.0 }}</span>
+                {% endif %}
             </div>
 
             <div class="otherdiv">

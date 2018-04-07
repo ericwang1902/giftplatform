@@ -17,3 +17,7 @@ class modifypwdform(forms.Form):
     pwd =forms.CharField(required=True,error_messages={'required':u'请输入密码'})
     newpwd1 = forms.CharField(required=True,error_messages={'required':u'请输入新密码'})
     newpwd2 = forms.CharField(required=True,error_messages={'required':u'请重复输入密码'})
+
+class loginform(forms.Form):
+    username = forms.CharField(required=True, error_messages={'required': u'用户名或密码不能为空'})
+    password = forms.CharField(required=True, error_messages={'required': u'用户名或密码不能为空'})

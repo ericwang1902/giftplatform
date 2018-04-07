@@ -11,8 +11,13 @@
     <div class="content-wrap">
         <span class="welcome">Hi，欢迎来到一点礼品公司！^o^</span>
         <div class="button-wrap">
-            <a href="#">登录</a>
-            <a href="#">注册</a>
+            <a href="{% url 'gift_platform_site:myaccount' %}">{{ request.user.username }}</a>
+            <a class="acls" href="{% url 'gift_platform_site:myaccount' %}">系统消息</a>
+            <form hidden method="post" id="logoutform" action="{% url 'gift_platform_site:logoutv'%}">
+                <input name="logoutin" value="{{ request.user.username }}"/>
+                {% csrf_token %}
+            </form>
+            <a href="javascript:void(0)" onclick="document.getElementById('logoutform').submit()">退出</a>
         </div>
     </div>
 </div>
@@ -71,12 +76,13 @@
 
 <div class="nav">
     <div class="nav-wrap">
-        <a class="active" href="#">最新动态</a>
-        <a href="#">精选专题</a>
-        <a href="#">产品分类</a>
-        <a href="#">品牌专区</a>
-        <a href="#">一件代发</a>
-        <a href="#">关于我们</a>
+        <a {% ifequal request.path '/home/' %}class="active" {% endifequal %} href="{% url 'gift_platform_site:home' %}">最新动态</a>
+        <a {% ifequal request.path '/jxzt/' %}class="active" {% endifequal %} href="#">精选专题</a>
+        <a {% ifequal request.path '/product/categories/' %}class="active" {% endifequal %} href="#">产品分类</a>
+        <a {% ifequal request.path '/product/brands/' %}class="active" {% endifequal %} href="#">品牌专区</a>
+        <a {% ifequal request.path '/yjdf/' %}class="active" {% endifequal %} href="#">一件代发</a>
+        <a {% ifequal request.path '/aboutus/' %}class="active" {% endifequal %} href="#">关于我们</a>
+        <a {% ifequal request.path '/msgcenter/' %}class="active" {% endifequal %} href="{% url 'gift_platform_site:msgcenter' %}">公告中心</a>
         <div class="clear"></div>
     </div>
 </div>
