@@ -307,7 +307,6 @@ def categories_list(request):
     categories_list = category.objects.filter(isroot = True) # 查找所有的根级分组
     return render(request, 'products/categories_list.html', { 'categories_list': categories_list  })
 
-@login_required
 def generate_pager_array(page_num, page_count):
     """
     根据相关规则生成分页信息
