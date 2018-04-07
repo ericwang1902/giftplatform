@@ -8,7 +8,7 @@
     <div class="query-area">
         <div class="query-item-wrap">
             <span class="query-name">分类</span>
-            <a class="query-param select" href="#">不限</a>
+            <a class="query-param select" href="javascript:void(0)">不限</a>
             {% for category_existed in root_category.category_set.all %}
                 <a class="query-param" href="{% url 'gift_platform_site:category_product_list' parent_category_id=root_category.id child_category_id=category_existed.id  %}?price_range=0&in_private=0">{{ category_existed.name }}</a>
             {% endfor %}
