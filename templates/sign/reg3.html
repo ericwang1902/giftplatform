@@ -32,7 +32,10 @@
             <div></div>
             <div>
                 <p></p>
-                <div><p id="filename">{% if yyzz %}上传成功！{% endif %}</p></div>
+                <div><p id="filename">
+                    {% if yyzz %}上传成功！{% endif %}
+                    {% if info %}{{ info }}{% endif %}
+                </p></div>
             </div>
             <div></div>
     </div>
@@ -56,7 +59,7 @@
         <div>
             <p></p>
             <div>
-                <a href="{% url 'gift_platform_site:home' %}" >提交</a>
+                <a href="{% url 'gift_platform_site:login' %}" >提交</a>
             </div>
         </div>
         <div></div>

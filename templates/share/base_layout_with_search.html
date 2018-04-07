@@ -13,7 +13,7 @@
         <span class="welcome">Hi，欢迎来到一点礼品公司！^o^</span>
         <div class="button-wrap">
             <a href="{% url 'gift_platform_site:myaccount' %}">{{ request.user.username }}</a>
-            <a class="acls" href="{% url 'gift_platform_site:myaccount' %}">系统消息</a>
+            <a class="acls" href="{% url 'gift_platform_site:sysinfo' %}">系统消息</a>
             <form hidden method="post" id="logoutform" action="{% url 'gift_platform_site:logoutv'%}">
                 <input name="logoutin" value="{{ request.user.username }}"/>
                 {% csrf_token %}
