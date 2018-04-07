@@ -867,6 +867,50 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder, .form-
       .regform .yingyezhizhaotupianreg div:nth-child(3) .right {
         font-size: 14px;
         color: #7ED321; }
+  .regform .lujing {
+    order: 7;
+    display: flex;
+    margin-top: 10px; }
+    .regform .lujing div:nth-child(1) {
+      flex: 1; }
+    .regform .lujing div:nth-child(2) {
+      flex: 1;
+      display: flex;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-justify-content: center;
+      justify-content: center; }
+      .regform .lujing div:nth-child(2) p {
+        font-size: 18px;
+        color: #333333;
+        letter-spacing: 0;
+        line-height: 24px;
+        flex: 1; }
+      .regform .lujing div:nth-child(2) div {
+        flex: 4;
+        justify-content: center; }
+        .regform .lujing div:nth-child(2) div img {
+          width: 100%;
+          color: #B19B70; }
+    .regform .lujing div:nth-child(3) {
+      flex: 1;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      justify-content: flex-start; }
+      .regform .lujing div:nth-child(3) img {
+        margin-left: 12px; }
+      .regform .lujing div:nth-child(3) .wrong {
+        font-size: 14px;
+        color: #D0021B; }
+      .regform .lujing div:nth-child(3) .right {
+        font-size: 14px;
+        color: #7ED321; }
   .regform .xieyireg {
     order: 8;
     display: flex;
@@ -902,7 +946,22 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder, .form-
             color: #B19B70;
             text-decoration: none; }
     .regform .xieyireg div:nth-child(3) {
-      flex: 1; }
+      flex: 1;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      justify-content: flex-start; }
+      .regform .xieyireg div:nth-child(3) img {
+        margin-left: 12px; }
+      .regform .xieyireg div:nth-child(3) .wrong {
+        font-size: 14px;
+        color: #D0021B; }
+      .regform .xieyireg div:nth-child(3) .right {
+        font-size: 14px;
+        color: #7ED321; }
   .regform .regbtninstance, .regform .forgetpwdbtn {
     order: 8;
     display: flex; }

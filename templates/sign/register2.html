@@ -1,183 +1,144 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>一点礼品注册</title>
+{% extends 'share/base_layout_reg.html' %}
+
+{% block title %}
+填写注册信息
+{% endblock %}
+
+{% block content %}
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'gift_platform_site/style.css' %}">
-
-</head>
-<body>
-
-<div class="container">
-    <div class="reg-login-wrap">
-        <img class="logo" src="{% static 'gift_platform_site/images/logo.png' %}">
-        <p class="infotolog">已有账号？去<a href="{% url 'gift_platform_site:login' %}">登录</a></p>
+    <div class="reg-step-div">
+        <div class="nocurrentstep">1.选择类型</div>
+        <div class="btwsteps"></div>
+        <div class="currentstep">2.填写信息</div>
     </div>
-</div>
-<hr class="hrline"/>
-<div class="reg-step-div">
-    <div class="nocurrentstep">1.选择类型</div>
-    <div class="btwsteps"></div>
-    <div class="currentstep">2.填写信息</div>
-</div>
-{#<hr class="hrline2"/>#}
-{#<div  class="choosetype"><div>请填写注册信息</div></div>#}
-<div class="regform">
-    <form method="post" enctype="multipart/form-data" action="{% url 'gift_platform_site:reg2' %}" id="reg2form">
-    <div class="usernamereg">
-        <div></div>
-        <div>
-            <p>用户名：</p>
-            <div><input placeholder="请输入用户名" name="username" value="{{ formsets.username }}"/></div>
-        </div>
-        <div>
-                {% if regForm.errors.username %}
-                    <img src="{% static 'gift_platform_site/images/wrong.png' %}">
-                    <p class="wrong">{{ regForm.errors.username.0 }}</p>
-                {% endif %}
-                {% if wronginfousername %}
-                    <img src="{% static 'gift_platform_site/images/wrong.png' %}">
-                    <p class="wrong">{{ wronginfousername }}</p>
-                {% endif %}
-        </div>
-    </div>
-    <div class="mobilereg">
-        <div></div>
-        <div>
-            <p>手机号：</p>
-            <div><input placeholder="请输入手机号" name="mobile" value="{{ formsets.mobile }}"/><a href="#">发送验证码</a></div>
-        </div>
-        <div>
-            {% if regForm.errors.mobile %}
-                <img src="{% static 'gift_platform_site/images/wrong.png' %}">
-                <p class="wrong">{{ regForm.errors.mobile.0 }}</p>
-            {% endif %}
-            {% if wronginfomobile %}
-                <img src="{% static 'gift_platform_site/images/wrong.png' %}">
-                <p class="wrong">{{ wronginfomobile }}</p>
-            {% endif %}
-        </div>
-    </div>
-    <div class="yanzhengmareg">
-        <div></div>
-        <div>
-            <p>验证码：</p>
-            <div><input placeholder="请输入验证码" name="checkcode" value="{{ formsets.checkcode }}"/></div>
-        </div>
-        <div>
-            {% if regForm.errors.checkcode %}
-                <img src="{% static 'gift_platform_site/images/wrong.png' %}">
-                <p class="wrong">{{ regForm.errors.checkcode.0 }}</p>
-            {% endif %}
-            {% if wronginfo %}
-                <img src="{% static 'gift_platform_site/images/wrong.png' %}">
-                <p class="wrong">{{ wronginfo2 }}</p>
-            {% endif %}
-        </div>
-    </div>
-    <div class="emailreg">
-        <div></div>
-        <div>
-            <p>邮箱：</p>
-            <div><input placeholder="请输入邮箱" type="email" name="email" value="{{ formsets.email }}"/></div>
-        </div>
-        <div>
-            {% if regForm.errors.email %}
-                <img src="{% static 'gift_platform_site/images/wrong.png' %}">
-                <p class="wrong">{{ regForm.errors.email.0 }}</p>
-            {% endif %}
-        </div>
-    </div>
-    <div class="pwd1">
-        <div></div>
-        <div>
-            <p>密&nbsp;&nbsp;&nbsp;&nbsp;码：</p>
-            <div><input placeholder="请输入密码" type="password" name="pwd1" value="{{ formsets.pwd1 }}"/></div>
-        </div>
-        <div>
-            {% if regForm.errors.pwd1 %}
-                <img src="{% static 'gift_platform_site/images/wrong.png' %}">
-                <p class="wrong">{{ regForm.errors.pwd1.0 }}</p>
-            {% endif %}
-        </div>
-    </div>
-    <div class="pwd2">
-        <div></div>
-        <div>
-            <p>确认密码：</p>
-            <div><input placeholder="请再次输入密码" type="password" name="pwd2" value="{{ formsets.pwd2 }}"/></div>
-        </div>
-        <div>
-            {% if regForm.errors.pwd2 %}
-                <img src="{% static 'gift_platform_site/images/wrong.png' %}">
-                <p class="wrong">{{ regForm.errors.pwd2.0 }}</p>
-            {% endif %}
-            {% if wronginfo %}
-                <img src="{% static 'gift_platform_site/images/wrong.png' %}">
-                <p class="wrong">{{ wronginfo }}</p>
-            {% endif %}
-
-        </div>
-    </div>
-    <input hidden name="usertype" value="{{ usertype }}"/>
-    {% csrf_token %}
-    <div class="xieyireg">
-        <div></div>
-        <div>
-            <p></p>
+    <div class="regform">
+        <form method="post" enctype="multipart/form-data" action="{% url 'gift_platform_site:reg2' %}?type=2" id="reg2form">
+        <div class="usernamereg">
+            <div></div>
             <div>
-                <input type="checkbox" name="vehicle" value="Bike" />
-                <p>我同意并遵守<a href="#">《一点礼品系统服务条款》</a></p>
+                <p>用户名：</p>
+                <div><input placeholder="请输入用户名" name="username" value="{{ formsets.username }}"/></div>
             </div>
-        </div>
-        <div></div>
-    </div>
-    <div class="regbtninstance">
-        <div></div>
-        <div>
-            <p></p>
             <div>
-                <a href="javascript:void(0)" onclick="document.getElementById('reg2form').submit()">注册</a>
+                    {% if regForm.errors.username %}
+                        <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                        <p class="wrong">{{ regForm.errors.username.0 }}</p>
+                    {% endif %}
+                    {% if wronginfousername %}
+                        <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                        <p class="wrong">{{ wronginfousername }}</p>
+                    {% endif %}
             </div>
         </div>
-        <div></div>
-    </div>
- </form>
+        <div class="mobilereg">
+            <div></div>
+            <div>
+                <p>手机号：</p>
+                <div><input placeholder="请输入手机号" name="mobile" value="{{ formsets.mobile }}"/><a href="#">发送验证码</a></div>
+            </div>
+            <div>
+                {% if regForm.errors.mobile %}
+                    <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                    <p class="wrong">{{ regForm.errors.mobile.0 }}</p>
+                {% endif %}
+                {% if wronginfomobile %}
+                    <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                    <p class="wrong">{{ wronginfomobile }}</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="yanzhengmareg">
+            <div></div>
+            <div>
+                <p>验证码：</p>
+                <div><input placeholder="请输入验证码" name="checkcode" value="{{ formsets.checkcode }}"/></div>
+            </div>
+            <div>
+                {% if regForm.errors.checkcode %}
+                    <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                    <p class="wrong">{{ regForm.errors.checkcode.0 }}</p>
+                {% endif %}
+                {% if wronginfo %}
+                    <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                    <p class="wrong">{{ wronginfo2 }}</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="emailreg">
+            <div></div>
+            <div>
+                <p>邮箱：</p>
+                <div><input placeholder="请输入邮箱" type="email" name="email" value="{{ formsets.email }}"/></div>
+            </div>
+            <div>
+                {% if regForm.errors.email %}
+                    <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                    <p class="wrong">{{ regForm.errors.email.0 }}</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="pwd1">
+            <div></div>
+            <div>
+                <p>密&nbsp;&nbsp;&nbsp;&nbsp;码：</p>
+                <div><input placeholder="请输入密码" type="password" name="pwd1" value="{{ formsets.pwd1 }}"/></div>
+            </div>
+            <div>
+                {% if regForm.errors.pwd1 %}
+                    <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                    <p class="wrong">{{ regForm.errors.pwd1.0 }}</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="pwd2">
+            <div></div>
+            <div>
+                <p>确认密码：</p>
+                <div><input placeholder="请再次输入密码" type="password" name="pwd2" value="{{ formsets.pwd2 }}"/></div>
+            </div>
+            <div>
+                {% if regForm.errors.pwd2 %}
+                    <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                    <p class="wrong">{{ regForm.errors.pwd2.0 }}</p>
+                {% endif %}
+                {% if wronginfo %}
+                    <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                    <p class="wrong">{{ wronginfo }}</p>
+                {% endif %}
 
-</div>
-<hr class="hrline2"/>
-<div class="footer1">
-    <div class="container">
-        <div class="item-wrap">
-            <div class="footer-icon-group1">
-                <img src="{% static 'gift_platform_site/images/footer_icon_1t.png' %}">
-                <span>物流送货上门</span>
             </div>
         </div>
-        <div class="item-wrap">
-            <div class="footer-icon-group1">
-                <img src="{% static 'gift_platform_site/images/footer_icon_2t.png' %}">
-                <span>正规渠道进货</span>
+        <input hidden name="usertype" value="{{ usertype }}"/>
+        {% csrf_token %}
+        <div class="xieyireg">
+            <div></div>
+            <div>
+                <p></p>
+                <div>
+                    <input type="checkbox" name="vehicle" value="Bike" />
+                    <p>我同意并遵守<a href="#">《一点礼品系统服务条款》</a></p>
+                </div>
+            </div>
+            <div>
+                {% if regForm.errors.vehicle %}
+                    <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                    <p class="wrong">{{ regForm.errors.vehicle.0 }}</p>
+                {% endif %}
             </div>
         </div>
-        <div class="item-wrap">
-            <div class="footer-icon-group1">
-                <img src="{% static 'gift_platform_site/images/footer_icon_3t.png' %}">
-                <span>商品品质保证</span>
+        <div class="regbtninstance">
+            <div></div>
+            <div>
+                <p></p>
+                <div>
+                    <a href="javascript:void(0)" onclick="document.getElementById('reg2form').submit()">注册</a>
+                </div>
             </div>
+            <div></div>
         </div>
-    </div>
-    <div class="copyright1">
-        <div>
-            <a href="#">关于我们</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">帮助中心</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">售后服务</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">友情链接</a>
-        </div>
-        <div>
-            <p>一点公司版权所有 © 1997-2018   食品经营许可证：JY133****0111719</p>
-        </div>
-    </div>
-</div>
+     </form>
 
+    </div>
 
-</body>
-</html>
+{% endblock %}
+

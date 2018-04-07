@@ -100,7 +100,7 @@ class RegView2(View):
                 request.session["usertype"] = request.POST.get('usertype')
                 usertype = request.session["usertype"]
             else:
-                usertype=request.session["usertype"]
+                usertype=request.GET.get("type")
             if usertype != '1' and usertype != '2':
                 print("用户类型错误！")
                 return redirect('/sign/register1')
