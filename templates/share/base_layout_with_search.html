@@ -5,6 +5,7 @@
     <title>{% block title %}一点礼品{% endblock %}</title>
     {%  load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'gift_platform_site/style.css' %}">
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 </head>
 <body>
 <div class="header">
@@ -27,11 +28,11 @@
         <div class="search-wrap">
             <div class="search">
                 <div class="tab">
-                    <span class="tab-item select">商品</span>
-                    <span class="tab-item">厂家</span>
+                    <span class="tab-item select" id="product-search-tab">商品</span>
+                    <span class="tab-item" id="supplier-search-tab">厂家</span>
                 </div>
-                <input type="text">
-                <a class="search-btn">
+                <input type="text" id="search-content-input">
+                <a class="search-btn" id="search-btn">
                     搜索
                 </a>
             </div>
@@ -118,5 +119,32 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        // tab 切换
+        (function($){
+            var searchType = 0;
+            $('#product-search-tab').click(function(){
+                searchType = 0;
+                $('#supplier-search-tab').removeClass('select');
+                $(this).addClass('select');
+            });
+            $('#supplier-search-tab').click(function(){
+                searchType = 1;
+                $('#product-search-tab').removeClass('select');
+                $(this).addClass('select');
+            });
+            $('#search-btn').click(function(){
+                var queryContent = $('#search-content-input').val();
+                if (searchType === 0) {
+                    window.location.href = '{% url 'gift_platform_site:search_products' %}?q=' + queryContent;// 商品检索
+                } else {
+                    window.location.href = '{% url 'gift_platform_site:search_supplier' %}?q=' + queryContent;// 供应商检索
+                }
+            });
+        })(jQuery);
+
+    })
+</script>
 </body>
 </html>
