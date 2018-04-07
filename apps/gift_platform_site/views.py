@@ -39,23 +39,29 @@ class LoginView(View):
         return render(request, "sign/login.html")
 
     def post(self, request):
-        user = authenticate(username=request.POST['username'], password=request.POST['password'])
-        print(user)
-        if user is not None and user.currentpoint!='ck':
-            # 如果用户不为空，则继续检查该账户类型，只能由商户登录进入
-            print(user.type)
-            if user.type == 'giftcompany':
-                login(request, user)
-                print("登陆成功")
-                return redirect('/home')
-                #return redirect('/usercenter/myaccount')
-            else:
+        loginForm = forms.loginform(request.POST)
+        if loginForm.is_valid():
+            user = authenticate(username=request.POST['username'], password=request.POST['password'])
+            print(user)
+            if user is not None and user.currentpoint!='ck':
+                # 如果用户不为空，则继续检查该账户类型，只能由商户登录进入
+                print(user.type)
+                if user.type == 'giftcompany':
+                    login(request, user)
+                    print("登陆成功")
+                    return redirect('/home')
+                    #return redirect('/usercenter/myaccount')
+                else:
+                    return render(request, 'sign/login.html', {
+                        'error_message': "用户名或者密码错误"
+                    })
+            elif user.currentpoint=='ck':
                 return render(request, 'sign/login.html', {
-                    'error_message': "用户名或者密码错误"
+                    'sh_message': "请等待审核通过后再进行登录"
                 })
-        elif user.currentpoint=='ck':
+        else:
             return render(request, 'sign/login.html', {
-                'sh_message': "请等待审核通过后再进行登录"
+                'loginform': loginForm
             })
 
 class RegView1(View):
