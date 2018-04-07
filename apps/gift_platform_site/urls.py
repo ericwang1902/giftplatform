@@ -8,6 +8,7 @@ from apps.gift_platform_site.views import search_supplier
 app_name = 'gift_platform_site'
 
 urlpatterns =  [
+    path('accounts/login/',LoginView.as_view()),
     path('sign/login', LoginView.as_view(), name="login"),
     path('sign/logout',logoutView.as_view(),name="logoutv"),
     path('sign/register1',RegView1.as_view(),name="reg1"),

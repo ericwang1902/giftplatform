@@ -12,6 +12,8 @@ from django.shortcuts import redirect
 from django.contrib.auth import logout
 from django.core.paginator import Paginator
 from django.http import HttpResponseBadRequest
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 def home(request):
     """
@@ -21,7 +23,7 @@ def home(request):
     """
     pass
 
-class IndexView(View):
+class IndexView(LoginRequiredMixin, View):
     def get(self,request):
         products = product.objects.filter(status=0)[0:16]
         return render(request, "home/index.html", { "products": products })
@@ -189,7 +191,7 @@ class RegView3(View):
 
 
 
-class MyaccountView(View):
+class MyaccountView(LoginRequiredMixin, View):
     def get(self,request):
         #获取当前登录的用户信息
         gender=True
@@ -225,7 +227,7 @@ class MyaccountView(View):
         return redirect('/usercenter/myaccount')
 
 
-class ModifyPwdView(View):
+class ModifyPwdView(LoginRequiredMixin, View):
     def get(self,request):
         gender = True
         try:
@@ -269,13 +271,13 @@ class ModifyPwdView(View):
                           {'mdform': mdform})
 
 
-class logoutView(View):
+class logoutView(LoginRequiredMixin, View):
     def post(self,request):
         v = request.POST.get('logoutin')
         logout(request)
         return redirect('/sign/login')
 
-
+@login_required
 def brands_list(request):
     """
     展示所有的品牌信息
@@ -285,6 +287,7 @@ def brands_list(request):
     brands_list = brands.objects.all()
     return render(request, 'products/brands_list.html', { 'brands_list': brands_list })
 
+@login_required
 def categories_list(request):
     """
     展示所有的分组信息
@@ -294,6 +297,7 @@ def categories_list(request):
     categories_list = category.objects.filter(isroot = True) # 查找所有的根级分组
     return render(request, 'products/categories_list.html', { 'categories_list': categories_list  })
 
+@login_required
 def generate_pager_array(page_num, page_count):
     """
     根据相关规则生成分页信息
@@ -336,6 +340,7 @@ def generate_pager_array(page_num, page_count):
         return out
 
 
+@login_required
 def category_product_list(request, parent_category_id, child_category_id):
     """
     根据父分组和子分组来罗列出其中的所有商品
@@ -458,6 +463,7 @@ def category_product_list(request, parent_category_id, child_category_id):
 
     return render(request, 'products/category_product_list.html', result_data_dict)
 
+@login_required
 def root_category_product_list(request, parent_category_id):
     price_range = request.GET.get('price_range') # 1: 0-20 2: 20-50 3: 50-100 4: 100-200 5: 200以上 0: 无限
     amount_range = request.GET.get('amount_range') # 1: 0-20 2: 20-50 3: 50-100 4: 100-200 5: 200以上 0：无限
@@ -569,6 +575,7 @@ def root_category_product_list(request, parent_category_id):
     return render(request, 'products/root_category_product_list.html', result_data_dict)
 
 
+@login_required
 def search_supplier(request):
     """
     商家搜索逻辑
@@ -603,6 +610,7 @@ def search_supplier(request):
     return render(request, 'search/supplier_search_result_list.html', result_data_dict)
 
 
+@login_required
 def search_products(request):
     """
     产品全局搜索的代码逻辑
