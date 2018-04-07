@@ -44,22 +44,22 @@ table {
 html, body {
   font-family: "Lucida Grande", Lucida Sans Unicode, Hiragino Sans GB, WenQuanYi Micro Hei, Verdana, Aril, sans-serif; }
 
-input::-webkit-input-placeholder, .form-item .drop-down::-webkit-input-placeholder {
+input::-webkit-input-placeholder, .form-item .drop-down::-webkit-input-placeholder, .form-item .drop-down1::-webkit-input-placeholder {
   /* WebKit browsers */
   font-size: 14px;
   color: #CCCCCC; }
 
-input:-moz-placeholder, .form-item .drop-down:-moz-placeholder {
+input:-moz-placeholder, .form-item .drop-down:-moz-placeholder, .form-item .drop-down1:-moz-placeholder {
   /* Mozilla Firefox 4 to 18 */
   font-size: 14px;
   color: #CCCCCC; }
 
-input::-moz-placeholder, .form-item .drop-down::-moz-placeholder {
+input::-moz-placeholder, .form-item .drop-down::-moz-placeholder, .form-item .drop-down1::-moz-placeholder {
   /* Mozilla Firefox 19+ */
   font-size: 14px;
   color: #CCCCCC; }
 
-input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
+input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder, .form-item .drop-down1:-ms-input-placeholder {
   /* Internet Explorer 10+ */
   font-size: 14px;
   color: #CCCCCC; }
@@ -365,7 +365,7 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
     width: 350px;
     height: 100%;
     background-color: #B19B70;
-    background-image: url("../images/supplier.png"); }
+    background-image: url(images/supplier.png); }
     .regtypes .choose1 div {
       border-radius: 100px;
       width: 108px;
@@ -393,7 +393,7 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
     height: 100%;
     width: 350px;
     background-color: #B19B70;
-    background-image: url("../images/giftcompany.png"); }
+    background-image: url(images/giftcompany.png); }
     .regtypes .choose2 div {
       border-radius: 100px;
       width: 108px;
@@ -449,12 +449,12 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
         height: 42px;
         flex: 4;
         justify-content: flex-start; }
-        .regform .usernamereg div:nth-child(2) div input, .regform .usernamereg div:nth-child(2) div .form-item .drop-down, .form-item .regform .usernamereg div:nth-child(2) div .drop-down {
+        .regform .usernamereg div:nth-child(2) div input, .regform .usernamereg div:nth-child(2) div .form-item .drop-down, .form-item .regform .usernamereg div:nth-child(2) div .drop-down, .regform .usernamereg div:nth-child(2) div .form-item .drop-down1, .form-item .regform .usernamereg div:nth-child(2) div .drop-down1 {
           height: 40px;
           margin-left: 26px;
           width: 70%;
           border: none; }
-        .regform .usernamereg div:nth-child(2) div input:focus, .regform .usernamereg div:nth-child(2) div .form-item .drop-down:focus, .form-item .regform .usernamereg div:nth-child(2) div .drop-down:focus {
+        .regform .usernamereg div:nth-child(2) div input:focus, .regform .usernamereg div:nth-child(2) div .form-item .drop-down:focus, .form-item .regform .usernamereg div:nth-child(2) div .drop-down:focus, .regform .usernamereg div:nth-child(2) div .form-item .drop-down1:focus, .form-item .regform .usernamereg div:nth-child(2) div .drop-down1:focus {
           outline: none;
           border: 0;
           box-shadow: none; }
@@ -469,10 +469,10 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
       justify-content: flex-start; }
       .regform .usernamereg div:nth-child(3) img {
         margin-left: 12px; }
-      .regform .usernamereg div:nth-child(3) .usernamewrong {
+      .regform .usernamereg div:nth-child(3) .wrong {
         font-size: 14px;
         color: #D0021B; }
-      .regform .usernamereg div:nth-child(3) .usernameright {
+      .regform .usernamereg div:nth-child(3) .right {
         font-size: 14px;
         color: #7ED321; }
   .regform .mobilereg {
@@ -502,12 +502,12 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
         height: 42px;
         flex: 4;
         justify-content: space-around; }
-        .regform .mobilereg div:nth-child(2) div input, .regform .mobilereg div:nth-child(2) div .form-item .drop-down, .form-item .regform .mobilereg div:nth-child(2) div .drop-down {
+        .regform .mobilereg div:nth-child(2) div input, .regform .mobilereg div:nth-child(2) div .form-item .drop-down, .form-item .regform .mobilereg div:nth-child(2) div .drop-down, .regform .mobilereg div:nth-child(2) div .form-item .drop-down1, .form-item .regform .mobilereg div:nth-child(2) div .drop-down1 {
           height: 40px;
           width: 70%;
           margin-left: 26px;
           border: none; }
-        .regform .mobilereg div:nth-child(2) div input:focus, .regform .mobilereg div:nth-child(2) div .form-item .drop-down:focus, .form-item .regform .mobilereg div:nth-child(2) div .drop-down:focus {
+        .regform .mobilereg div:nth-child(2) div input:focus, .regform .mobilereg div:nth-child(2) div .form-item .drop-down:focus, .form-item .regform .mobilereg div:nth-child(2) div .drop-down:focus, .regform .mobilereg div:nth-child(2) div .form-item .drop-down1:focus, .form-item .regform .mobilereg div:nth-child(2) div .drop-down1:focus {
           outline: none;
           border: 0;
           box-shadow: none; }
@@ -517,7 +517,22 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
           font-size: 14px;
           text-decoration: none; }
     .regform .mobilereg div:nth-child(3) {
-      flex: 1; }
+      flex: 1;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      justify-content: flex-start; }
+      .regform .mobilereg div:nth-child(3) img {
+        margin-left: 12px; }
+      .regform .mobilereg div:nth-child(3) .wrong {
+        font-size: 14px;
+        color: #D0021B; }
+      .regform .mobilereg div:nth-child(3) .right {
+        font-size: 14px;
+        color: #7ED321; }
   .regform .yanzhengmareg {
     order: 2;
     display: flex;
@@ -545,12 +560,12 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
         height: 42px;
         flex: 4;
         justify-content: flex-start; }
-        .regform .yanzhengmareg div:nth-child(2) div input, .regform .yanzhengmareg div:nth-child(2) div .form-item .drop-down, .form-item .regform .yanzhengmareg div:nth-child(2) div .drop-down {
+        .regform .yanzhengmareg div:nth-child(2) div input, .regform .yanzhengmareg div:nth-child(2) div .form-item .drop-down, .form-item .regform .yanzhengmareg div:nth-child(2) div .drop-down, .regform .yanzhengmareg div:nth-child(2) div .form-item .drop-down1, .form-item .regform .yanzhengmareg div:nth-child(2) div .drop-down1 {
           height: 40px;
           width: 70%;
           margin-left: 26px;
           border: none; }
-        .regform .yanzhengmareg div:nth-child(2) div input:focus, .regform .yanzhengmareg div:nth-child(2) div .form-item .drop-down:focus, .form-item .regform .yanzhengmareg div:nth-child(2) div .drop-down:focus {
+        .regform .yanzhengmareg div:nth-child(2) div input:focus, .regform .yanzhengmareg div:nth-child(2) div .form-item .drop-down:focus, .form-item .regform .yanzhengmareg div:nth-child(2) div .drop-down:focus, .regform .yanzhengmareg div:nth-child(2) div .form-item .drop-down1:focus, .form-item .regform .yanzhengmareg div:nth-child(2) div .drop-down1:focus {
           outline: none;
           border: 0;
           box-shadow: none; }
@@ -560,7 +575,22 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
           font-size: 14px;
           text-decoration: none; }
     .regform .yanzhengmareg div:nth-child(3) {
-      flex: 1; }
+      flex: 1;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      justify-content: flex-start; }
+      .regform .yanzhengmareg div:nth-child(3) img {
+        margin-left: 12px; }
+      .regform .yanzhengmareg div:nth-child(3) .wrong {
+        font-size: 14px;
+        color: #D0021B; }
+      .regform .yanzhengmareg div:nth-child(3) .right {
+        font-size: 14px;
+        color: #7ED321; }
   .regform .emailreg {
     order: 3;
     display: flex;
@@ -588,12 +618,12 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
         height: 42px;
         flex: 4;
         justify-content: flex-start; }
-        .regform .emailreg div:nth-child(2) div input, .regform .emailreg div:nth-child(2) div .form-item .drop-down, .form-item .regform .emailreg div:nth-child(2) div .drop-down {
+        .regform .emailreg div:nth-child(2) div input, .regform .emailreg div:nth-child(2) div .form-item .drop-down, .form-item .regform .emailreg div:nth-child(2) div .drop-down, .regform .emailreg div:nth-child(2) div .form-item .drop-down1, .form-item .regform .emailreg div:nth-child(2) div .drop-down1 {
           height: 40px;
           width: 70%;
           margin-left: 26px;
           border: none; }
-        .regform .emailreg div:nth-child(2) div input:focus, .regform .emailreg div:nth-child(2) div .form-item .drop-down:focus, .form-item .regform .emailreg div:nth-child(2) div .drop-down:focus {
+        .regform .emailreg div:nth-child(2) div input:focus, .regform .emailreg div:nth-child(2) div .form-item .drop-down:focus, .form-item .regform .emailreg div:nth-child(2) div .drop-down:focus, .regform .emailreg div:nth-child(2) div .form-item .drop-down1:focus, .form-item .regform .emailreg div:nth-child(2) div .drop-down1:focus {
           outline: none;
           border: 0;
           box-shadow: none; }
@@ -603,9 +633,140 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
           font-size: 14px;
           text-decoration: none; }
     .regform .emailreg div:nth-child(3) {
-      flex: 1; }
-  .regform .yingyezhizhaoreg {
+      flex: 1;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      justify-content: flex-start; }
+      .regform .emailreg div:nth-child(3) img {
+        margin-left: 12px; }
+      .regform .emailreg div:nth-child(3) .wrong {
+        font-size: 14px;
+        color: #D0021B; }
+      .regform .emailreg div:nth-child(3) .right {
+        font-size: 14px;
+        color: #7ED321; }
+  .regform .pwd1 {
     order: 4;
+    display: flex;
+    margin-top: 30px; }
+    .regform .pwd1 div:nth-child(1) {
+      flex: 1; }
+    .regform .pwd1 div:nth-child(2) {
+      flex: 1;
+      display: flex;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-justify-content: center;
+      justify-content: center; }
+      .regform .pwd1 div:nth-child(2) p {
+        font-size: 18px;
+        color: #333333;
+        letter-spacing: 0;
+        line-height: 24px;
+        flex: 1; }
+      .regform .pwd1 div:nth-child(2) div {
+        border: 1px solid #B19B70;
+        border-radius: 53px;
+        height: 42px;
+        flex: 4;
+        justify-content: flex-start; }
+        .regform .pwd1 div:nth-child(2) div input, .regform .pwd1 div:nth-child(2) div .form-item .drop-down, .form-item .regform .pwd1 div:nth-child(2) div .drop-down, .regform .pwd1 div:nth-child(2) div .form-item .drop-down1, .form-item .regform .pwd1 div:nth-child(2) div .drop-down1 {
+          height: 40px;
+          width: 70%;
+          margin-left: 26px;
+          border: none; }
+        .regform .pwd1 div:nth-child(2) div input:focus, .regform .pwd1 div:nth-child(2) div .form-item .drop-down:focus, .form-item .regform .pwd1 div:nth-child(2) div .drop-down:focus, .regform .pwd1 div:nth-child(2) div .form-item .drop-down1:focus, .form-item .regform .pwd1 div:nth-child(2) div .drop-down1:focus {
+          outline: none;
+          border: 0;
+          box-shadow: none; }
+        .regform .pwd1 div:nth-child(2) div a {
+          width: 30%;
+          color: #B19B70;
+          font-size: 14px;
+          text-decoration: none; }
+    .regform .pwd1 div:nth-child(3) {
+      flex: 1;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      justify-content: flex-start; }
+      .regform .pwd1 div:nth-child(3) img {
+        margin-left: 12px; }
+      .regform .pwd1 div:nth-child(3) .wrong {
+        font-size: 14px;
+        color: #D0021B; }
+      .regform .pwd1 div:nth-child(3) .right {
+        font-size: 14px;
+        color: #7ED321; }
+  .regform .pwd2 {
+    order: 5;
+    display: flex;
+    margin-top: 30px; }
+    .regform .pwd2 div:nth-child(1) {
+      flex: 1; }
+    .regform .pwd2 div:nth-child(2) {
+      flex: 1;
+      display: flex;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-justify-content: center;
+      justify-content: center; }
+      .regform .pwd2 div:nth-child(2) p {
+        font-size: 18px;
+        color: #333333;
+        letter-spacing: 0;
+        line-height: 24px;
+        flex: 1; }
+      .regform .pwd2 div:nth-child(2) div {
+        border: 1px solid #B19B70;
+        border-radius: 53px;
+        height: 42px;
+        flex: 4;
+        justify-content: flex-start; }
+        .regform .pwd2 div:nth-child(2) div input, .regform .pwd2 div:nth-child(2) div .form-item .drop-down, .form-item .regform .pwd2 div:nth-child(2) div .drop-down, .regform .pwd2 div:nth-child(2) div .form-item .drop-down1, .form-item .regform .pwd2 div:nth-child(2) div .drop-down1 {
+          height: 40px;
+          width: 70%;
+          margin-left: 26px;
+          border: none; }
+        .regform .pwd2 div:nth-child(2) div input:focus, .regform .pwd2 div:nth-child(2) div .form-item .drop-down:focus, .form-item .regform .pwd2 div:nth-child(2) div .drop-down:focus, .regform .pwd2 div:nth-child(2) div .form-item .drop-down1:focus, .form-item .regform .pwd2 div:nth-child(2) div .drop-down1:focus {
+          outline: none;
+          border: 0;
+          box-shadow: none; }
+        .regform .pwd2 div:nth-child(2) div a {
+          width: 30%;
+          color: #B19B70;
+          font-size: 14px;
+          text-decoration: none; }
+    .regform .pwd2 div:nth-child(3) {
+      flex: 1;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      justify-content: flex-start; }
+      .regform .pwd2 div:nth-child(3) img {
+        margin-left: 12px; }
+      .regform .pwd2 div:nth-child(3) .wrong {
+        font-size: 14px;
+        color: #D0021B; }
+      .regform .pwd2 div:nth-child(3) .right {
+        font-size: 14px;
+        color: #7ED321; }
+  .regform .yingyezhizhaoreg {
+    order: 6;
     display: flex;
     margin-top: 30px; }
     .regform .yingyezhizhaoreg div:nth-child(1) {
@@ -625,24 +786,45 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
         letter-spacing: 0;
         line-height: 24px;
         flex: 1; }
-      .regform .yingyezhizhaoreg div:nth-child(2) .upyyzz {
+      .regform .yingyezhizhaoreg div:nth-child(2) div {
         border: 1px solid #B19B70;
         border-radius: 53px;
         height: 42px;
-        flex: 2; }
-        .regform .yingyezhizhaoreg div:nth-child(2) .upyyzz a {
-          width: 100%;
+        flex: 4;
+        display: flex;
+        align-items: center;
+        justify-content: space-around; }
+        .regform .yingyezhizhaoreg div:nth-child(2) div input, .regform .yingyezhizhaoreg div:nth-child(2) div .form-item .drop-down, .form-item .regform .yingyezhizhaoreg div:nth-child(2) div .drop-down, .regform .yingyezhizhaoreg div:nth-child(2) div .form-item .drop-down1, .form-item .regform .yingyezhizhaoreg div:nth-child(2) div .drop-down1 {
+          vertical-align: middle;
+          width: 70%;
+          margin-left: 26px;
+          border: none; }
+        .regform .yingyezhizhaoreg div:nth-child(2) div a {
+          width: 30%;
           color: #B19B70;
           font-size: 14px;
-          text-align: center;
-          line-height: 42px;
           text-decoration: none; }
       .regform .yingyezhizhaoreg div:nth-child(2) .zwreg {
         flex: 2; }
     .regform .yingyezhizhaoreg div:nth-child(3) {
-      flex: 1; }
+      flex: 1;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      justify-content: flex-start; }
+      .regform .yingyezhizhaoreg div:nth-child(3) img {
+        margin-left: 12px; }
+      .regform .yingyezhizhaoreg div:nth-child(3) .wrong {
+        font-size: 14px;
+        color: #D0021B; }
+      .regform .yingyezhizhaoreg div:nth-child(3) .right {
+        font-size: 14px;
+        color: #7ED321; }
   .regform .yingyezhizhaotupianreg {
-    order: 5;
+    order: 7;
     display: flex;
     margin-top: 10px; }
     .regform .yingyezhizhaotupianreg div:nth-child(1) {
@@ -669,9 +851,24 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
           width: 100%;
           color: #B19B70; }
     .regform .yingyezhizhaotupianreg div:nth-child(3) {
-      flex: 1; }
+      flex: 1;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      justify-content: flex-start; }
+      .regform .yingyezhizhaotupianreg div:nth-child(3) img {
+        margin-left: 12px; }
+      .regform .yingyezhizhaotupianreg div:nth-child(3) .wrong {
+        font-size: 14px;
+        color: #D0021B; }
+      .regform .yingyezhizhaotupianreg div:nth-child(3) .right {
+        font-size: 14px;
+        color: #7ED321; }
   .regform .xieyireg {
-    order: 6;
+    order: 8;
     display: flex;
     margin-top: 10px; }
     .regform .xieyireg div:nth-child(1) {
@@ -694,7 +891,7 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
       .regform .xieyireg div:nth-child(2) div {
         flex: 4;
         justify-content: center; }
-        .regform .xieyireg div:nth-child(2) div input, .regform .xieyireg div:nth-child(2) div .form-item .drop-down, .form-item .regform .xieyireg div:nth-child(2) div .drop-down {
+        .regform .xieyireg div:nth-child(2) div input, .regform .xieyireg div:nth-child(2) div .form-item .drop-down, .form-item .regform .xieyireg div:nth-child(2) div .drop-down, .regform .xieyireg div:nth-child(2) div .form-item .drop-down1, .form-item .regform .xieyireg div:nth-child(2) div .drop-down1 {
           border: 1px solid #979797;
           border-radius: 2px; }
         .regform .xieyireg div:nth-child(2) div p {
@@ -707,7 +904,7 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
     .regform .xieyireg div:nth-child(3) {
       flex: 1; }
   .regform .regbtninstance, .regform .forgetpwdbtn {
-    order: 7;
+    order: 8;
     display: flex; }
     .regform .regbtninstance div:nth-child(1), .regform .forgetpwdbtn div:nth-child(1) {
       flex: 1; }
@@ -749,8 +946,7 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
   margin-top: 90px; }
   .login-center div:nth-child(1) {
     height: 402px;
-    width: 600px;
-    background-color: #D0021B; }
+    width: 600px; }
     .login-center div:nth-child(1) image {
       height: 100%;
       width: 100%; }
@@ -781,12 +977,12 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
         width: 25px;
         height: 25px;
         margin-left: 9px; }
-      .login-center .loginform .usernamelogin input, .login-center .loginform .usernamelogin .form-item .drop-down, .form-item .login-center .loginform .usernamelogin .drop-down {
+      .login-center .loginform .usernamelogin input, .login-center .loginform .usernamelogin .form-item .drop-down, .form-item .login-center .loginform .usernamelogin .drop-down, .login-center .loginform .usernamelogin .form-item .drop-down1, .form-item .login-center .loginform .usernamelogin .drop-down1 {
         height: 40px;
         width: 70%;
         margin-left: 17.5px;
         border: none; }
-      .login-center .loginform .usernamelogin input:focus, .login-center .loginform .usernamelogin .form-item .drop-down:focus, .form-item .login-center .loginform .usernamelogin .drop-down:focus {
+      .login-center .loginform .usernamelogin input:focus, .login-center .loginform .usernamelogin .form-item .drop-down:focus, .form-item .login-center .loginform .usernamelogin .drop-down:focus, .login-center .loginform .usernamelogin .form-item .drop-down1:focus, .form-item .login-center .loginform .usernamelogin .drop-down1:focus {
         outline: none;
         border: 0;
         box-shadow: none; }
@@ -807,12 +1003,12 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
         width: 25px;
         height: 25px;
         margin-left: 9px; }
-      .login-center .loginform .pwdlogin input, .login-center .loginform .pwdlogin .form-item .drop-down, .form-item .login-center .loginform .pwdlogin .drop-down {
+      .login-center .loginform .pwdlogin input, .login-center .loginform .pwdlogin .form-item .drop-down, .form-item .login-center .loginform .pwdlogin .drop-down, .login-center .loginform .pwdlogin .form-item .drop-down1, .form-item .login-center .loginform .pwdlogin .drop-down1 {
         height: 40px;
         width: 70%;
         margin-left: 17.5px;
         border: none; }
-      .login-center .loginform .pwdlogin input:focus, .login-center .loginform .pwdlogin .form-item .drop-down:focus, .form-item .login-center .loginform .pwdlogin .drop-down:focus {
+      .login-center .loginform .pwdlogin input:focus, .login-center .loginform .pwdlogin .form-item .drop-down:focus, .form-item .login-center .loginform .pwdlogin .drop-down:focus, .login-center .loginform .pwdlogin .form-item .drop-down1:focus, .form-item .login-center .loginform .pwdlogin .drop-down1:focus {
         outline: none;
         border: 0;
         box-shadow: none; }
@@ -933,12 +1129,12 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
     .search .tab .select {
       color: #FFFFFF;
       background: #B19B70; }
-  .search input, .search .form-item .drop-down, .form-item .search .drop-down {
+  .search input, .search .form-item .drop-down, .form-item .search .drop-down, .search .form-item .drop-down1, .form-item .search .drop-down1 {
     height: 40px;
     margin-left: 42px;
     width: 350px;
     border: none; }
-  .search input:focus, .search .form-item .drop-down:focus, .form-item .search .drop-down:focus {
+  .search input:focus, .search .form-item .drop-down:focus, .form-item .search .drop-down:focus, .search .form-item .drop-down1:focus, .form-item .search .drop-down1:focus {
     outline: none;
     border: 0;
     box-shadow: none; }
@@ -1152,8 +1348,6 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
     text-decoration: none; }
   .query-area a:hover {
     color: #B19B70; }
-  .query-area .select {
-    color: #B19B70; }
   .query-area .query-name {
     font-weight: bold;
     display: inline-block; }
@@ -1207,10 +1401,6 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
     font-size: 14px;
     width: 28px;
     padding: 6px 6px; }
-  .pagination .current-page {
-    background: #B19B70 !important; }
-    .pagination .current-page a {
-      color: #FFFFFF !important; }
   .pagination .page-item {
     padding: 0;
     display: inline-block;
@@ -1273,20 +1463,20 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
 .form-item label {
   color: #333333;
   font-size: 18px; }
-.form-item input, .form-item .drop-down {
+.form-item input, .form-item .drop-down, .form-item .drop-down1 {
   -webkit-border-radius: 53px;
   border-radius: 53px;
   border: 1px solid #999999;
   color: #333333;
   font-size: 18px;
   padding: 9px 17px; }
-  .form-item input::-webkit-input-placeholder, .form-item .drop-down::-webkit-input-placeholder {
+  .form-item input::-webkit-input-placeholder, .form-item .drop-down::-webkit-input-placeholder, .form-item .drop-down1::-webkit-input-placeholder {
     color: #999999; }
-  .form-item input::-moz-placeholder, .form-item .drop-down::-moz-placeholder {
+  .form-item input::-moz-placeholder, .form-item .drop-down::-moz-placeholder, .form-item .drop-down1::-moz-placeholder {
     color: #999999; }
-  .form-item input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
+  .form-item input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder, .form-item .drop-down1:-ms-input-placeholder {
     color: #999999; }
-.form-item input:focus, .form-item .drop-down:focus {
+.form-item input:focus, .form-item .drop-down:focus, .form-item .drop-down1:focus {
   outline: none; }
 .form-item .drop-down {
   padding: 9px 0px 9px 58px;
@@ -1296,6 +1486,26 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
   width: 100px;
   display: inline-block; }
   .form-item .drop-down .split {
+    width: 1px;
+    background: #B19B70;
+    height: 23px;
+    display: inline-block;
+    float: right;
+    margin-right: 28px; }
+.form-item .drop-down1 {
+  background-position: 135px;
+  background-size: 12px 7px;
+  display: inline-block; }
+  .form-item .drop-down1 .selected {
+    border: none;
+    height: 100%;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    font-size: 18px;
+    padding-right: 14px;
+    background: url("http://ourjs.github.io/static/2015/arrow.png") no-repeat scroll right center transparent; }
+  .form-item .drop-down1 .split {
     width: 1px;
     background: #B19B70;
     height: 23px;
@@ -1528,12 +1738,12 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
           height: 42px;
           width: 400px;
           margin-left: 30px; }
-          .right-content1 .content .modifyform .formline div input, .right-content1 .content .modifyform .formline div .form-item .drop-down, .form-item .right-content1 .content .modifyform .formline div .drop-down {
+          .right-content1 .content .modifyform .formline div input, .right-content1 .content .modifyform .formline div .form-item .drop-down, .form-item .right-content1 .content .modifyform .formline div .drop-down, .right-content1 .content .modifyform .formline div .form-item .drop-down1, .form-item .right-content1 .content .modifyform .formline div .drop-down1 {
             height: 40px;
             width: 70%;
             margin-left: 17.5px;
             border: none; }
-          .right-content1 .content .modifyform .formline div input:focus, .right-content1 .content .modifyform .formline div .form-item .drop-down:focus, .form-item .right-content1 .content .modifyform .formline div .drop-down:focus {
+          .right-content1 .content .modifyform .formline div input:focus, .right-content1 .content .modifyform .formline div .form-item .drop-down:focus, .form-item .right-content1 .content .modifyform .formline div .drop-down:focus, .right-content1 .content .modifyform .formline div .form-item .drop-down1:focus, .form-item .right-content1 .content .modifyform .formline div .drop-down1:focus {
             outline: none;
             border: 0;
             box-shadow: none; }
@@ -1561,20 +1771,42 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder {
   text-align: center;
   display: block; }
 
-.right-content .content .sex, .right-content .content .mobile {
+.right-content .content .sex {
   float: left;
   width: 300px; }
+.right-content .content .mobile {
+  float: left;
+  width: 400px; }
 .right-content .content .group {
   margin-top: 38px; }
 .right-content .content .email {
   display: block;
   margin-top: 38px; }
-  .right-content .content .email input, .right-content .content .email .form-item .drop-down, .form-item .right-content .content .email .drop-down {
+  .right-content .content .email input, .right-content .content .email .form-item .drop-down, .form-item .right-content .content .email .drop-down, .right-content .content .email .form-item .drop-down1, .form-item .right-content .content .email .drop-down1 {
     width: 424px; }
 .right-content .save-btn {
   width: 460px;
   padding: 10px 0px;
   margin-left: 58px;
   margin-top: 38px; }
+
+.msgcentertable {
+  margin-top: 40px;
+  border: 1px solid #CCCCCC;
+  width: 100%; }
+  .msgcentertable tr {
+    border: 1px solid #CCCCCC;
+    height: 50px;
+    font-size: 16px; }
+    .msgcentertable tr th {
+      border: 1px solid #CCCCCC;
+      vertical-align: middle;
+      text-align: center; }
+    .msgcentertable tr td {
+      border: 1px solid #CCCCCC;
+      text-align: center;
+      vertical-align: middle;
+      color: #333333;
+      font-size: 15px; }
 
 /*# sourceMappingURL=main.css.map */

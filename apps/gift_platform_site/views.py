@@ -13,10 +13,12 @@ from django.contrib.auth import logout
 from django.core.paginator import Paginator
 from django.http import HttpResponseBadRequest
 
+
 class IndexView(View):
     def get(self,request):
         products = product.objects.filter(status=0)[0:16]
-        return render(request, "home/index.html", { "products": products })
+        currentuser = request.user
+        return render(request, "home/index.html", { "products": products,"currentuser":currentuser})
 
 #支持手机号或者用户名登陆
 class CustomBackend(ModelBackend):
@@ -26,7 +28,7 @@ class CustomBackend(ModelBackend):
             print(password)
             user = UserProfile.objects.get(Q(username=username)|Q(mobile=username))
             print( user.check_password(password))
-            if user.check_password(password):
+            if user.check_password(password) :
                 return user
         except  Exception as e:
             return None
@@ -39,22 +41,21 @@ class LoginView(View):
     def post(self, request):
         user = authenticate(username=request.POST['username'], password=request.POST['password'])
         print(user)
-        if user is not None:
+        if user is not None and user.currentpoint!='ck':
             # 如果用户不为空，则继续检查该账户类型，只能由商户登录进入
             print(user.type)
             if user.type == 'giftcompany':
                 login(request, user)
                 print("登陆成功")
-                #return redirect('/home')
-                return redirect('/usercenter/myaccount')
+                return redirect('/home')
+                #return redirect('/usercenter/myaccount')
             else:
                 return render(request, 'sign/login.html', {
                     'error_message': "用户名或者密码错误"
                 })
-        else:
-            # 用户名或者密码错误
+        elif user.currentpoint=='ck':
             return render(request, 'sign/login.html', {
-                'error_message': "用户名或者密码错误"
+                'sh_message': "请等待审核通过后再进行登录"
             })
 
 class RegView1(View):
@@ -145,7 +146,6 @@ class RegView3(View):
         print(request.session["username"])
         return render(request,'sign/reg3.html')
     def post(self,request):
-
         username1 = request.session['username']
         usernow = UserProfile.objects.get(username=username1)
         # 接受图片上传逻辑
@@ -158,6 +158,8 @@ class RegView3(View):
                 yyzz = request.FILES.get('yyzz')
                 ui.img = yyzz
                 ui.save()
+                usernow.currentpoint = "ck"  # 表示客户注册后的审批节点
+                usernow.save()
                 return render(request, 'sign/reg3.html',
                               {"yyzz": ui.img.url,
                                "img1": yyzz
@@ -168,16 +170,16 @@ class RegView3(View):
                     userauthinfoInstance.img = yyzz
                     userauthinfoInstance.userid=usernow
                     userauthinfoInstance.save()
-
+                    usernow.currentpoint = "ck"  # 表示客户注册后的审批节点
+                    usernow.save()
                     print('ss')
                     return render(request, 'sign/reg3.html',
                                   {"yyzz": userauthinfoInstance.img.url,
                                    "img1":yyzz
                                    })
+
         else:
             return render(request, 'sign/reg3.html', {"reg3Form": reg2tpform})  # form验证信息回显
-
-
 
 
 
@@ -195,7 +197,8 @@ class MyaccountView(View):
                 return render(request, 'usercenter/myaccount.html',{'currentuser':currentUser,'gender':gender})
             else:
                 return redirect('/sign/login')
-        except:
+        except Exception as e:
+            print(e)
             return render(request, 'sign/login.html')
 
 
@@ -560,3 +563,13 @@ def root_category_product_list(request, parent_category_id):
 
     return render(request, 'products/root_category_product_list.html', result_data_dict)
 
+class msgCenterView(View):
+    def get(self,request):
+        try:
+            currentUser = request.user
+            if currentUser.is_authenticated:
+                return render(request, 'inforcenter/msgcenter.html')
+            else:
+                return redirect('/sign/login')
+        except:
+            return render(request, 'sign/login.html')

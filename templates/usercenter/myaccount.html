@@ -1,18 +1,10 @@
 {% extends 'share/base_layout_usercenter.html' %}
 {% block title %}我的资料{% endblock %}
 
-{% block content %}
-    {% load static %}
-<div class="container admin">
-    <div class="left-nav">
-        <div class="category">
-            <span class="category-header">账号管理</span>
-            <a class="nav-item select" href="#">我的资料</a>
-            <a class="nav-item" href="#">修改密码</a>
-            <a class="nav-item" href="#">消息中心</a>
-        </div>
-    </div>
 
+
+{% block content1 %}
+    {% load static %}
 <form method="post"   action="{% url 'gift_platform_site:myaccount' %}" id="myaccountform" >
     <div class="right-content">
         <div class="content">
@@ -27,7 +19,7 @@
                 </div>
                 <div class="form-item sex">
                     <label>性别：</label>
-                    <div class="drop-down">
+                    <div class="drop-down1">
                         <select name="gender" class="selected" value="{{ gender }}">
                             <option value ="1" {% ifequal gender 1 %}selected{% endifequal %}>男 ♂</option>
                             <option  value ="0" {% ifequal gender 0 %}selected{% endifequal %}>女 ♀</option>
@@ -46,9 +38,8 @@
     </div>
         {% csrf_token %}
     </form>
-
-
-    <div class="clear"></div>
-</div>
-
 {% endblock %}
+
+
+
+

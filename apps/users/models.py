@@ -12,6 +12,7 @@ class privatearea(models.Model):
 
 class UserProfile(AbstractUser):
     authStatus=models.BooleanField(default=False)#认证状态
+    currentpoint=models.CharField(max_length=100,null=True,choices=(("ck","等待管理员审核"),("bc","被退回")))#表示当前审核所在节点
     mobile = models.CharField(max_length=20,null=True)#电话号码
     gender = models.BooleanField(default=True)#1男，0女
     type = models.CharField(max_length=100,null=True,choices=(("supplier","供应商"),("giftcompany","礼品公司"),("service","客服"),("admin","系统管管理员")))
