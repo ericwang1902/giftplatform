@@ -1,0 +1,32 @@
+{% extends 'share/base_layout_usercenter.html' %}
+{% block title %}我的资料{% endblock %}
+
+
+
+{% block content1 %}
+    {% load static %}
+    <div class="right-content">
+        <div class="content">
+            <table class="msgcentertable">
+                <tr>
+                    <th>序号</th>
+                    <th>标题</th>
+                    <th>发布时间</th>
+                    <th>发布者</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>会员充值有好礼！</td>
+                    <td>2018年3月21日</td>
+                    <td>系统管理员</td>
+                    <td>未读</td>
+                    <td>查看</td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

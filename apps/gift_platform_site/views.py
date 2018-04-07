@@ -55,19 +55,32 @@ class LoginView(View):
             if user is not None and user.currentpoint!='ck':
                 # 如果用户不为空，则继续检查该账户类型，只能由商户登录进入
                 print(user.type)
-                if user.type == 'giftcompany':
-                    login(request, user)
-                    print("登陆成功")
-                    return redirect('/home')
-                    #return redirect('/usercenter/myaccount')
+                if user.authStatus ==True:
+                    if user.type == 'giftcompany':
+                        login(request, user)
+                        print("登陆成功")
+                        return redirect('/home')
+                    else:
+                        return render(request, 'sign/login.html', {
+                            'error_message': "用户名或者密码错误"
+                        })
                 else:
-                    return render(request, 'sign/login.html', {
-                        'error_message': "用户名或者密码错误"
-                    })
+                    if user.type == 'giftcompany':
+                        login(request, user)
+                        request.session["username"] = user.username
+                        request.session['info']="未通过认证，请重新上传"
+                        return redirect('/sign/reg3')
+                    else:
+                        return render(request, 'sign/login.html', {
+                            'error_message': "用户名或者密码错误"
+                        })
+
+
             elif user.currentpoint=='ck':
                 return render(request, 'sign/login.html', {
                     'sh_message': "请等待审核通过后再进行登录"
                 })
+
         else:
             return render(request, 'sign/login.html', {
                 'loginform': loginForm
@@ -100,7 +113,7 @@ class RegView2(View):
                 request.session["usertype"] = request.POST.get('usertype')
                 usertype = request.session["usertype"]
             else:
-                usertype=request.session["usertype"]
+                usertype=request.GET.get("type")
             if usertype != '1' and usertype != '2':
                 print("用户类型错误！")
                 return redirect('/sign/register1')
@@ -159,7 +172,8 @@ class RegView2(View):
 class RegView3(View):
     def get(self,request):
         print(request.session["username"])
-        return render(request,'sign/reg3.html')
+        info = request.session['info']
+        return render(request,'sign/reg3.html',{'info':info})
     def post(self,request):
         username1 = request.session['username']
         usernow = UserProfile.objects.get(username=username1)
@@ -752,3 +766,7 @@ class msgCenterView(View):
                 return redirect('/sign/login')
         except:
             return render(request, 'sign/login.html')
+
+class sysinfoView(View):
+    def get(self,request):
+        return  render(request,'usercenter/sysinfo.html')

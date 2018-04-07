@@ -7,6 +7,7 @@ class regForm(forms.Form):
     email = forms.CharField(required=True,error_messages={'required':u'邮箱不能为空'})
     pwd1 =forms.CharField(required=True,error_messages={'required':u'密码不能为空'})
     pwd2 = forms.CharField(required=True,error_messages={'required':u'请重复输入密码'})
+    vehicle=forms.BooleanField(required=True,error_messages={'required':u'请确认是否同意使用协议'})
    # usertype = forms.CharField(required=True)
 
 class reg2tpForm(forms.Form):

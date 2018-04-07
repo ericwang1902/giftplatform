@@ -9,7 +9,7 @@
             <span class="category-header">账号管理</span>
             <a {% ifequal request.path '/usercenter/myaccount' %}class="nav-item select" {% else %}class="nav-item"{% endifequal %}   href="{% url 'gift_platform_site:myaccount' %}">我的资料</a>
             <a {% ifequal request.path '/usercenter/mpwd' %}class="nav-item select"{% else %}class="nav-item"{% endifequal %} href="{% url 'gift_platform_site:modifypwd' %}">修改密码</a>
-            <a {% ifequal request.path '/usercenter/msg/' %}class="nav-item select"{% else %}class="nav-item" {% endifequal %} href="#">消息中心</a>
+            <a {% ifequal request.path '/usercenter/sysinfo' %}class="nav-item select"{% else %}class="nav-item" {% endifequal %} href="{% url 'gift_platform_site:sysinfo' %}">消息中心</a>
         </div>
     </div>
 {% block content1 %}
