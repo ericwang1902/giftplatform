@@ -40,14 +40,14 @@
                 <div class="cart">
                     <img src="{% static 'gift_platform_site/images/cart.png' %}" />
                     <span class="product-count">
-                0
-            </span>
+                        0
+                    </span>
                 </div>
                 <span class="split"></span>
                 <div class="cart-info drop-down">
                     您没有礼品方案
                 </div>
-                <div class="cart-content">
+                <div class="cart-content" id="cart" style="display: none">
                     <div class="cart-content-header">
                         <span>商品</span>
                         <a>删除</a>
@@ -144,6 +144,19 @@
             });
         })(jQuery);
 
+        (function($){
+            var cartDisplay = false;
+            $('.cart-wrap').mouseenter(function(){
+                cartDisplay = true;
+                $('.cart-content').show();
+            });
+            $('.cart-content').mouseleave(function (e) {
+                if (cartDisplay) {
+                    cartDisplay = false
+                    $(this).hide();
+                }
+            })
+        })(jQuery);
     })
 </script>
 </body>
