@@ -157,7 +157,7 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder, .form-
             float: right;
             width: 15px;
             height: 15px;
-            background: url(../images/close.png) no-repeat;
+            background: url(/static/gift_platform_site/images/close.png) no-repeat;
             background-size: 15px 15px; }
       .search-head-wrap .search-wrap .cart-wrap .cart {
         position: relative;
@@ -188,11 +188,11 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder, .form-
         padding-right: 19px;
         margin-right: 7px; }
       .search-head-wrap .search-wrap .cart-wrap .drop-down {
-        background: url(../images/arrow_down.png) no-repeat;
+        background: url(/static/gift_platform_site/images/arrow_down.png) no-repeat;
         background-position: right;
         background-size: 12px 7px; }
       .search-head-wrap .search-wrap .cart-wrap .drop-up {
-        background: url(../images/arrow_up.png) no-repeat;
+        background: url(/static/gift_platform_site/images/arrow_up.png) no-repeat;
         background-position: right;
         background-size: 12px 7px; }
       .search-head-wrap .search-wrap .cart-wrap .split {
@@ -1164,7 +1164,7 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder, .form-
 /*! sass-mixins - v0.12.0 - 2015-08-26 */
 .search {
   border: 2px #B19B70 solid;
-  background: url(../images/search.png) no-repeat;
+  background: url(/static/gift_platform_site/images/search.png) no-repeat;
   -webkit-background-size: 25px 25px;
   background-size: 25px 25px;
   background-position-y: center;
@@ -1312,11 +1312,11 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder, .form-
       padding-right: 19px;
       margin-right: 7px; }
     .nav .cart-wrap .drop-down {
-      background: url(../images/arrow_down.png) no-repeat;
+      background: url(/static/gift_platform_site/images/arrow_down.png) no-repeat;
       background-position: right;
       background-size: 12px 7px; }
     .nav .cart-wrap .drop-up {
-      background: url(../images/arrow_up.png) no-repeat;
+      background: url(/static/gift_platform_site/images/arrow_up.png) no-repeat;
       background-position: right;
       background-size: 12px 7px; }
     .nav .cart-wrap .split {
@@ -1539,7 +1539,7 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder, .form-
   outline: none; }
 .form-item .drop-down {
   padding: 9px 0px 9px 58px;
-  background: url(../images/arrow_down.png) no-repeat;
+  background: url(/static/gift_platform_site/images/arrow_down.png) no-repeat;
   background-position: 135px;
   background-size: 12px 7px;
   width: 100px;

@@ -54,16 +54,10 @@
                     </div>
                     <div class="product-list">
                         <ul>
-                            <li>
-                                <img src="images/demo_cover_image.png"/>
-                                <span class="product-name">商品名称商品</span>
-                                <a class="del-btn">
-                                </a>
-                            </li>
                         </ul>
                     </div>
                     <div class="cart-footer">
-                        <span>3个产品</span>
+                        <span>0个产品</span>
                         <a href="#" class="out-btn">导出</a>
                         <div class="clear"></div>
                     </div>
@@ -157,6 +151,31 @@
                 }
             })
         })(jQuery);
+
+        var initCart = function() {
+            $(document).on('click', '.del-btn', function() {
+                console.log($(this));
+            })
+            var generateCartListHtmlStr = function(imageUrl, name, productId, productSkuId) {
+                 return '<li><img src="' + imageUrl + '"/> <span class="product-name">' + name + '</span> <a productSkuId="'+productSkuId +'" productId="' + productId +'" class="del-btn"> </a> </li>';
+            }
+            $.get('{% url "gift_platform_site:cart" %}', function(response) {
+                if (response.length === 0) {
+                    $('.cart-info').text('您没有礼品方案');
+                } else {
+                    $('.cart-info').text('包含' + response.length + '个商品');
+                }
+                $('.cart-info .product-list ul').empty();
+                for (var i in response) { // 开始初始化相关商品信息
+                    var itemHtml = generateCartListHtmlStr(response[i].mainImage, response[i].productName, response[i].productId, response[i].productSkuId);
+                    $('.cart-info .product-list ul').append(itemHtml)
+                }
+                $('.cart-footer span').text(response.length + '个商品');
+                $('.product-count').text(response.length);
+            });
+        }
+
+        initCart();
     })
 </script>
 </body>

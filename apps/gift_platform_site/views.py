@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate,login
 from django.views import View
 from django.contrib.auth.backends import ModelBackend
 from apps.users.models import UserProfile,supplier
-from apps.products.models import product,brands,category
+from apps.products.models import product,brands,category,productItem
 from django.db.models import Q
 from django.contrib.auth.hashers import make_password
 from . import forms
@@ -11,9 +11,10 @@ from apps.users.models import userAuthinfo
 from django.shortcuts import redirect
 from django.contrib.auth import logout
 from django.core.paginator import Paginator
-from django.http import HttpResponseBadRequest
+from django.http import HttpResponseBadRequest, HttpResponseNotFound, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+import json
 
 def home(request):
     """
@@ -766,3 +767,97 @@ class sysinfoView(View):
 class findpwdView(View):
     def get(self,request):
         return render(request,'sign/findpwd.html')
+
+class CartView(View):
+    """
+    方案车视图方法
+    """
+    def get(self, request):
+        """
+        获取方案车的所有列表
+        :param request:
+        :return:
+        """
+        result = []
+        if request.session.get('cart', False):
+            for cart_item in request.session['cart']:
+                product_instance = product.objects.get(pk=cart_item.product_id)
+                result.append({
+                    'productName': product_instance.name,
+                    'mainImage': product_instance.images.first().productimage.url,
+                    'productId': cart_item.product_id,
+                    'productSkuId': cart_item.product_item_id
+                })
+            return HttpResponse(json.dumps(result), content_type="application/json", status='200')
+        else:
+            return HttpResponse(json.dumps(result), content_type="application/json", status='200')
+
+    def delete(self, request):
+        """
+        删除方案车中的方案
+        :param request:
+        :param product_id:
+        :param product_sku_id:
+        :return:
+        """
+        product_id = request.GET.get('productId', None)
+        product_sku_id = request.GET.get('productSkuId', None)
+        temp = {
+            'product_id': product_id,
+            'product_item_id': product_sku_id
+        }
+        if temp in request.session['cart']:
+            request.session['cart'].remove(temp)
+            return HttpResponse(json.dumps({ 'result': 'ok' }), content_type="application/json", status='200')
+        else:
+            return HttpResponse(json.dumps({ 'result': 'error', 'message': 'not found' }), content_type="application/json", status='404')
+
+    def post(self, request):
+        """
+        在方案车中加入相关商品,使用post提交，主要参数为商品主id和sku id
+        :param request:
+        :return:
+        """
+        product_id = int(request.POST.get('productId'))
+        product_sku_id = int(request.POST.get('productItemId'))
+
+        product_instance = product.objects.get(pk=product_id)
+
+        product_sku_instance = productItem.objects.get(pk=product_sku_id)
+
+        if product_instance.productItems.filter(id=product_sku_id).exists():
+            if product_instance is None:
+                return HttpResponse(json.dumps({ 'result': 'error', 'message': 'product not existed'}), content_type="application/json", status="404")
+
+            if (product_instance is None) or (product_sku_instance is None):
+                return HttpResponse(json.dumps({ 'result': 'error', 'message': 'product sku not existed'}), content_type="application/json", status="404")
+
+            temp = {
+                'product_id': product_id,
+                'product_item_id': product_sku_id
+            }
+            if temp in request.session['cart']: # 如果已经存在于方案车，则返回错误信息
+                return HttpResponse(json.dumps({ 'result': 'error', 'message': 'has existed'}), content_type="application/json", status="400")
+
+            if request.session.get('cart', False):
+                request.session['cart'].append(
+                    {
+                        'product_id': product_id,
+                        'product_item_id':  product_sku_id
+                    }
+                )
+            else:
+                request.session['cart'] = [
+                    {
+                        'product_id': product_id,
+                        'product_item_id':  product_sku_id
+                    }
+                ]
+
+            return HttpResponse(json.dumps({'result': 'ok'}),content_type="application/json", status="200")
+        else:
+            return HttpResponse(json.dumps({ 'result': 'error', 'message': 'product not existed'}), content_type="application/json", status="404")
+
+
+
+
