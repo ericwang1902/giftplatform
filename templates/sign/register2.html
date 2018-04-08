@@ -12,7 +12,7 @@
         <div class="currentstep">2.填写信息</div>
     </div>
     <div class="regform">
-        <form method="post" enctype="multipart/form-data" action="{% url 'gift_platform_site:reg2' %}?type=2" id="reg2form">
+        <form method="post" enctype="multipart/form-data" action="{% url 'gift_platform_site:reg2' %}?type={{ usertype }}" id="reg2form">
         <div class="usernamereg">
             <div></div>
             <div>

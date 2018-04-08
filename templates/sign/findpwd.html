@@ -1,0 +1,63 @@
+{% extends 'share/base_layout_reg.html' %}
+
+{% block title %}
+找回密码
+{% endblock %}
+
+{% block content %}
+    {% load static %}
+<div class="reg-step-div">
+    <div class="nocurrentstep">找回密码</div>
+</div>
+<div class="regform">
+<form method="post" id="findpwdform">
+    <div class="usernamereg">
+        <div></div>
+        <div>
+            <p>手机号：</p>
+            <div><input name="mobile" placeholder="请输入注册手机号"/></div>
+        </div>
+        <div>
+            <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+            <p class="wrong">该手机号不存在</p>
+        </div>
+    </div>
+    <div class="mobilereg">
+        <div></div>
+        <div>
+            <p>验证码：</p>
+            <div><input name="checkcode" placeholder="请输入验证码"/><a href="#">发送验证码</a></div>
+        </div>
+        <div></div>
+    </div>
+    <div class="yanzhengmareg">
+        <div></div>
+        <div>
+            <p>重置密码：</p>
+            <div><input name="pwd1" placeholder="请输入新密码"/></div>
+        </div>
+        <div></div>
+    </div>
+    <div class="emailreg">
+        <div></div>
+        <div>
+            <p>确认密码：</p>
+            <div><input name="pwd2" placeholder="请再次输入密码"/></div>
+        </div>
+        <div></div>
+    </div>
+
+    <div class="forgetpwdbtn">
+        <div></div>
+        <div>
+            <p></p>
+            <div>
+                <a href="#">提交</a>
+            </div>
+        </div>
+        <div></div>
+    </div>
+</form>
+</div>
+{% endblock %}
+

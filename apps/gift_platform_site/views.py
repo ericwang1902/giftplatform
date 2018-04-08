@@ -762,3 +762,7 @@ class msgCenterView(View):
 class sysinfoView(View):
     def get(self,request):
         return  render(request,'usercenter/sysinfo.html')
+
+class findpwdView(View):
+    def get(self,request):
+        return render(request,'sign/findpwd.html')
