@@ -1572,6 +1572,13 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder, .form-
     float: right;
     margin-right: 28px; }
 
+.pc {
+  margin-top: 53px;
+  font-size: 14px;
+  color: #333333;
+  letter-spacing: 0;
+  line-height: 24px; }
+
 .clear {
   clear: both; }
 

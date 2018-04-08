@@ -766,3 +766,7 @@ class sysinfoView(View):
 class findpwdView(View):
     def get(self,request):
         return render(request,'sign/findpwd.html')
+
+class protocolView(View):
+    def get(self,request):
+        return render(request,'others/protocol.html')
