@@ -52,35 +52,29 @@ class LoginView(View):
         if loginForm.is_valid():
             user = authenticate(username=request.POST['username'], password=request.POST['password'])
             print(user)
-            if user is not None and user.currentpoint!='ck':
-                # 如果用户不为空，则继续检查该账户类型，只能由商户登录进入
-                print(user.type)
-                if user.authStatus ==True:
-                    if user.type == 'giftcompany':
-                        login(request, user)
-                        print("登陆成功")
-                        return redirect('/home')
-                    else:
-                        return render(request, 'sign/login.html', {
-                            'error_message': "用户名或者密码错误"
-                        })
-                else:
-                    if user.type == 'giftcompany':
-                        login(request, user)
-                        request.session["username"] = user.username
+            if user is not None :#用户名和密码正确，且已经经过管理员审核操作,通过或者退回
+                if user.currentpoint=='bc':#管理员已经操作
+                    if user.authStatus ==True:#通过审核
+                        if user.type == 'giftcompany':
+                            login(request, user)
+                            print("登陆成功")
+                            return redirect('/home')
+                        elif user.type=='supplier':
+                            return render(request, 'sign/login.html', {
+                                'error_message': "供应商请从供应商入口登录"
+                            })
+
+                    else:#未通过审核
                         request.session['info']="未通过认证，请重新上传"
-                        return redirect('/sign/reg3')
-                    else:
-                        return render(request, 'sign/login.html', {
-                            'error_message': "用户名或者密码错误"
-                        })
-
-
-            elif user.currentpoint=='ck':
+                        return redirect('/sign/login')
+                else:#user.currentpoint=='ck':#管理员尚未操作
+                    return render(request, 'sign/login.html', {
+                        'sh_message': "请等待审核通过后再进行登录"
+                    })
+            else:#用户名和密码错误
                 return render(request, 'sign/login.html', {
-                    'sh_message': "请等待审核通过后再进行登录"
+                    'error_message': "用户名或者密码错误"
                 })
-
         else:
             return render(request, 'sign/login.html', {
                 'loginform': loginForm
@@ -108,12 +102,7 @@ class RegView2(View):
             pwd1 = request.POST.get('pwd1')
             pwd2 = request.POST.get('pwd2')
 
-            usertype='0'
-            if request.POST.get('usertype'):
-                request.session["usertype"] = request.POST.get('usertype')
-                usertype = request.session["usertype"]
-            else:
-                usertype=request.GET.get("type")
+            usertype=request.GET.get("type")
             if usertype != '1' and usertype != '2':
                 print("用户类型错误！")
                 return redirect('/sign/register1')
@@ -172,8 +161,11 @@ class RegView2(View):
 class RegView3(View):
     def get(self,request):
         print(request.session["username"])
-        info = request.session['info']
-        return render(request,'sign/reg3.html',{'info':info})
+        try:
+            info = request.session['info']
+            return render(request,'sign/reg3.html',{'info':request.session['info']})
+        except:
+            return render(request, 'sign/reg3.html')
     def post(self,request):
         username1 = request.session['username']
         usernow = UserProfile.objects.get(username=username1)
