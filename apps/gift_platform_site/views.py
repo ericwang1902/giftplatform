@@ -858,11 +858,31 @@ class CartView(View):
         else:
             return HttpResponse(json.dumps({ 'result': 'error', 'message': 'product not existed'}), content_type="application/json", status="404")
 
-
-
-
-
-
 class protocolView(View):
     def get(self,request):
         return render(request,'others/protocol.html')
+
+def product_details(request, product_id):
+    """
+    商品详情信息
+    :param request:
+    :param product_id: 商品id
+    :return:
+    """
+    result_dict = {}
+    product_instance = get_object_or_404(product, pk=product_id)
+
+    # 根据所有商品sku计算商品的价格区间范围
+    product_items = product_instance.productItems.order_by("price").all()
+    result_dict["start_price"] = product_items.first().price
+    result_dict["end_price"] = product_items.last().price
+    #
+
+    result_dict["main_images"] = product_instance.images
+
+    result_dict["supplier_name"] = product_instance.belongs.supplier_set.first().suppliername
+
+    result_dict["product"] = product_instance
+
+    return render(request, "products/details.html", result_dict)
+

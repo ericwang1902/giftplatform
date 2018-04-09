@@ -1,0 +1,47 @@
+<div class="container">
+    <div class="bread-crumb">
+        <a href="#">首页</a>><a href="#">品牌专区</a>><a href="#">张三牌茶具</a>
+    </div>
+    <div class="product-details-wrap">
+        <div class="product-details-header">
+            <div class="product-images">
+                <div class="preview">
+                    <img src="{{ main_images.0.productimage.url }}">
+                </div>
+                <div class="product-image-list">
+                    <ul>
+                        {% for img in main_images %}
+                        <li>
+                            <img src="{{ img.productimage.url }}">
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="product-title">
+                <h1>{{ product.name }}</h1>
+                <span>超强保温升级版， 316不锈钢</span>
+                <div class="price">
+                    <span>单价</span>
+                    <span>￥</span><span>{{ start_price }} - {{ end_price }}</span>
+                </div>
+                <div class="supplier">
+                    <span>{{ supplier_name }}</span>
+                    <span>某某商家</span>
+                </div>
+                <a class="add-cart-btn">
+                    加入方案
+                </a>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="product-details">
+            <div class="product-details-header">
+                产品简介
+            </div>
+            <div class="product-details-content">
+                {{ product.description | safe }}
+            </div>
+        </div>
+    </div>
+</div>
