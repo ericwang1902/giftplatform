@@ -1,3 +1,6 @@
+{% extends "share/base_layout_with_search.html" %}
+{% block title %}一点礼品-所有品牌{% endblock %}
+{% block content %}
 <div class="container">
     <div class="bread-crumb">
         <a href="#">首页</a>><a href="#">品牌专区</a>><a href="#">张三牌茶具</a>
@@ -11,7 +14,7 @@
                 <div class="product-image-list">
                     <ul>
                         {% for img in main_images %}
-                        <li>
+                        <li onclick="changePreview('{{ img.productimage.url }}')">
                             <img src="{{ img.productimage.url }}">
                         </li>
                         {% endfor %}
@@ -23,12 +26,29 @@
                 <span>超强保温升级版， 316不锈钢</span>
                 <div class="price">
                     <span>单价</span>
+                    {% if start_price == end_price %}
+                        <span>￥</span><span>{{ start_price }}</span>
+                    {% else %}
                     <span>￥</span><span>{{ start_price }} - {{ end_price }}</span>
+                    {% endif %}
                 </div>
                 <div class="supplier">
+                    <span>商家</span>
                     <span>{{ supplier_name }}</span>
-                    <span>某某商家</span>
                 </div>
+            {% for key,value in attribute_values.items %}
+                <div class="spec-group">
+                    <span>{{ key }}</span>
+                    <ul class="spec-items">
+                        {% for v in value %}
+                        <li>
+                            <a href="#" class="">{{ v }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                <div class="clear"></div>
+                </div>
+            {% endfor %}
                 <a class="add-cart-btn">
                     加入方案
                 </a>
@@ -50,4 +70,8 @@
         $('.add-cart-btn').click(function(){
         });
     })(jQuery);
+    var changePreview = function(newUrl) {
+        $('.preview img').attr('src', newUrl);
+    }
 </script>
+{% endblock %}

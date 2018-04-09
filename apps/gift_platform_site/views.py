@@ -878,11 +878,27 @@ def product_details(request, product_id):
     result_dict["end_price"] = product_items.last().price
     #
 
-    result_dict["main_images"] = product_instance.images
+    result_dict["main_images"] = product_instance.images.all()
 
     result_dict["supplier_name"] = product_instance.belongs.supplier_set.first().suppliername
 
     result_dict["product"] = product_instance
+
+    # 开始统计所有的属性和对应的方法
+    # TODO: 后台改进，将各个属性的具体值存入数据库防止重复计算
+    attribute_values_dic = {}
+    product_items = product_instance.productItems.all()
+    for attribute_name in product_instance.attributes:
+        for product_item in product_items:
+            if attribute_name not in attribute_values_dic:
+                # 如果字典中不包含此key，则新建相关数据
+                attribute_values_dic[attribute_name] = [product_item.attributes[attribute_name]]
+            else:
+                if product_item.attributes[attribute_name] not in attribute_values_dic[attribute_name]:
+                    attribute_values_dic[attribute_name].append(product_item.attributes[attribute_name])
+
+    print(attribute_values_dic)
+    result_dict["attribute_values"] = attribute_values_dic
 
     return render(request, "products/details.html", result_dict)
 
