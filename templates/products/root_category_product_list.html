@@ -47,7 +47,7 @@
         <!--<a href="#" class="select sort-btn">人气↓</a>-->
     </div>
     <div class="product-list-wrap">
-        {% if products.count == 0 %}
+        {% if products.paginator.count == 0 %}
             <div class="no-data">~~空空如也~~</div>
         {% endif %}
         {% for product in products %}

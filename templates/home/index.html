@@ -16,6 +16,9 @@
     </div>
     <div class="clear"></div>
     <div class="product-list-wrap">
+        {% if products.paginator.count == 0 %}
+            <div class="no-data">~~空空如也~~</div>
+        {% endif %}
         {% for product in products %}
         <div class="product-list-item">
             <a href="{% url "gift_platform_site:product_details" product_id=product.id %}"><img class="image-cover" src="{{ product.images.first.productimage.url }}" /></a>

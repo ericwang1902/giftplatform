@@ -162,8 +162,9 @@
             $.get('{% url "gift_platform_site:cart" %}', function(response) {
                 if (response.length === 0) {
                     $('.cart-info').text('您没有礼品方案');
-                    $('.cart-info .product-list ul').empty();
-                    $('.cart-info .product-list ul').html('<div class="no-data">暂无商品</div>');
+                    $('.cart-wrap .product-list ul').empty();
+                    console.log(1)
+                    $('.cart-wrap .product-list ul').html('<div class="no-data">暂无商品</div>');
                 } else {
                     $('.cart-info').text('包含' + response.length + '个商品');
                 }
