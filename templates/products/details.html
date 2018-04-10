@@ -74,20 +74,37 @@
     };
     (function($){
         var productId = {{ product.id }}; // 获取商品id
-        var productItems = {{ product_items_json }}; // 获取所有产品sku的json信息
+        var productItems = {{ product_items_json | safe }}; // 获取所有产品sku的json信息
         var selectedAttributes = {};
         var selectedSkuId;
         var checkHasSelectedProductItem = function(skus, selectedSkuInfo) {
             for(var i in skus){
                 var sku = skus[i];
                 var temp = true;
-                for(var key in selectedSkuInfo){
-                    if (sku.attributes[key] !== selectedSkuInfo[key]) {
+                for(var key in sku.attributes) {
+                    if (selectedSkuInfo[key] === undefined) {
                         temp = false;
                         break;
+                    } else {
+                        if (selectedSkuInfo[key] !== sku.attributes[key]) {
+                            temp = false;
+                            break;
+                        }
                     }
                 }
+                console.log(temp)
+                /*
+                for(var key in selectedSkuInfo){
+                    console.log(key + ':' + selectedSkuInfo[key])
+                    console.log(sku.attributes[key])
+                    if (sku.attributes[key] !== selectedSkuInfo[key]) {
+                        temp = false;
+                    }
+                }
+                console.log(temp)
+                */
                 if (temp) {
+                    console.log(sku)
                     return sku;
                 }
             }
@@ -96,7 +113,7 @@
         $('.spec-group ul li').click(function(e) {
             var attributeName = $(this).attr('data-attribute-name');
             var attributeValue = $(this).attr('data-attribute-value');
-            $(this).parent().children('ul>li>a.select').removeClass('select');
+            $(this).parent().find('a').removeClass('select');
             $(this).children('a').addClass('select');
             selectedAttributes[attributeName] = attributeValue;
 

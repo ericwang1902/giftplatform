@@ -15,6 +15,7 @@ from django.http import HttpResponseBadRequest, HttpResponseNotFound, HttpRespon
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 import json
+from decimal import Decimal
 
 def home(request):
     """
@@ -786,7 +787,6 @@ class CartView(View):
                     'productName': product_instance.name,
                     'mainImage': product_instance.images.first().productimage.url,
                     'productId': cart_item.product_id,
-                    'productSkuId': cart_item.product_item_id
                 })
             return HttpResponse(json.dumps(result), content_type="application/json", status='200')
         else:
@@ -819,44 +819,32 @@ class CartView(View):
         :return:
         """
         product_id = int(request.POST.get('productId'))
-        product_sku_id = int(request.POST.get('productItemId'))
 
         product_instance = product.objects.get(pk=product_id)
 
-        product_sku_instance = productItem.objects.get(pk=product_sku_id)
-
-        if product_instance.productItems.filter(id=product_sku_id).exists():
-            if product_instance is None:
-                return HttpResponse(json.dumps({ 'result': 'error', 'message': 'product not existed'}), content_type="application/json", status="404")
-
-            if (product_instance is None) or (product_sku_instance is None):
-                return HttpResponse(json.dumps({ 'result': 'error', 'message': 'product sku not existed'}), content_type="application/json", status="404")
-
-            temp = {
-                'product_id': product_id,
-                'product_item_id': product_sku_id
-            }
-            if temp in request.session['cart']: # 如果已经存在于方案车，则返回错误信息
-                return HttpResponse(json.dumps({ 'result': 'error', 'message': 'has existed'}), content_type="application/json", status="400")
-
-            if request.session.get('cart', False):
-                request.session['cart'].append(
-                    {
-                        'product_id': product_id,
-                        'product_item_id':  product_sku_id
-                    }
-                )
-            else:
-                request.session['cart'] = [
-                    {
-                        'product_id': product_id,
-                        'product_item_id':  product_sku_id
-                    }
-                ]
-
-            return HttpResponse(json.dumps({'result': 'ok'}),content_type="application/json", status="200")
-        else:
+        if product_instance is None:
             return HttpResponse(json.dumps({ 'result': 'error', 'message': 'product not existed'}), content_type="application/json", status="404")
+
+        temp = {
+            'product_id': product_id
+        }
+        if temp in request.session['cart']: # 如果已经存在于方案车，则返回错误信息
+            return HttpResponse(json.dumps({ 'result': 'error', 'message': 'has existed'}), content_type="application/json", status="400")
+
+        if request.session.get('cart', False):
+            request.session['cart'].append(
+                {
+                    'product_id': product_id
+                }
+            )
+        else:
+            request.session['cart'] = [
+                {
+                    'product_id': product_id
+                }
+            ]
+
+        return HttpResponse(json.dumps({'result': 'ok'}),content_type="application/json", status="200")
 
 class protocolView(View):
     def get(self,request):
@@ -871,6 +859,13 @@ def product_details(request, product_id):
     """
     result_dict = {}
     product_instance = get_object_or_404(product, pk=product_id)
+
+    def default(obj):
+        if isinstance(obj, Decimal):
+            return str(obj)
+        raise TypeError("Object of type '%s' is not JSON serializable" % type(obj).__name__)
+
+    result_dict["product_items_json"] = json.dumps(list(product_instance.productItems.all().values()), default=default)
 
     # 根据所有商品sku计算商品的价格区间范围
     product_items = product_instance.productItems.order_by("price").all()
