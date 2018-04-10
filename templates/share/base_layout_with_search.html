@@ -130,10 +130,11 @@
             } else {
                 $('.cart-info').text('包含' + response.length + '个商品');
             }
-            $('.cart-info .product-list ul').empty();
+            $('.cart-content .product-list ul').empty();
             for (var i in response) { // 开始初始化相关商品信息
                 var itemHtml = generateCartListHtmlStr(response[i].mainImage, response[i].productName, response[i].productId, response[i].productSkuId);
-                $('.cart-info .product-list ul').append(itemHtml)
+                $('.cart-content .product-list ul').append(itemHtml)
+                console.log(itemHtml)
             }
             $('.cart-footer span').text(response.length + '个商品');
             $('.product-count').text(response.length);
@@ -153,10 +154,10 @@
             } else {
                 $('.cart-info').text('包含' + response.length + '个商品');
             }
-            $('.cart-info .product-list ul').empty();
+            $('.cart-content .product-list ul').empty();
             for (var i in response) { // 开始初始化相关商品信息
                 var itemHtml = generateCartListHtmlStr(response[i].mainImage, response[i].productName, response[i].productId, response[i].productSkuId);
-                $('.cart-info .product-list ul').append(itemHtml)
+                $('.cart-content .product-list ul').append(itemHtml)
             }
             $('.cart-footer span').text(response.length + '个商品');
             $('.product-count').text(response.length);

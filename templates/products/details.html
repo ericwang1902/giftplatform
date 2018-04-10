@@ -121,14 +121,38 @@
             if (hasSelectedSku !== null) {
                 $('.price span:nth-child(3)').html(hasSelectedSku.price);//
                 selectedSkuId = hasSelectedSku.id;
+                $('.preview img').attr('src', hasSelectedSku.image);
             }
         });
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        var csrftoken = getCookie('csrftoken');
         $('.add-cart-btn').click(function(){
-            $.post('{% url "gift_platform_site:cart" %}', {
-                productId: productId,
-                productSkuId: selectedSkuId
-            }, function(data){
-                refreshCart();// 更新方案车
+            $.ajax({
+                url: '{% url "gift_platform_site:cart" %}',
+                type: 'POST',
+                data: {
+                    productId: productId
+                },
+                headers: {
+                    'X-CSRFToken': csrftoken
+                },
+                success: function() {
+                    refreshCart();// 更新方案车
+                }
             });
         });
     })(jQuery);

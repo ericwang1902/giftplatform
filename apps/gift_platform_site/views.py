@@ -781,12 +781,13 @@ class CartView(View):
         """
         result = []
         if request.session.get('cart', False):
-            for cart_item in request.session['cart']:
-                product_instance = product.objects.get(pk=cart_item.product_id)
+            for cart_item in request.session.get('cart'):
+                print(cart_item)
+                product_instance = product.objects.get(pk=cart_item['product_id'])
                 result.append({
                     'productName': product_instance.name,
                     'mainImage': product_instance.images.first().productimage.url,
-                    'productId': cart_item.product_id,
+                    'productId': cart_item['product_id'],
                 })
             return HttpResponse(json.dumps(result), content_type="application/json", status='200')
         else:
@@ -822,16 +823,18 @@ class CartView(View):
 
         product_instance = product.objects.get(pk=product_id)
 
+        print(product_id)
+
         if product_instance is None:
             return HttpResponse(json.dumps({ 'result': 'error', 'message': 'product not existed'}), content_type="application/json", status="404")
 
         temp = {
             'product_id': product_id
         }
-        if temp in request.session['cart']: # 如果已经存在于方案车，则返回错误信息
-            return HttpResponse(json.dumps({ 'result': 'error', 'message': 'has existed'}), content_type="application/json", status="400")
-
         if request.session.get('cart', False):
+            if temp in request.session['cart']: # 如果已经存在于方案车，则返回错误信息
+                return HttpResponse(json.dumps({ 'result': 'error', 'message': 'has existed'}), content_type="application/json", status="400")
+
             request.session['cart'].append(
                 {
                     'product_id': product_id
@@ -865,7 +868,17 @@ def product_details(request, product_id):
             return str(obj)
         raise TypeError("Object of type '%s' is not JSON serializable" % type(obj).__name__)
 
-    result_dict["product_items_json"] = json.dumps(list(product_instance.productItems.all().values()), default=default)
+    product_item_list_query_set = productItem.objects.filter(product = product_instance).prefetch_related('images')
+    product_item_list = []
+    for record in product_item_list_query_set:
+        temp_dict = {}
+        temp_dict['id'] = record.id
+        temp_dict['attributes'] = record.attributes
+        temp_dict['price'] = record.attributes
+        temp_dict['image'] = record.images.first().productimage.url
+        product_item_list.append(temp_dict)
+    print(product_item_list)
+    result_dict["product_items_json"] = json.dumps(product_item_list, default=default)
 
     # 根据所有商品sku计算商品的价格区间范围
     product_items = product_instance.productItems.order_by("price").all()
@@ -892,7 +905,6 @@ def product_details(request, product_id):
                 if product_item.attributes[attribute_name] not in attribute_values_dic[attribute_name]:
                     attribute_values_dic[attribute_name].append(product_item.attributes[attribute_name])
 
-    print(attribute_values_dic)
     result_dict["attribute_values"] = attribute_values_dic
 
     return render(request, "products/details.html", result_dict)
