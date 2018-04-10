@@ -5,7 +5,7 @@
     <div class="bread-crumb">
         <a href="/home">首页</a>>商品详情</a>
     </div>
-    <div class="product-details-wrap">
+    <div class="product-details-wrap" id="product-details">
         <div class="product-details-header">
             <div class="product-images">
                 <div class="preview">
@@ -41,8 +41,8 @@
                     <span>{{ key }}</span>
                     <ul class="spec-items">
                         {% for v in value %}
-                        <li>
-                            <a href="#" class="">{{ v }}</a>
+                        <li data-attribute-name="{{ key }}" data-attribute-value="{{ v }}">
+                            <a href="javascript:void(0)" class="">{{ v }}</a>
                         </li>
                         {% endfor %}
                     </ul>
@@ -66,12 +66,54 @@
     </div>
 </div>
 <script>
+
     (function($){
-        $('.add-cart-btn').click(function(){
-        });
     })(jQuery);
     var changePreview = function(newUrl) {
         $('.preview img').attr('src', newUrl);
-    }
+    };
+    (function($){
+        var productId = {{ product.id }}; // 获取商品id
+        var productItems = {{ product_items_json }}; // 获取所有产品sku的json信息
+        var selectedAttributes = {};
+        var selectedSkuId;
+        var checkHasSelectedProductItem = function(skus, selectedSkuInfo) {
+            for(var i in skus){
+                var sku = skus[i];
+                var temp = true;
+                for(var key in selectedSkuInfo){
+                    if (sku.attributes[key] !== selectedSkuInfo[key]) {
+                        temp = false;
+                        break;
+                    }
+                }
+                if (temp) {
+                    return sku;
+                }
+            }
+            return null;
+        };
+        $('.spec-group ul li').click(function(e) {
+            var attributeName = $(this).attr('data-attribute-name');
+            var attributeValue = $(this).attr('data-attribute-value');
+            $(this).parent().children('ul>li>a.select').removeClass('select');
+            $(this).children('a').addClass('select');
+            selectedAttributes[attributeName] = attributeValue;
+
+            var hasSelectedSku = checkHasSelectedProductItem(productItems, selectedAttributes);
+            if (hasSelectedSku !== null) {
+                $('.price span:nth-child(3)').html(hasSelectedSku.price);//
+                selectedSkuId = hasSelectedSku.id;
+            }
+        });
+        $('.add-cart-btn').click(function(){
+            $.post('{% url "gift_platform_site:cart" %}', {
+                productId: productId,
+                productSkuId: selectedSkuId
+            }, function(data){
+                refreshCart();// 更新方案车
+            });
+        });
+    })(jQuery);
 </script>
 {% endblock %}

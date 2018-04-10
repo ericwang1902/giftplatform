@@ -114,6 +114,55 @@
     </div>
 </div>
 <script>
+    var initCart = function() {
+        $(document).on('click', '.del-btn', function() {
+            console.log($(this));
+        })
+        var generateCartListHtmlStr = function(imageUrl, name, productId, productSkuId) {
+            return '<li><img src="' + imageUrl + '"/> <span class="product-name">' + name + '</span> <a productSkuId="'+productSkuId +'" productId="' + productId +'" class="del-btn"> </a> </li>';
+        }
+        $.get('{% url "gift_platform_site:cart" %}', function(response) {
+            if (response.length === 0) {
+                $('.cart-info').text('您没有礼品方案');
+                $('.cart-wrap .product-list ul').empty();
+                console.log(1)
+                $('.cart-wrap .product-list ul').html('<div class="no-data">暂无商品</div>');
+            } else {
+                $('.cart-info').text('包含' + response.length + '个商品');
+            }
+            $('.cart-info .product-list ul').empty();
+            for (var i in response) { // 开始初始化相关商品信息
+                var itemHtml = generateCartListHtmlStr(response[i].mainImage, response[i].productName, response[i].productId, response[i].productSkuId);
+                $('.cart-info .product-list ul').append(itemHtml)
+            }
+            $('.cart-footer span').text(response.length + '个商品');
+            $('.product-count').text(response.length);
+        });
+    };
+
+    var refreshCart = function() {
+        var generateCartListHtmlStr = function(imageUrl, name, productId, productSkuId) {
+            return '<li><img src="' + imageUrl + '"/> <span class="product-name">' + name + '</span> <a productSkuId="'+productSkuId +'" productId="' + productId +'" class="del-btn"> </a> </li>';
+        }
+        $.get('{% url "gift_platform_site:cart" %}', function(response) {
+            if (response.length === 0) {
+                $('.cart-info').text('您没有礼品方案');
+                $('.cart-wrap .product-list ul').empty();
+                console.log(1)
+                $('.cart-wrap .product-list ul').html('<div class="no-data">暂无商品</div>');
+            } else {
+                $('.cart-info').text('包含' + response.length + '个商品');
+            }
+            $('.cart-info .product-list ul').empty();
+            for (var i in response) { // 开始初始化相关商品信息
+                var itemHtml = generateCartListHtmlStr(response[i].mainImage, response[i].productName, response[i].productId, response[i].productSkuId);
+                $('.cart-info .product-list ul').append(itemHtml)
+            }
+            $('.cart-footer span').text(response.length + '个商品');
+            $('.product-count').text(response.length);
+        });
+    };
+
     $(document).ready(function() {
         // tab 切换
         (function($){
@@ -151,32 +200,6 @@
                 }
             })
         })(jQuery);
-
-        var initCart = function() {
-            $(document).on('click', '.del-btn', function() {
-                console.log($(this));
-            })
-            var generateCartListHtmlStr = function(imageUrl, name, productId, productSkuId) {
-                 return '<li><img src="' + imageUrl + '"/> <span class="product-name">' + name + '</span> <a productSkuId="'+productSkuId +'" productId="' + productId +'" class="del-btn"> </a> </li>';
-            }
-            $.get('{% url "gift_platform_site:cart" %}', function(response) {
-                if (response.length === 0) {
-                    $('.cart-info').text('您没有礼品方案');
-                    $('.cart-wrap .product-list ul').empty();
-                    console.log(1)
-                    $('.cart-wrap .product-list ul').html('<div class="no-data">暂无商品</div>');
-                } else {
-                    $('.cart-info').text('包含' + response.length + '个商品');
-                }
-                $('.cart-info .product-list ul').empty();
-                for (var i in response) { // 开始初始化相关商品信息
-                    var itemHtml = generateCartListHtmlStr(response[i].mainImage, response[i].productName, response[i].productId, response[i].productSkuId);
-                    $('.cart-info .product-list ul').append(itemHtml)
-                }
-                $('.cart-footer span').text(response.length + '个商品');
-                $('.product-count').text(response.length);
-            });
-        }
 
         initCart();
     })
