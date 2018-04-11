@@ -773,6 +773,23 @@ class findpwdView(View):
     def get(self,request):
         return render(request,'sign/findpwd.html')
 
+def delete_from_cart(request, product_id):
+    """
+    删除方案车中的方案
+    :param request:
+    :return:
+    """
+    if request.method == "DELETE":
+        temp = {
+            'product_id': product_id,
+        }
+        if temp in request.session['cart']:
+            request.session['cart'].remove(temp)
+            request.session.modified = True
+            return HttpResponse(json.dumps({ 'result': 'ok' }), content_type="application/json", status='200')
+        else:
+            return HttpResponse(json.dumps({ 'result': 'error', 'message': 'not found' }), content_type="application/json", status='404')
+
 class CartView(View):
     """
     方案车视图方法
@@ -796,22 +813,6 @@ class CartView(View):
             return HttpResponse(json.dumps(result), content_type="application/json", status='200')
         else:
             return HttpResponse(json.dumps(result), content_type="application/json", status='200')
-
-    def delete(self, request):
-        """
-        删除方案车中的方案
-        :param request:
-        :return:
-        """
-        product_id = request.GET.get('productId', None)
-        temp = {
-            'product_id': product_id,
-        }
-        if temp in request.session['cart']:
-            request.session['cart'].remove(temp)
-            return HttpResponse(json.dumps({ 'result': 'ok' }), content_type="application/json", status='200')
-        else:
-            return HttpResponse(json.dumps({ 'result': 'error', 'message': 'not found' }), content_type="application/json", status='404')
 
     def post(self, request):
         """
