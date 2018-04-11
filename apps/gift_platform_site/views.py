@@ -16,6 +16,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 import json
 from decimal import Decimal
+from apps.gift_platform_site.libs.ppt_utils import generate_ppt
+from django.conf import settings
+import os
+import datetime
 
 def home(request):
     """
@@ -797,8 +801,6 @@ class CartView(View):
         """
         删除方案车中的方案
         :param request:
-        :param product_id:
-        :param product_sku_id:
         :return:
         """
         product_id = request.GET.get('productId', None)
@@ -906,4 +908,22 @@ def product_details(request, product_id):
     result_dict["attribute_values"] = attribute_values_dic
 
     return render(request, "products/details.html", result_dict)
+
+def export_ppt(request):
+    """
+    生成PPT并且提供下载
+    :param request:
+    :return:
+    """
+    if request.session.get('cart', False):
+        id_list = []
+        ppt_path = 'ppt/{0}/{1}.pptx'.format(request.user.id, datetime.datetime.now().strftime('%Y%m%d%H%M%S%f'))
+        ppt_absolute_path = os.path.join(settings.MEDIA_ROOT, ppt_path)
+        for cart_item in request.session.get('cart'):
+            id_list.append(cart_item.product_id)
+        generate_ppt(product.objects.filter(pk__in=id_list), ppt_absolute_path)
+        return HttpResponse(json.dumps({ 'result': 'ok', 'file_url': '/media/{}'.format(ppt_path) }))
+        # 开始进行ppt生成操作
+    else:
+        return HttpResponse(json.dumps({ 'result': 'error', 'message': 'cart is empty'}), content_type="application/json", status="400")
 
