@@ -92,17 +92,6 @@
                         }
                     }
                 }
-                console.log(temp)
-                /*
-                for(var key in selectedSkuInfo){
-                    console.log(key + ':' + selectedSkuInfo[key])
-                    console.log(sku.attributes[key])
-                    if (sku.attributes[key] !== selectedSkuInfo[key]) {
-                        temp = false;
-                    }
-                }
-                console.log(temp)
-                */
                 if (temp) {
                     console.log(sku)
                     return sku;
@@ -124,22 +113,6 @@
                 $('.preview img').attr('src', hasSelectedSku.image);
             }
         });
-        function getCookie(name) {
-            var cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                var cookies = document.cookie.split(';');
-                for (var i = 0; i < cookies.length; i++) {
-                    var cookie = jQuery.trim(cookies[i]);
-                    // Does this cookie string begin with the name we want?
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
-        var csrftoken = getCookie('csrftoken');
         $('.add-cart-btn').click(function(){
             $.ajax({
                 url: '{% url "gift_platform_site:cart" %}',

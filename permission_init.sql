@@ -226,6 +226,6 @@ WHERE NOT EXISTS (
 	SELECT * FROM auth_permission WHERE codename='delete_privatearea'
 ) LIMIT 1;
 /*******************/
-
+commit;
 
 select * from auth_permission;

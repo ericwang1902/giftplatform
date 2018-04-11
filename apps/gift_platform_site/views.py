@@ -802,10 +802,8 @@ class CartView(View):
         :return:
         """
         product_id = request.GET.get('productId', None)
-        product_sku_id = request.GET.get('productSkuId', None)
         temp = {
             'product_id': product_id,
-            'product_item_id': product_sku_id
         }
         if temp in request.session['cart']:
             request.session['cart'].remove(temp)

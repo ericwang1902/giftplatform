@@ -6,6 +6,24 @@
     {%  load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'gift_platform_site/style.css' %}">
     <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        var csrftoken = getCookie('csrftoken');
+    </script>
 </head>
 <body>
 <div class="header">
@@ -115,9 +133,6 @@
 </div>
 <script>
     var initCart = function() {
-        $(document).on('click', '.del-btn', function() {
-            console.log($(this));
-        })
         var generateCartListHtmlStr = function(imageUrl, name, productId, productSkuId) {
             return '<li><img src="' + imageUrl + '"/> <span class="product-name">' + name + '</span> <a productSkuId="'+productSkuId +'" productId="' + productId +'" class="del-btn"> </a> </li>';
         }
@@ -138,6 +153,21 @@
             }
             $('.cart-footer span').text(response.length + '个商品');
             $('.product-count').text(response.length);
+        });
+        $(document).on('click', '#cart .del-btn', function() {
+            if (confirm('确认删除此商品?')) {
+                var productId = $(this).attr('productId');
+                $.ajax({
+                    url: '{% url 'gift_platform_site:cart' %}?productId=' + productId,
+                    type: 'DELETE',
+                    headers: {
+                        'X-CSRFToken': csrftoken
+                    },
+                    success: function(e) {
+                        initCart();
+                    }
+                });
+            }
         });
     };
 
