@@ -921,9 +921,10 @@ def export_ppt(request):
         ppt_path = 'ppt/{0}/{1}.pptx'.format(request.user.id, datetime.datetime.now().strftime('%Y%m%d%H%M%S%f'))
         ppt_absolute_path = os.path.join(settings.MEDIA_ROOT, ppt_path)
         for cart_item in request.session.get('cart'):
-            id_list.append(cart_item.product_id)
+            id_list.append(cart_item['product_id'])
         generate_ppt(product.objects.filter(pk__in=id_list), ppt_absolute_path)
-        return HttpResponse(json.dumps({ 'result': 'ok', 'file_url': '/media/{}'.format(ppt_path) }))
+        print(ppt_path)
+        return HttpResponse(json.dumps({ 'result': 'ok', 'file_url': '/media/{}'.format(ppt_path) }), content_type="application/json", status="200")
         # 开始进行ppt生成操作
     else:
         return HttpResponse(json.dumps({ 'result': 'error', 'message': 'cart is empty'}), content_type="application/json", status="400")

@@ -31,7 +31,7 @@ def generate_ppt(product_list, path):
         width=height = Cm(2.65)
         i = 0
         for image in product.images.all()[1:4]:
-            slide.shapes.add_picture('coach.jpg', Cm(1.32 + i * 2.65), start_top, width, height)
+            slide.shapes.add_picture(os.path.join(settings.BASE_DIR, image.productimage.path), Cm(1.32 + i * 2.65), start_top, width, height)
             i = i + 1
         #
 
@@ -78,4 +78,6 @@ def generate_ppt(product_list, path):
         p.font.bold = False
         p.font.size = Pt(14)
 
+    if not os.path.exists(os.path.dirname(path)):
+        os.makedirs(os.path.dirname(path))
     prs.save(path)
