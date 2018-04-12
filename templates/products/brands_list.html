@@ -7,7 +7,7 @@
         <div class="brand-logo-wrap">
             <img src="{{ brand.logo.url }}" />
         </div>
-        <a class="brand-name">{{ brand.name }}</a>
+        <a class="brand-name" href="{% url 'gift_platform_site:brand_product_list' brand_id=brand.id %}">{{ brand.name }}</a>
     </div>
     {% endfor %}
 

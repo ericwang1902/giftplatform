@@ -91,8 +91,8 @@
     <div class="nav-wrap">
         <a {% ifequal request.path '/home/' %}class="active" {% endifequal %} href="{% url 'gift_platform_site:home' %}">最新动态</a>
         <a {% ifequal request.path '/jxzt/' %}class="active" {% endifequal %} href="#">精选专题</a>
-        <a {% ifequal request.path '/product/categories/' %}class="active" {% endifequal %} href="#">产品分类</a>
-        <a {% ifequal request.path '/product/brands/' %}class="active" {% endifequal %} href="#">品牌专区</a>
+        <a {% ifequal request.path '/product/categories/' %}class="active" {% endifequal %} href="/product/categories">产品分类</a>
+        <a {% ifequal request.path '/product/brands/' %}class="active" {% endifequal %} href="/product/brands">品牌专区</a>
         <a {% ifequal request.path '/yjdf/' %}class="active" {% endifequal %} href="#">一件代发</a>
         <a {% ifequal request.path '/aboutus/' %}class="active" {% endifequal %} href="#">关于我们</a>
         <a {% ifequal request.path '/msgcenter/' %}class="active" {% endifequal %} href="{% url 'gift_platform_site:msgcenter' %}">公告中心</a>
