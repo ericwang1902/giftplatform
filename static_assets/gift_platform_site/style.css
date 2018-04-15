@@ -225,7 +225,8 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder, .form-
 
 .product-list-wrap .no-data {
   text-align: center;
-  color: #999999; }
+  color: #999999;
+  padding: 14px; }
 
 /*! sass-mixins - v0.12.0 - 2015-08-26 */
 .footer {

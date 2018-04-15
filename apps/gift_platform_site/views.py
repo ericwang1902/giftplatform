@@ -1193,5 +1193,5 @@ def one_send_product_list(request):
     pager_array = generate_pager_array(products.number, products.paginator.num_pages)
     result_data_dict['pager_array'] = pager_array
 
-    return render(request, 'products/brand_product_list.html', result_data_dict)
+    return render(request, 'products/one_send_product_list.html', result_data_dict)
     pass
