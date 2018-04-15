@@ -52,9 +52,9 @@
         {% endif %}
         {% for product in products %}
         <div class="product-list-item">
-            <img class="image-cover" src="{{ product.images.first.productimage.url }}" />
+            <a href="{% url "gift_platform_site:product_details" product_id=product.id %}"><img class="image-cover" src="{{ product.images.first.productimage.url }}" /></a>
             <div class="desc-wrap">
-                <div class="name">{{ product.name }}</div>
+                <div class="name"><a href="{% url "gift_platform_site:product_details" product_id=product.id %}">{{ product.name }}</a></div>
                 <div class="price">￥{{ product.productItems.first.price }}</div>
             </div>
         </div>
