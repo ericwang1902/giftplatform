@@ -11,6 +11,10 @@
             <a {% ifequal request.path '/usercenter/mpwd' %}class="nav-item select"{% else %}class="nav-item"{% endifequal %} href="{% url 'gift_platform_site:modifypwd' %}">修改密码</a>
             <a {% ifequal request.path '/usercenter/sysinfo' %}class="nav-item select"{% else %}class="nav-item" {% endifequal %} href="{% url 'gift_platform_site:sysinfo' %}">消息中心</a>
         </div>
+        <div class="category">
+            <span class="category-header">私有域管理</span>
+            <a class="{% ifequal request.path '/usercenter/privatearea/suppliers' %}select{% endifequal %} nav-item">供应商管理</a>
+        </div>
     </div>
 {% block content1 %}
 

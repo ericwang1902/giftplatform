@@ -1,0 +1,53 @@
+{% extends "share/base_layout_usercenter.html" %}
+{% block title %}一点礼品-公告中心{% endblock %}
+{% block content1 %}
+    {% load static %}
+
+<div class="right-content">
+    <div class="content">
+<table class="msgcentertable">
+    <tr>
+        <th>序号</th>
+        <th>供应商名称</th>
+        <th>状态</th>
+        <th>最后上线时间</th>
+        <th>创建时间</th>
+        <th>操作</th>
+    </tr>
+    <tr>
+        {% for supplier in suppliers %}
+        <td>{{ supplier.id }}</td>
+        <td>{{ supplier.supplier_set.first.sppliername }}</td>
+        <td>{% if supplier.is_active %}正常{% else %}禁用{% endif %}</td>
+        <td>{{ supplier.last_login }}</td>
+        <td>{{ supplier.date_joined }}</td>
+        <td>查看</td>
+        {% endfor %}
+    </tr>
+</table>
+    <div class="pagination">
+        {% if suppliers.has_previous %}
+            <span class="page-item">
+            <a href="{% url 'gift_platform_site:private_suppliers' %}?page={{ suppliers.previous_page_number }}">上一页</a>
+        </span>
+        {% endif %}
+        {% for i in pager_array %}
+            {% if i is '...' %}
+                <span class="page-item more">
+                    ...
+                </span>
+            {% else %}
+                <span class="page-item {% if i == suppliers.number|stringformat:"i" %} current-page {% endif %}">
+                    <a href="{% url 'gift_platform_site:private_suppliers' %}?page={{ 1 }}">{{ i }}</a>
+                </span>
+            {% endif %}
+        {% endfor %}
+        <span class="page-item">
+            {% if suppliers.has_next %}
+                <a href="{% url 'gift_platform_site:private_suppliers' %}?page={{ suppliers.next_page_number }}">下一页</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+</div>
+{% endblock %}

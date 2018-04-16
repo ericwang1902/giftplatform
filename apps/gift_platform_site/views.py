@@ -1194,4 +1194,23 @@ def one_send_product_list(request):
     result_data_dict['pager_array'] = pager_array
 
     return render(request, 'products/one_send_product_list.html', result_data_dict)
-    pass
+
+class PrivateSupplier(View):
+    def get(self, request):
+        query_set = UserProfile.objects.filter(type="supplier")
+        query_set = query_set.filter(Q(privatearea=request.user.privatearea) and Q(inprivatearea=True))
+
+        result_data_dict = {}
+
+        # 分页处理
+        paginator = Paginator(query_set, 12)
+        page = request.GET.get('page')
+        suppliers = paginator.get_page(page)
+
+        result_data_dict['suppliers'] = suppliers
+        result_data_dict['page_range'] = range(1, suppliers.paginator.num_pages)
+
+        pager_array = generate_pager_array(suppliers.number, suppliers.paginator.num_pages)
+        result_data_dict['pager_array'] = pager_array
+
+        return render(request, 'usercenter/private_area_supplier_list.html', result_data_dict)
