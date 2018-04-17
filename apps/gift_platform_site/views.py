@@ -1195,6 +1195,18 @@ def one_send_product_list(request):
 
     return render(request, 'products/one_send_product_list.html', result_data_dict)
 
+
+def new_private_supplier(request):
+    # if request.user.privatearea is None:
+    #    return HttpResponse(status=403) # 如果本身不具有私有域，则抛出403错误
+    """
+    创建新的私有域供应商
+    :param request:
+    :return:
+    """
+    return render(request, 'usercenter/new_supplier_in_private_area.html')
+
+
 class PrivateSupplier(View):
     def get(self, request):
         query_set = UserProfile.objects.filter(type="supplier")
@@ -1214,3 +1226,23 @@ class PrivateSupplier(View):
         result_data_dict['pager_array'] = pager_array
 
         return render(request, 'usercenter/private_area_supplier_list.html', result_data_dict)
+
+
+    def post(self, request):
+        """
+        创建新的私有域供应商
+        :param request:
+        :return:
+        """
+        form = forms.PrivateAreaSupplierForm(request.POST)
+        if form.is_valid():
+            user = UserProfile.objects.create_user(username=form.username, password=form.password)
+            user.type = 'supplier'
+            user.privatearea = request.user.privatearea
+            user.authStatus = True
+            user.save()
+
+            supplier_info = supplier(suppliername=form.supplier_name, tel = form.tel, qq = form.qq, email=form.email, userid=user)
+            supplier_info.save()
+
+            return redirect('usercenter/privatearea/suppliers', { "success" : "已成功创建私有供应商"})

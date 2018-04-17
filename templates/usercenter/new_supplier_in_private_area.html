@@ -1,0 +1,78 @@
+{% extends 'share/base_layout_usercenter.html' %}
+{% block title %}一点礼品-公告中心{% endblock %}
+{% block content1 %}
+{% load static %}
+<script src="https://cdn.bootcss.com/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery-validate/1.17.0/localization/messages_zh.min.js"></script>
+<div class="right-content">
+    <div class="content">
+        <form id="new-supplier-form" action="{% url 'gift_platform_site:private_suppliers' %}" method="post">
+            {% csrf_token %}
+            <span class="content-header">
+                创建供应商账号
+            </span>
+            <div class="form-item">
+                <label>用户名：</label>
+                <input name="username" placeholder="请输入用户名"/>
+            </div>
+            <div class="form-item">
+                <label>密码：</label>
+                <input id="password" name="password" type="password" placeholder="请输入密码"/>
+            </div>
+            <div class="form-item">
+                <label>确认密码：</label>
+                <input name="confirm_password" type="password" placeholder="请再次输入密码" />
+            </div>
+            <div class="form-item">
+                <label>店铺名：</label>
+                <input name="supplier_name" placeholder="请输入店铺名" />
+            </div>
+            <div class="form-item">
+                <label>联系电话：</label>
+                <input name="tel" placeholder="请输入联系电话" />
+            </div>
+            <div class="form-item">
+                <label>QQ：</label>
+                <input name="qq" placeholder="请输入联系QQ" />
+            </div>
+            <a class="save-btn" href="javascript:void(0)" id="ok-btn">保存</a>
+        </form>
+    </div>
+    <script>
+        (function($){
+            $.validator.addMethod('chinaTel', function(value){
+                if (value !== '') {
+                    return /^1[3|4|5|7|8][0-9]{9}$/.test(value)
+                } else {
+                    return true;
+                }
+            }, '请输入正确的手机号码');
+            $('#new-supplier-form').validate({
+                rules: {
+                    username: "required",
+                    password: "required",
+                    confirm_password: {
+                        required: true,
+                        equalTo: '#password'
+                    },
+                    tel: {
+                        chinaTel: true
+                    }
+                },
+                messages: {
+                    username: "请输入用户名",
+                    password: "请输入密码",
+                    confirm_password: {
+                        required: "请输入密码",
+                        equalTo: "两次密码输入不一致"
+                    }
+                }
+            });
+            $('#ok-btn').click(function(){
+                $('#new-supplier-form').submit();
+            })
+        })(jQuery);
+    </script>
+</div>
+
+{% endblock content1 %}
