@@ -3,26 +3,60 @@
 {% block content %}
     {% load static %}
 
-<div class="container">
-<table class="msgcentertable">
-    <tr>
-        <th>序号</th>
-        <th>标题</th>
-        <th>发布时间</th>
-        <th>发布厂家</th>
-        <th>状态</th>
-        <th>操作</th>
-    </tr>
-    <tr>
-        <td>1</td>
-        <td>最后500件膳魔师水杯</td>
-        <td>2018年3月21日</td>
-        <td>南通膳魔师</td>
-        <td>未读</td>
-        <td>查看</td>
-    </tr>
+    <div class="container">
+        <table class="msgcentertable">
+            <tr>
+                <th>序号</th>
+                <th>标题</th>
+                <th>发布时间</th>
+                <th>发布厂家</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            {% for item in msgs %}
+                <tr>
+                    <td>1</td>
+                    <td>{{ item.title }}</td>
+                    <td>{{ item.publishdate|date:'Y-m-d H:i:s'}}</td>
+                    <td>{{ item.content }}</td>
+                    <td>{% if item.hasread %}已读{% else %}未读{% endif %}</td>
+                    <td>查看</td>
+                </tr>
+            {% endfor %}
 
-</table>
+        </table>
+        <div class="pagination">
+            {% if msgs.has_previous %}
+                <span class="page-item">
+            <a href="{% url 'gift_platform_site:msgcenter' %}?page={{ msgs.previous_page_number }}">上一页</a>
+        </span>
+            {% endif %}
+            {% for i in pager_array %}
+                {% if i == '...' %}
+                    <span class="page-item more">
+                    ...
+                </span>
+                {% else %}
+                    <span class="page-item {% if i == msgs.number|stringformat:"i" %} current-page {% endif %}">
+                    <a href="{% url 'gift_platform_site:msgcenter' %}?page={{ i }}">{{ i }}</a>
+                </span>
+                {% endif %}
+            {% endfor %}
+            <span class="page-item">
+            {% if msgs.has_next %}
+                <a href="{% url 'gift_platform_site:msgcenter' %}?page={{ msgs.next_page_number }}">下一页</a>
+            {% endif %}
+        </span>
+            <div class="jump-to">
+                <span>到</span>
+                <input type="text" class="jump-to-input"/>
+                <span>页</span>
+                <a href="#" class="jump-btn">确定</a>
+            </div>
+        </div>
+        <div class="clear"></div>
 
-</div>
+    </div>
+
+
 {% endblock %}

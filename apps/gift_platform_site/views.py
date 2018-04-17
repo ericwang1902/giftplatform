@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth import authenticate,login
 from django.views import View
 from django.contrib.auth.backends import ModelBackend
-from apps.users.models import UserProfile,supplier
+from apps.users.models import UserProfile,supplier,siteMessge
 from apps.products.models import product,brands,category,productItem
 from django.db.models import Q
 from django.contrib.auth.hashers import make_password
@@ -13,6 +13,7 @@ from django.contrib.auth import logout
 from django.core.paginator import Paginator
 from django.http import HttpResponseBadRequest, HttpResponseNotFound, HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin
 import json
 from decimal import Decimal
@@ -51,7 +52,9 @@ class CustomBackend(ModelBackend):
 
 class LoginView(View):
     def get(self, request):
-        return render(request, "sign/login.html")
+        next = request.GET.get('next')
+        print(next)
+        return render(request, "sign/login.html",{'next':next})
 
     def post(self, request):
         loginForm = forms.loginform(request.POST)
@@ -63,8 +66,10 @@ class LoginView(View):
                     if user.authStatus ==True:#通过审核
                         if user.type == 'giftcompany':
                             login(request, user)
-                            print("登陆成功")
-                            return redirect('/home')
+                            if request.POST.get('next') != 'None':
+                                return redirect(request.POST.get('next'))
+                            else:
+                                return redirect('/home')
                         elif user.type=='supplier':
                             return render(request, 'sign/login.html', {
                                 'error_message': "供应商请从供应商入口登录"
@@ -888,17 +893,29 @@ def search_products(request):
     return render(request, 'search/product_search_result.html', result_data_dict)
 
 
-
 class msgCenterView(View):
+    @method_decorator(login_required)
     def get(self,request):
-        try:
-            currentUser = request.user
-            if currentUser.is_authenticated:
-                return render(request, 'inforcenter/msgcenter.html')
-            else:
-                return redirect('/sign/login')
-        except:
-            return render(request, 'sign/login.html')
+        query_set = siteMessge.objects.all()
+
+        paginator =Paginator(query_set,1)
+        page = request.GET.get('page')
+        msgs =paginator.get_page(page)
+
+        result_data_dict={}
+        result_data_dict['msgs'] = msgs
+        result_data_dict['page_range'] = range(1, msgs.paginator.num_pages)
+
+        pager_array = generate_pager_array(msgs.number, msgs.paginator.num_pages)
+        result_data_dict['pager_array'] = pager_array
+
+
+
+
+        return render(request, 'inforcenter/msgcenter.html',result_data_dict)
+
+
+
 
 class sysinfoView(View):
     def get(self,request):
