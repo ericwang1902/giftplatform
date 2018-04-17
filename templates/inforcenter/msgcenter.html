@@ -13,14 +13,16 @@
         <th>状态</th>
         <th>操作</th>
     </tr>
+    {% for item in msgs %}
     <tr>
         <td>1</td>
-        <td>最后500件膳魔师水杯</td>
-        <td>2018年3月21日</td>
-        <td>南通膳魔师</td>
-        <td>未读</td>
+        <td>{{ item.title }}</td>
+        <td>{{ item.title }}</td>
+        <td>{{ item.content }}</td>
+        <td>{{ item.hasread }}</td>
         <td>查看</td>
     </tr>
+    {% endfor %}
 
 </table>
 
