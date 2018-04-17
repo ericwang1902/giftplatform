@@ -17,7 +17,9 @@
     <tr>
         {% for supplier in suppliers %}
         <td>{{ supplier.id }}</td>
-        <td>{{ supplier.supplier_set.first.sppliername }}</td>
+            {% with supplier.supplier_set.all|first as supplier_private %}
+                <td>{{ supplier_private.suppliername }}</td>
+            {% endwith %}
         <td>{% if supplier.is_active %}正常{% else %}禁用{% endif %}</td>
         <td>{{ supplier.last_login }}</td>
         <td>{{ supplier.date_joined }}</td>

@@ -1242,6 +1242,7 @@ class PrivateSupplier(View):
         pager_array = generate_pager_array(suppliers.number, suppliers.paginator.num_pages)
         result_data_dict['pager_array'] = pager_array
 
+
         return render(request, 'usercenter/private_area_supplier_list.html', result_data_dict)
 
 
@@ -1252,14 +1253,20 @@ class PrivateSupplier(View):
         :return:
         """
         form = forms.PrivateAreaSupplierForm(request.POST)
+        print(form)
         if form.is_valid():
-            user = UserProfile.objects.create_user(username=form.username, password=form.password)
+            user = UserProfile.objects.create_user(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
             user.type = 'supplier'
             user.privatearea = request.user.privatearea
             user.authStatus = True
+            user.inprivatearea = True
             user.save()
 
-            supplier_info = supplier(suppliername=form.supplier_name, tel = form.tel, qq = form.qq, email=form.email, userid=user)
+            supplier_info = supplier(suppliername=form.cleaned_data['supplier_name'], tel = form.cleaned_data['tel'], qq = form.cleaned_data['qq'], email=form.cleaned_data['email'], userid=user)
             supplier_info.save()
 
-            return redirect('usercenter/privatearea/suppliers', { "success" : "已成功创建私有供应商"})
+            return redirect('/usercenter/privatearea/suppliers', { "success" : "已成功创建私有供应商"})
+        else:
+            print(form.errors)
+            return render(request, 'usercenter/new_supplier_in_private_area.html')
+
