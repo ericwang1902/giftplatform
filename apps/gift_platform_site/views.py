@@ -13,6 +13,7 @@ from django.contrib.auth import logout
 from django.core.paginator import Paginator
 from django.http import HttpResponseBadRequest, HttpResponseNotFound, HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin
 import json
 from decimal import Decimal
@@ -51,7 +52,9 @@ class CustomBackend(ModelBackend):
 
 class LoginView(View):
     def get(self, request):
-        return render(request, "sign/login.html")
+        next = request.GET.get('next')
+        print(next)
+        return render(request, "sign/login.html",{'next':next})
 
     def post(self, request):
         loginForm = forms.loginform(request.POST)
@@ -63,8 +66,7 @@ class LoginView(View):
                     if user.authStatus ==True:#通过审核
                         if user.type == 'giftcompany':
                             login(request, user)
-                            print("登陆成功")
-                            return redirect('/home')
+                            return redirect(request.POST.get('next'),'/home')
                         elif user.type=='supplier':
                             return render(request, 'sign/login.html', {
                                 'error_message': "供应商请从供应商入口登录"
@@ -888,17 +890,20 @@ def search_products(request):
     return render(request, 'search/product_search_result.html', result_data_dict)
 
 
-
 class msgCenterView(View):
+    @method_decorator(login_required)
     def get(self,request):
         try:
             currentUser = request.user
             if currentUser.is_authenticated:
                 return render(request, 'inforcenter/msgcenter.html')
+
             else:
                 return redirect('/sign/login')
         except:
             return render(request, 'sign/login.html')
+
+
 
 class sysinfoView(View):
     def get(self,request):

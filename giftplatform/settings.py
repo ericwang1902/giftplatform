@@ -39,6 +39,10 @@ AUTHENTICATION_BACKENDS=(
 
 # Application definition
 
+TEMPLATE_CONTEXT_PROCESSORS=(
+'django.core.context_processors.request',
+)
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -179,3 +183,6 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static_assets'),)
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL='/media/'
+
+LOGIN_URL = '/sign/login'
+#LOGIN_REDIRECT_URL = '/home'
