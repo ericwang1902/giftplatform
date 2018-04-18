@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}一点礼品{% endblock %}</title>
-    {%  load static %}
+    {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'gift_platform_site/style.css' %}">
     <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
     <script>
@@ -22,6 +22,7 @@
             }
             return cookieValue;
         }
+
         var csrftoken = getCookie('csrftoken');
     </script>
 </head>
@@ -32,7 +33,7 @@
         <div class="button-wrap">
             <a href="{% url 'gift_platform_site:myaccount' %}">{{ request.user.username }}</a>
             <a class="acls" href="{% url 'gift_platform_site:sysinfo' %}">系统消息</a>
-            <form hidden method="post" id="logoutform" action="{% url 'gift_platform_site:logoutv'%}">
+            <form hidden method="post" id="logoutform" action="{% url 'gift_platform_site:logoutv' %}">
                 <input name="logoutin" value="{{ request.user.username }}"/>
                 {% csrf_token %}
             </form>
@@ -56,7 +57,7 @@
             </div>
             <div class="cart-wrap">
                 <div class="cart">
-                    <img src="{% static 'gift_platform_site/images/cart.png' %}" />
+                    <img src="{% static 'gift_platform_site/images/cart.png' %}"/>
                     <span class="product-count">
                         0
                     </span>
@@ -89,13 +90,16 @@
 
 <div class="nav">
     <div class="nav-wrap">
-        <a {% ifequal request.path '/home/' %}class="active" {% endifequal %} href="{% url 'gift_platform_site:home' %}">最新动态</a>
+        <a {% ifequal request.path '/home/' %}class="active" {% endifequal %}
+           href="{% url 'gift_platform_site:home' %}">最新动态</a>
         <a {% ifequal request.path '/jxzt/' %}class="active" {% endifequal %} href="#">精选专题</a>
         <a {% ifequal request.path '/product/categories/' %}class="active" {% endifequal %} href="/product/categories">产品分类</a>
         <a {% ifequal request.path '/product/brands/' %}class="active" {% endifequal %} href="/product/brands">品牌专区</a>
         <a {% ifequal request.path '/product/onesend' %}class="active" {% endifequal %} href="/product/onesend">一件代发</a>
         <a {% ifequal request.path '/aboutus/' %}class="active" {% endifequal %} href="#">关于我们</a>
-        <a {% ifequal request.path '/msgcenter/?page=1' %}class="active" {% endifequal %} href="{% url 'gift_platform_site:msgcenter' %}">公告中心</a>
+        <a {% if currentpage == 'msgcenter' %}class="active"
+           {% elif currentpage == 'msgdetail' %}class="active"{% endif %}
+           href="{% url 'gift_platform_site:msgcenter' %}" >公告中心</a>
         <div class="clear"></div>
     </div>
 </div>
@@ -124,19 +128,20 @@
     </div>
     <div class="copyright">
         <div>
-            <a href="#">关于我们</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{% url 'gift_platform_site:protocol' %}">帮助中心</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">售后服务</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">友情链接</a>
+            <a href="#">关于我们</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{% url 'gift_platform_site:protocol' %}">帮助中心</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a
+                href="#">售后服务</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">友情链接</a>
         </div>
         <div>
-            <p>一点公司版权所有 © 1997-2018   食品经营许可证：JY133****0111719</p>
+            <p>一点公司版权所有 © 1997-2018 食品经营许可证：JY133****0111719</p>
         </div>
     </div>
 </div>
 <script>
-    var initCart = function() {
-        var generateCartListHtmlStr = function(imageUrl, name, productId, productSkuId) {
-            return '<li><img src="' + imageUrl + '"/> <span class="product-name">' + name + '</span> <a productSkuId="'+productSkuId +'" productId="' + productId +'" class="del-btn"> </a> </li>';
+    var initCart = function () {
+        var generateCartListHtmlStr = function (imageUrl, name, productId, productSkuId) {
+            return '<li><img src="' + imageUrl + '"/> <span class="product-name">' + name + '</span> <a productSkuId="' + productSkuId + '" productId="' + productId + '" class="del-btn"> </a> </li>';
         }
-        $.get('{% url "gift_platform_site:cart" %}', function(response) {
+        $.get('{% url "gift_platform_site:cart" %}', function (response) {
             $('.cart-content .product-list ul').empty();
             if (response.length === 0) {
                 $('.cart-info').text('您没有礼品方案');
@@ -152,7 +157,7 @@
             $('.cart-footer span').text(response.length + '个商品');
             $('.product-count').text(response.length);
         });
-        $(document).on('click', '#cart .del-btn', function() {
+        $(document).on('click', '#cart .del-btn', function () {
             if (confirm('确认删除此商品?')) {
                 var productId = $(this).attr('productId');
                 $.ajax({
@@ -161,13 +166,13 @@
                     headers: {
                         'X-CSRFToken': csrftoken
                     },
-                    success: function(e) {
+                    success: function (e) {
                         initCart();
                     }
                 });
             }
         });
-        $('#export-ppt-btn').click(function() {
+        $('#export-ppt-btn').click(function () {
             if (confirm('是否导出为PPT?')) {
                 $.ajax({
                     url: '{% url 'gift_platform_site:export_ppt' %}',
@@ -175,20 +180,20 @@
                     headers: {
                         'X-CSRFToken': csrftoken
                     },
-                    success: function(data) {
+                    success: function (data) {
                         console.log(data.file_url)
-                        window.location.href=data.file_url;
+                        window.location.href = data.file_url;
                     }
                 });
             }
         })
     };
 
-    var refreshCart = function() {
-        var generateCartListHtmlStr = function(imageUrl, name, productId, productSkuId) {
-            return '<li><img src="' + imageUrl + '"/> <span class="product-name">' + name + '</span> <a productSkuId="'+productSkuId +'" productId="' + productId +'" class="del-btn"> </a> </li>';
+    var refreshCart = function () {
+        var generateCartListHtmlStr = function (imageUrl, name, productId, productSkuId) {
+            return '<li><img src="' + imageUrl + '"/> <span class="product-name">' + name + '</span> <a productSkuId="' + productSkuId + '" productId="' + productId + '" class="del-btn"> </a> </li>';
         }
-        $.get('{% url "gift_platform_site:cart" %}', function(response) {
+        $.get('{% url "gift_platform_site:cart" %}', function (response) {
             $('.cart-content .product-list ul').empty();
             if (response.length === 0) {
                 $('.cart-info').text('您没有礼品方案');
@@ -205,21 +210,21 @@
         });
     };
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         // tab 切换
-        (function($){
+        (function ($) {
             var searchType = 0;
-            $('#product-search-tab').click(function(){
+            $('#product-search-tab').click(function () {
                 searchType = 0;
                 $('#supplier-search-tab').removeClass('select');
                 $(this).addClass('select');
             });
-            $('#supplier-search-tab').click(function(){
+            $('#supplier-search-tab').click(function () {
                 searchType = 1;
                 $('#product-search-tab').removeClass('select');
                 $(this).addClass('select');
             });
-            $('#search-btn').click(function(){
+            $('#search-btn').click(function () {
                 var queryContent = $('#search-content-input').val();
                 if (searchType === 0) {
                     window.location.href = '{% url 'gift_platform_site:search_products' %}?q=' + queryContent;// 商品检索
@@ -229,9 +234,9 @@
             });
         })(jQuery);
 
-        (function($){
+        (function ($) {
             var cartDisplay = false;
-            $('.cart-wrap').mouseenter(function(){
+            $('.cart-wrap').mouseenter(function () {
                 cartDisplay = true;
                 $('.cart-content').show();
             });

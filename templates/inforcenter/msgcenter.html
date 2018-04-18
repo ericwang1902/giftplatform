@@ -17,10 +17,10 @@
                 <tr>
                     <td>1</td>
                     <td>{{ item.title }}</td>
-                    <td>{{ item.publishdate|date:'Y-m-d H:i:s'}}</td>
+                    <td>{{ item.publishdate|date:'Y-m-d H:i:s' }}</td>
                     <td>{{ item.content }}</td>
                     <td>{% if item.hasread %}已读{% else %}未读{% endif %}</td>
-                    <td>查看</td>
+                    <td><a href="{% url 'gift_platform_site:msgdetail' %}?m={{ item.id }}">查看</a></td>
                 </tr>
             {% endfor %}
 

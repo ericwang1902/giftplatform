@@ -5,7 +5,7 @@ from apps.gift_platform_site.views import MyaccountView,ModifyPwdView,logoutView
 from apps.gift_platform_site.views import search_supplier, CartView, product_details
 
 from apps.gift_platform_site.views import msgCenterView,sysinfoView,findpwdView,protocolView,delete_from_cart,export_ppt,brands_product_list,one_send_product_list, PrivateSupplier
-
+from  apps.gift_platform_site.views import msgdetailView
 app_name = 'gift_platform_site'
 
 urlpatterns =  [
@@ -32,6 +32,7 @@ urlpatterns =  [
     path('supplier/search', search_supplier, name="search_supplier"),
 
     path('msgcenter/',msgCenterView.as_view(),name="msgcenter"),
+    path('msgdetail/',msgdetailView.as_view(),name='msgdetail'),
 
     path('usercenter/myaccount',MyaccountView.as_view(),name='myaccount'),
     path('usercenter/mpwd',ModifyPwdView.as_view(),name="modifypwd"),

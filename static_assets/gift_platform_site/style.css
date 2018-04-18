@@ -1950,5 +1950,10 @@ input:-ms-input-placeholder, .form-item .drop-down:-ms-input-placeholder, .form-
       width: 100px; }
     .msgcentertable tr td:nth-child(6) {
       width: 100px; }
+      .msgcentertable tr td:nth-child(6) a {
+        text-align: center;
+        line-height: 42px;
+        color: #B19B70;
+        text-decoration: none; }
 
 /*# sourceMappingURL=main.css.map */
