@@ -5,7 +5,7 @@ from apps.gift_platform_site.views import MyaccountView,ModifyPwdView,logoutView
 from apps.gift_platform_site.views import search_supplier, CartView, product_details
 
 from apps.gift_platform_site.views import msgCenterView,sysinfoView,findpwdView,protocolView,delete_from_cart,export_ppt,brands_product_list,one_send_product_list, PrivateSupplier
-from  apps.gift_platform_site.views import msgdetailView
+from  apps.gift_platform_site.views import msgdetailView, edit_private_supplier
 app_name = 'gift_platform_site'
 
 urlpatterns =  [
@@ -39,6 +39,7 @@ urlpatterns =  [
     path('usercenter/sysinfo',sysinfoView.as_view(),name='sysinfo'),
     path('usercenter/privatearea/suppliers',PrivateSupplier.as_view(),name='private_suppliers'),
     path('usercenter/privatearea/suppliers/new',new_private_supplier,name='new_private_suppliers'),
+    path('usercenter/privatearea/suppliers/<int:supplier_id>/edit',edit_private_supplier,name='edit_private_suppliers'),
 
     path('protocol/',protocolView.as_view(),name='protocol')
 

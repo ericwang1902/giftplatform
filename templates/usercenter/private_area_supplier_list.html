@@ -23,7 +23,9 @@
         <td>{% if supplier.is_active %}正常{% else %}禁用{% endif %}</td>
         <td>{{ supplier.last_login }}</td>
         <td>{{ supplier.date_joined }}</td>
-        <td>查看</td>
+        <td>
+            <a href="{% url "gift_platform_site:edit_private_suppliers" supplier_id=supplier.id %}">编辑</a>
+        </td>
         {% endfor %}
     </tr>
 </table>

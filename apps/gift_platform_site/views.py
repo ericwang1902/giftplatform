@@ -1251,6 +1251,21 @@ def new_private_supplier(request):
     """
     return render(request, 'usercenter/new_supplier_in_private_area.html')
 
+def edit_private_supplier(request, supplier_id):
+    """
+    编辑私有域供应商的基本信息
+    :param request:
+    :param supplier_id:
+    :return:
+    """
+    if request.method is 'PUT':
+        pass
+    elif request.method is 'GET':
+        supplier = get_object_or_404(UserProfile, pk=supplier_id)
+        if supplier.privatearea is not request.user.privatearea:
+            return HttpResponseNotFound()
+        else:
+            return render(request, "usercenter/edit_private_supplier.html", { 'supplier_info': supplier.supplier_set.first() })
 
 class PrivateSupplier(View):
     def get(self, request):
