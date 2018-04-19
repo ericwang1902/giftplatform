@@ -21,6 +21,7 @@ from apps.gift_platform_site.libs.ppt_utils import generate_ppt
 from django.conf import settings
 import os
 import datetime
+from django.contrib import messages
 
 
 def home(request):
@@ -1283,7 +1284,13 @@ def new_private_supplier(request):
     :param request:
     :return:
     """
-    return render(request, 'usercenter/new_supplier_in_private_area.html')
+    # 开始判断是否已经达到私有域供应商的上限
+    privatearea = request.user.privatearea
+    if privatearea.accountlimit <= UserProfile.objects.filter(Q(privatearea_id= privatearea.id) and Q(type='supplier')).count():
+        messages.add_message(request, messages.ERROR, '您的供应商账号数量已达上限')
+        return redirect('/usercenter/privatearea/suppliers')
+    else:
+        return render(request, 'usercenter/new_supplier_in_private_area.html')
 
 
 def edit_private_supplier(request, supplier_id):
@@ -1304,6 +1311,7 @@ def edit_private_supplier(request, supplier_id):
             supplier_info.tel = request.POST['tel']
             supplier_info.qq = request.POST['qq']
             supplier_info.save()
+            messages.add_message(request, messages.SUCCESS, '基本信息修改成功')
             return redirect('/usercenter/privatearea/suppliers')
         else:
             return redirect('/usercenter/privatearea/suppliers')
@@ -1353,8 +1361,8 @@ class PrivateSupplier(View):
             supplier_info = supplier(suppliername=form.cleaned_data['supplier_name'], tel=form.cleaned_data['tel'],
                                      qq=form.cleaned_data['qq'], email=form.cleaned_data['email'], userid=user)
             supplier_info.save()
+            messages.add_message(request, messages.SUCCESS, '已成功创建私有供应商')
 
-            return redirect('/usercenter/privatearea/suppliers', {"success": "已成功创建私有供应商"})
+            return redirect('/usercenter/privatearea/suppliers')
         else:
-            print(form.errors)
             return render(request, 'usercenter/new_supplier_in_private_area.html')
