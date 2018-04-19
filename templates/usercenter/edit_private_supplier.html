@@ -6,7 +6,7 @@
 <script src="https://cdn.bootcss.com/jquery-validate/1.17.0/localization/messages_zh.min.js"></script>
 <div class="right-content">
     <div class="content">
-        <form id="new-supplier-form" action="{% url 'gift_platform_site:edit_private_suppliers' supplier_id=supplier_info.userid.id %}" method="put">
+        <form id="new-supplier-form" action="{% url 'gift_platform_site:edit_private_suppliers' supplier_id=supplier_info.userid.id %}" method="post">
             {% csrf_token %}
             <span class="content-header">
                 修改供应商基本信息
@@ -23,6 +23,7 @@
                 <label>QQ：</label>
                 <input name="qq" placeholder="请输入联系QQ" value="{{ supplier_info.qq }}"/>
             </div>
+            <input type="hidden" name="_method" value="PUT">
             <a class="save-btn" href="javascript:void(0)" id="ok-btn">保存</a>
         </form>
     </div>

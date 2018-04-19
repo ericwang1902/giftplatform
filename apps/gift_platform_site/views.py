@@ -1258,14 +1258,23 @@ def edit_private_supplier(request, supplier_id):
     :param supplier_id:
     :return:
     """
-    if request.method is 'PUT':
-        pass
-    elif request.method is 'GET':
-        supplier = get_object_or_404(UserProfile, pk=supplier_id)
-        if supplier.privatearea is not request.user.privatearea:
-            return HttpResponseNotFound()
+    supplier = get_object_or_404(UserProfile, pk=supplier_id)
+    if supplier.privatearea.id != request.user.privatearea.id:
+        return HttpResponseNotFound()
+    if request.method == 'POST':
+        method = request.POST.get('_method', None)
+        if method == 'PUT':
+            supplier_info = supplier.supplier_set.first()
+            supplier_info.suppliername = request.POST['supplier_name']
+            supplier_info.tel = request.POST['tel']
+            supplier_info.qq = request.POST['qq']
+            supplier_info.save()
+            return redirect('/usercenter/privatearea/suppliers')
         else:
-            return render(request, "usercenter/edit_private_supplier.html", { 'supplier_info': supplier.supplier_set.first() })
+            return redirect('/usercenter/privatearea/suppliers')
+    elif request.method == 'GET':
+        supplier = get_object_or_404(UserProfile, pk=supplier_id)
+        return render(request, "usercenter/edit_private_supplier.html", { 'supplier_info': supplier.supplier_set.first() })
 
 class PrivateSupplier(View):
     def get(self, request):
