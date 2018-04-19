@@ -901,6 +901,7 @@ class msgCenterView(View):
     @method_decorator(login_required)
     def get(self, request):
         query_set = siteMessge.objects.all()
+        query_set = query_set.filter(~Q(fromuser=1))
 
         paginator = Paginator(query_set, 12)
         page = request.GET.get('page')
@@ -922,7 +923,7 @@ class msgdetailView(View):
     def get(self, request):
         msgid = request.GET.get('m')
         msgobj = siteMessge.objects.get(pk=int(msgid))
-        msgobj.hasread=True
+        msgobj.hasread = True
         msgobj.save()
         print(msgobj.content)
         currentpage = 'msgdetail'
@@ -933,9 +934,42 @@ class msgdetailView(View):
                       )
 
 
+# TODO: 系统管理员发的系统消息
 class sysinfoView(View):
+    @method_decorator(login_required)
     def get(self, request):
-        return render(request, 'usercenter/sysinfo.html')
+        query_set = siteMessge.objects.all()
+        query_set = query_set.filter(fromuser=1)
+
+        paginator = Paginator(query_set, 5)
+        page = request.GET.get('page')
+        msgs = paginator.get_page(page)
+
+        result_data_dict = {}
+        result_data_dict['currentpage'] = 'sysinfo'
+        result_data_dict['msgs'] = msgs
+        result_data_dict['page_range'] = range(1, msgs.paginator.num_pages)
+
+        pager_array = generate_pager_array(msgs.number, msgs.paginator.num_pages)
+        result_data_dict['pager_array'] = pager_array
+
+        return render(request, 'usercenter/sysinfo.html', result_data_dict)
+
+
+class sysinfodetailView(View):
+    @method_decorator(login_required)
+    def get(self, request):
+        msgid = request.GET.get('m')
+        msgobj = siteMessge.objects.get(pk=int(msgid))
+        msgobj.hasread = True
+        msgobj.save()
+        currentpage = 'sysinfodetail'
+        return render(request, 'usercenter/sysinfodetail.html',
+                      {
+                          'msgobj': msgobj,
+                          'currentpage':currentpage
+                      }
+                      )
 
 
 class findpwdView(View):
@@ -1251,6 +1285,7 @@ def new_private_supplier(request):
     """
     return render(request, 'usercenter/new_supplier_in_private_area.html')
 
+
 def edit_private_supplier(request, supplier_id):
     """
     编辑私有域供应商的基本信息
@@ -1274,7 +1309,9 @@ def edit_private_supplier(request, supplier_id):
             return redirect('/usercenter/privatearea/suppliers')
     elif request.method == 'GET':
         supplier = get_object_or_404(UserProfile, pk=supplier_id)
-        return render(request, "usercenter/edit_private_supplier.html", { 'supplier_info': supplier.supplier_set.first() })
+        return render(request, "usercenter/edit_private_supplier.html",
+                      {'supplier_info': supplier.supplier_set.first()})
+
 
 class PrivateSupplier(View):
     def get(self, request):

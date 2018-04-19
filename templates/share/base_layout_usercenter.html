@@ -1,26 +1,34 @@
-{% extends 'share/base_layout_with_search.html' %}
+{% extends 'share/base_layout_without_search.html' %}
 {% block title %}我的资料{% endblock %}
 
 {% block content %}
-{% load static %}
-<div class="container admin">
-    <div class="left-nav">
-        <div class="category">
-            <span class="category-header">账号管理</span>
-            <a {% ifequal request.path '/usercenter/myaccount' %}class="nav-item select" {% else %}class="nav-item"{% endifequal %}   href="{% url 'gift_platform_site:myaccount' %}">我的资料</a>
-            <a {% ifequal request.path '/usercenter/mpwd' %}class="nav-item select"{% else %}class="nav-item"{% endifequal %} href="{% url 'gift_platform_site:modifypwd' %}">修改密码</a>
-            <a {% ifequal request.path '/usercenter/sysinfo' %}class="nav-item select"{% else %}class="nav-item" {% endifequal %} href="{% url 'gift_platform_site:sysinfo' %}">消息中心</a>
-        </div>
-        <div class="category">
-            <span class="category-header">私有域管理</span>
-            <a class="{% ifequal request.path '/usercenter/privatearea/suppliers' %}select{% endifequal %} nav-item" href="{% url 'gift_platform_site:private_suppliers' %}">供应商管理</a>
-            <a class="{% ifequal request.path '/usercenter/privatearea/suppliers/new' %}select{% endifequal %} nav-item" href="{% url 'gift_platform_site:new_private_suppliers' %}">创建供应商</a>
-        </div>
-    </div>
-{% block content1 %}
+    {% load static %}
+    <div class="container admin">
+        <div class="left-nav">
+            <div class="category">
+                <span class="category-header">账号管理</span>
+                <a {% ifequal request.path '/usercenter/myaccount' %}class="nav-item select"
+                   {% else %}class="nav-item"{% endifequal %} href="{% url 'gift_platform_site:myaccount' %}">我的资料</a>
+                <a {% ifequal request.path '/usercenter/mpwd' %}class="nav-item select"
+                   {% else %}class="nav-item"{% endifequal %} href="{% url 'gift_platform_site:modifypwd' %}">修改密码</a>
+                <a {% if currentpage == "sysinfodetail" %}class="nav-item select"
+                   {% elif currentpage == "sysinfo" %}class="nav-item select"
+                   {% else %}class="nav-item" {% endif %}
+                   href="{% url 'gift_platform_site:sysinfo' %}">消息中心</a>
 
-{% endblock %}
-    <div class="clear"></div>
-</div>
+            </div>
+            <div class="category">
+                <span class="category-header">私有域管理</span>
+                <a class="{% ifequal request.path '/usercenter/privatearea/suppliers' %}select{% endifequal %} nav-item"
+                   href="{% url 'gift_platform_site:private_suppliers' %}">供应商管理</a>
+                <a class="{% ifequal request.path '/usercenter/privatearea/suppliers/new' %}select{% endifequal %} nav-item"
+                   href="{% url 'gift_platform_site:new_private_suppliers' %}">创建供应商</a>
+            </div>
+        </div>
+        {% block content1 %}
+
+        {% endblock %}
+        <div class="clear"></div>
+    </div>
 
 {% endblock %}
