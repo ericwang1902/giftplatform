@@ -1087,7 +1087,7 @@ def product_details(request, product_id):
         temp_dict = {}
         temp_dict['id'] = record.id
         temp_dict['attributes'] = record.attributes
-        temp_dict['price'] = record.attributes
+        temp_dict['price'] = record.price
         temp_dict['image'] = record.images.first().productimage.url
         product_item_list.append(temp_dict)
     print(product_item_list)
