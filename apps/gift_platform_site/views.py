@@ -1042,15 +1042,17 @@ class CartView(View):
             'product_id': product_id
         }
         if request.session.get('cart', False):
-            if temp in request.session['cart']:  # 如果已经存在于方案车，则返回错误信息
+            existed_products = request.session.get('cart')
+            if temp in existed_products:  # 如果已经存在于方案车，则返回错误信息
                 return HttpResponse(json.dumps({'result': 'error', 'message': 'has existed'}),
                                     content_type="application/json", status="400")
 
-            request.session['cart'].append(
+            existed_products.append(
                 {
                     'product_id': product_id
                 }
             )
+            request.session['cart'] = existed_products
         else:
             request.session['cart'] = [
                 {
