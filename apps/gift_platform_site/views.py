@@ -329,7 +329,7 @@ def categories_list(request):
     :param request:
     :return:
     """
-    categories_list = category.objects.filter(isroot=True)  # 查找所有的根级分组
+    categories_list = category.objects.filter(Q(isroot=True) and Q(isdelete=False))  # 查找所有的根级分组
     return render(request, 'products/categories_list.html', {'categories_list': categories_list})
 
 
@@ -386,7 +386,7 @@ def brands_product_list(request, brand_id):
     """
     # 获取该品牌下所有商品的分类
     categories = category.objects.raw(
-        'SELECT * FROM products_category WHERE id in (SELECT DISTINCT categoryid_id FROM products_product WHERE brand_id = %s)',
+        'SELECT * FROM products_category WHERE id in (SELECT DISTINCT categoryid_id FROM products_product WHERE brand_id = %s) AND isdelete=0',
         [brand_id])
     #
     price_range = request.GET.get('price_range')  # 1: 0-20 2: 20-50 3: 50-100 4: 100-200 5: 200以上 0: 无限
