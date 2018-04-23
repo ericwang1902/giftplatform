@@ -35,7 +35,7 @@ def home(request):
 
 class IndexView(LoginRequiredMixin, View):
     def get(self, request):
-        products = product.objects.filter(status=0)[0:16]
+        products = product.objects.filter(Q(status=0) and Q(isdelete=False))[0:16]
         currentuser = request.user
         return render(request, "home/index.html", {"products": products, "currentuser": currentuser})
 
@@ -400,7 +400,7 @@ def brands_product_list(request, brand_id):
 
     result_data_dict = {}  # 视图信息数据字典
 
-    query_set = product.objects
+    query_set = product.objects.filter(Q(state=0) and Q(isdelete=False))
 
     query_set = query_set.filter(brand=brand)
 
@@ -526,7 +526,7 @@ def category_product_list(request, parent_category_id, child_category_id):
 
     result_data_dict = {}  # 视图信息数据字典
 
-    query_set = product.objects
+    query_set = product.objects.filter(Q(state=0) and Q(isdelete=False))
     category_instance = get_object_or_404(category, pk=child_category_id)  # 获取子分组实例
     parent_category_instance = get_object_or_404(category, pk=parent_category_id)  # 获取父分组实例
 
@@ -642,7 +642,7 @@ def root_category_product_list(request, parent_category_id):
 
     result_data_dict = {}  # 视图信息数据字典
 
-    query_set = product.objects
+    query_set = product.objects.filter(Q(state=0) and Q(isdelete=False))
     parent_category_instance = get_object_or_404(category, pk=parent_category_id)  # 获取父分组实例
 
     query_set = query_set.filter(categoryid__parent=parent_category_instance)
@@ -793,7 +793,7 @@ def search_products(request):
 
     result_data_dict = {}  # 视图信息数据字典
 
-    query_set = product.objects
+    query_set = product.objects.filter(Q(state=0) and Q(isdelete=False))
 
     if query_content is not None:
         query_set = query_set.filter(name__contains=query_content)
@@ -1168,7 +1168,7 @@ def one_send_product_list(request):
 
     result_data_dict = {}  # 视图信息数据字典
 
-    query_set = product.objects
+    query_set = product.objects.filter(Q(state=0) and Q(isdelete=False))
 
     query_set = query_set.filter(yijiandaifa=True)
 
