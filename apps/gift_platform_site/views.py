@@ -318,7 +318,7 @@ def brands_list(request):
     :param request:
     :return:
     """
-    brands_list = brands.objects.all()
+    brands_list = brands.objects.filter(isdelete=False).all()
     return render(request, 'products/brands_list.html', {'brands_list': brands_list})
 
 
