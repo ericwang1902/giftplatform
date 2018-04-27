@@ -1103,7 +1103,7 @@ def product_details(request, product_id):
 
     result_dict["main_images"] = product_instance.images.all()
 
-    result_dict["supplier_name"] = product_instance.belongs.supplier_set.first().suppliername
+    result_dict["supplier_name"] = product_instance.belongs.supplier.suppliername
 
     result_dict["product"] = product_instance
 
@@ -1308,7 +1308,7 @@ def edit_private_supplier(request, supplier_id):
     if request.method == 'POST':
         method = request.POST.get('_method', None)
         if method == 'PUT':
-            supplier_info = supplier.supplier_set.first()
+            supplier_info = supplier.supplier
             supplier_info.suppliername = request.POST['supplier_name']
             supplier_info.tel = request.POST['tel']
             supplier_info.qq = request.POST['qq']
@@ -1320,7 +1320,7 @@ def edit_private_supplier(request, supplier_id):
     elif request.method == 'GET':
         supplier = get_object_or_404(UserProfile, pk=supplier_id)
         return render(request, "usercenter/edit_private_supplier.html",
-                      {'supplier_info': supplier.supplier_set.first()})
+                      {'supplier_info': supplier.supplier})
 
 
 class PrivateSupplier(View):
