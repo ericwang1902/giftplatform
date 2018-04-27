@@ -61,6 +61,6 @@ class siteMessge(models.Model):
 class supplier(models.Model):
     suppliername = models.CharField(max_length=200, null=False)
     tel = models.CharField(max_length=20, null=False)
-    qq = models.CharField(max_length=20, null=False)
+    qq = models.CharField(max_length=20, null=True, blank=True)
     email = models.CharField(max_length=40, null=False)
-    userid = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    userid = models.OneToOneField(UserProfile, on_delete=models.CASCADE, blank=True, null=True)

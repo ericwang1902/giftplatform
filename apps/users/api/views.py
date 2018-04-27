@@ -1,6 +1,6 @@
 from rest_framework import generics, mixins
 
-from .serializers import privateareaSerialzer, groupSerialzer, userprofileSerializer, permissionSerializer, AuthInfoSerializer
+from .serializers import privateareaSerialzer, groupSerialzer, userprofileSerializer, permissionSerializer, AuthInfoSerializer, SupplierSerializer
 
 from apps.users.models import privatearea, UserProfile, userAuthinfo
 from apps.viplevels.models import vipLevel
@@ -313,7 +313,7 @@ class GiftDealerDetail(generics.GenericAPIView, mixins.RetrieveModelMixin, mixin
 # 供应商
 class supplierList(generics.ListAPIView, generics.CreateAPIView):
     queryset = UserProfile.objects.all()
-    serializer_class = userprofileSerializer
+    serializer_class = SupplierSerializer
     filter_backends = (filters.SearchFilter,)
     search_fields = ('username', 'mobile', 'email')
 
@@ -351,7 +351,7 @@ class supplierList(generics.ListAPIView, generics.CreateAPIView):
 class supplierDetail(generics.GenericAPIView, mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
                      mixins.DestroyModelMixin):
     queryset = UserProfile.objects.all()
-    serializer_class = userprofileSerializer
+    serializer_class = SupplierSerializer
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
