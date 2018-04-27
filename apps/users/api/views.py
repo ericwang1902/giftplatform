@@ -2,7 +2,7 @@ from rest_framework import generics, mixins
 
 from .serializers import privateareaSerialzer, groupSerialzer, userprofileSerializer, permissionSerializer, AuthInfoSerializer, SupplierSerializer
 
-from apps.users.models import privatearea, UserProfile, userAuthinfo
+from apps.users.models import privatearea, UserProfile, userAuthinfo, vipLevelChangeHistory
 from apps.viplevels.models import vipLevel
 
 from django.contrib.auth.models import Permission, Group
@@ -19,6 +19,9 @@ from rest_framework_jwt.serializers import JSONWebTokenSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from datetime import datetime
+from rest_framework.decorators import  api_view
+from rest_framework.exceptions import NotFound, APIException
+from dateutil import parser
 
 jwt_response_payload_handler = api_settings.JWT_RESPONSE_PAYLOAD_HANDLER
 
@@ -395,3 +398,41 @@ class AuthInfoList(generics.ListAPIView):
             queryset = self.queryset.filter(Q(userid=userid))
         return queryset
 
+@api_view(['GET','PUT'])
+def update_gift_dealer_vip_level(request, gift_company_id):
+    """
+    更新礼品上的充值会员信息
+    :param request:
+    :param gift_company_id:
+    :return:
+    """
+    user = UserProfile.objects.get(pk=gift_company_id)
+    if user is None:
+        raise NotFound(detail="gift company not found", code=404)
+
+    if user.type != "giftcompany":
+        raise NotFound(detail="gift company not found", code=404)
+
+    if request.method == 'PUT':
+        vip_instance = vipLevel.objects.get(pk=request.data.viplevel)
+        if vip_instance is not None:
+            vip_record = vipLevelChangeHistory()
+            vip_record.userid = user
+            vip_record.orignallevel = user.viplevel
+            vip_record.destlevel = vip_instance
+            vip_record.start_time = parser(request.data.start_time)
+            vip_record.end_time = parser(request.data.end_time)
+            vip_record.save()
+            user.viplevel = vip_instance
+            user.save()
+            return user
+        else:
+            return Response({"detail": "viplevel not existed"}, status=status.HTTP_400_BAD_REQUEST)
+
+    latest_vip_change = vipLevelChangeHistory.objects.filter(userid=user).order_by('-id').first()
+    return Response({
+        "userId": user.id,
+        "viplevel": latest_vip_change.destlevel.id,
+        "startTime": latest_vip_change.start_time,
+        "endTime": latest_vip_change.end_time
+    })

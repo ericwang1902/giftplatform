@@ -9,6 +9,7 @@ from .views import supplierList,supplierDetail
 from .views import permissionList
 from .views import AuthInfoList
 from .views import PermissionListOfMe
+from .views import update_gift_dealer_vip_level
 from .views import CustomJSONWebTokenAPIView
 
 app_name = "users"
@@ -31,6 +32,8 @@ urlpatterns = [
 
     path('gift-dealers',GiftDealersList.as_view(),name='giftdealerslist'),
     path('gift-dealers/<int:pk>',GiftDealerDetail.as_view(),name='giftdealerdetail'),
+
+    path('gift-dealers/<int:gift_company_id>/vip',update_gift_dealer_vip_level,name='giftdealervipupdate'),
 
     path('suppliers',supplierList.as_view(),name="suppliersList"),
     path('suppliers/<int:pk>',supplierDetail.as_view(),name='supplierDetail')

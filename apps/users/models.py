@@ -40,6 +40,8 @@ class userAuthinfo(models.Model):
 # viplevel变更历史
 class vipLevelChangeHistory(models.Model):
     updatetime = models.DateTimeField(auto_now_add=True)  # 更新时间
+    start_time = models.DateTimeField() # 会员开始时间
+    end_time = models.DateTimeField() # 会员结束时间
     userid = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     orignallevel = models.ForeignKey(vipLevel, related_name="orignallevel", on_delete=models.CASCADE)  # 原状态
     destlevel = models.ForeignKey(vipLevel, related_name="destlevel", on_delete=models.CASCADE)  # 目标状态
