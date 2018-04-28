@@ -414,18 +414,18 @@ def update_gift_dealer_vip_level(request, gift_company_id):
         raise NotFound(detail="gift company not found", code=404)
 
     if request.method == 'PUT':
-        vip_instance = vipLevel.objects.get(pk=request.data.viplevel)
+        vip_instance = vipLevel.objects.get(pk=request.data.get('viplevel', None))
         if vip_instance is not None:
             vip_record = vipLevelChangeHistory()
             vip_record.userid = user
             vip_record.orignallevel = user.viplevel
             vip_record.destlevel = vip_instance
-            vip_record.start_time = parser(request.data.start_time)
-            vip_record.end_time = parser(request.data.end_time)
+            vip_record.start_time = parser.parse(request.data.get('start_time', None))
+            vip_record.end_time = parser.parse(request.data.get('end_time', None))
             vip_record.save()
             user.viplevel = vip_instance
             user.save()
-            return user
+            return Response(userprofileSerializer(user).data, status=status.HTTP_200_OK)
         else:
             return Response({"detail": "viplevel not existed"}, status=status.HTTP_400_BAD_REQUEST)
 
