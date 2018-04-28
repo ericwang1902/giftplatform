@@ -9,6 +9,7 @@ from apps.viplevels.models import vipLevel
 class privatearea(models.Model):
     accountlimit = models.IntegerField(default=0)
     productlimit = models.IntegerField(default=0)
+    status = models.IntegerField(default=0) # 私有域状态 0 启用 1 关闭
 
 
 class UserProfile(AbstractUser):
