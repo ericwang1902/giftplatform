@@ -118,6 +118,11 @@ WHERE NOT EXISTS (
 	SELECT * FROM auth_permission WHERE codename='auth_giftdealer'
 ) LIMIT 1;
 
+INSERT INTO auth_permission(name, content_type_id, codename)
+	SELECT * FROM (SELECT 'Can setting giftdealer vip',(SELECT id FROM django_content_type WHERE model='userprofile' LIMIT 1), 'giftdealer_vip_setting') AS tmp
+	WHERE NOT EXISTS (
+			SELECT * FROM auth_permission WHERE codename='giftdealer_vip_setting'
+	) LIMIT 1;
 /*******************/
 
 /*商品分组权限初始化*/
