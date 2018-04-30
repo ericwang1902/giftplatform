@@ -36,6 +36,8 @@ urlpatterns = [
 
     path('api/', include('apps.viplevels.api.urls')),
 
+    path('api/', include('apps.advertising.api.urls')),
+
     path('', include('apps.gift_platform_site.urls'))
 
 
