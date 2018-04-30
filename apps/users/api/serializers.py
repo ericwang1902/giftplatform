@@ -52,16 +52,17 @@ class SupplierSerializer(ModelSerializer):
         return user
 
     def update(self, instance, validated_data):
-        shop_info = validated_data.pop('supplier')
+        shop_info = validated_data.pop('supplier', None)
 
-        try:
-            instance.supplier.suppliername = shop_info.get('suppliername', None)
-            instance.supplier.qq = shop_info.get('qq', None)
-            instance.supplier.tel = shop_info.get('tel', None)
-            instance.supplier.email = shop_info.get('email', None)
-            instance.supplier.save()
-        except supplier.DoesNotExist:
-            instance.supplier = supplier.objects.create(userid=instance, **shop_info)
+        if shop_info is not None:
+            try:
+                instance.supplier.suppliername = shop_info.get('suppliername', None)
+                instance.supplier.qq = shop_info.get('qq', None)
+                instance.supplier.tel = shop_info.get('tel', None)
+                instance.supplier.email = shop_info.get('email', None)
+                instance.supplier.save()
+            except supplier.DoesNotExist:
+                instance.supplier = supplier.objects.create(userid=instance, **shop_info)
 
         user = super(SupplierSerializer, self).update(instance, validated_data)
         new_password = validated_data.get('password', None)
