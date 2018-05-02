@@ -13,4 +13,5 @@ class Advertising(models.Model):
     publisher = models.ForeignKey(UserProfile, on_delete=models.CASCADE) # 发布人员
     create_time = models.DateTimeField(auto_now_add=True,blank=False)
     is_deleted = models.BooleanField(default=False) # 删除标志位
+    position = models.CharField(max_length=100) # 广告位位置
 
