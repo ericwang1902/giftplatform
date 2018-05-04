@@ -10,4 +10,3 @@ class AdvertisingSerializer(ModelSerializer):
     class Meta:
         model = Advertising
         fields= ('id', 'title', 'link', 'image', 'status', 'create_time', 'position')
-
