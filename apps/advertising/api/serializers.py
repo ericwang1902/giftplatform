@@ -9,5 +9,5 @@ class AdvertisingSerializer(ModelSerializer):
     """
     class Meta:
         model = Advertising
-        fields= ('title', 'link', 'image', 'status', 'create_time')
+        fields= ('id', 'title', 'link', 'image', 'status', 'create_time', 'position')
 

@@ -1,4 +1,4 @@
-from rest_framework import mixins,generics
+from rest_framework import mixins,generics, filters
 from ..models import Advertising
 from ..api.serializers import AdvertisingSerializer
 
@@ -9,6 +9,8 @@ class AdvertisingList(generics.ListCreateAPIView):
     """
     queryset = Advertising.objects.all()
     serializer_class = AdvertisingSerializer
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('title',)
 
     def perform_create(self, serializer):
         serializer.save(publisher=self.request.user)
@@ -19,6 +21,7 @@ class AdvertisingDetails(generics.RetrieveUpdateDestroyAPIView):
     广告列表的修改和详情
     """
     serializer_class = AdvertisingSerializer
+    queryset = Advertising.objects.all()
 
     def perform_destroy(self, instance):
         instance.is_deleted = True # 软删除
