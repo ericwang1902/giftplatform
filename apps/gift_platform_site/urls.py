@@ -6,9 +6,12 @@ from apps.gift_platform_site.views import search_supplier, CartView, product_det
 
 from apps.gift_platform_site.views import msgCenterView,sysinfoView,findpwdView,protocolView,delete_from_cart,export_ppt,brands_product_list,one_send_product_list, PrivateSupplier
 from  apps.gift_platform_site.views import msgdetailView, edit_private_supplier,sysinfodetailView
+from django.views.generic.base import RedirectView
+
 app_name = 'gift_platform_site'
 
 urlpatterns =  [
+    path('', RedirectView.as_view(url='/home/', permanent=False), name="index"),
     path('accounts/login/',LoginView.as_view()),
     path('sign/login', LoginView.as_view(), name="login"),
     path('sign/logout',logoutView.as_view(),name="logoutv"),
