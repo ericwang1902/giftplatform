@@ -32,6 +32,12 @@ class CustomJSONWebTokenAPIView(JSONWebTokenAPIView):
 
         if serializer.is_valid():
             user = serializer.object.get('user') or request.user
+
+            # 如果该用户为供应商，并且该供应商在私有域中，如果该私有域停用则禁止登录
+            if user.inprivatearea == True and user.type == 'supplier':
+                if user.privatearea.status == 1:
+                    return Response({ 'message': 'forbiden login' }, status = status.HTTP_403_FORBIDDEN)
+
             token = serializer.object.get('token')
             response_data = jwt_response_payload_handler(token, user, request)
             response = Response(response_data)
