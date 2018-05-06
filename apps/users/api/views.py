@@ -1,8 +1,8 @@
 from rest_framework import generics, mixins
 
-from .serializers import privateareaSerialzer, groupSerialzer, userprofileSerializer, permissionSerializer, AuthInfoSerializer, SupplierSerializer
+from .serializers import privateareaSerialzer, groupSerialzer, userprofileSerializer, permissionSerializer, AuthInfoSerializer, SupplierSerializer, SiteMessageSerializer
 
-from apps.users.models import privatearea, UserProfile, userAuthinfo, vipLevelChangeHistory
+from apps.users.models import privatearea, UserProfile, userAuthinfo, vipLevelChangeHistory, siteMessge
 from apps.viplevels.models import vipLevel
 
 from django.contrib.auth.models import Permission, Group
@@ -387,6 +387,46 @@ class supplierDetail(generics.GenericAPIView, mixins.RetrieveModelMixin, mixins.
             return self.destroy(request, *args, **kwargs)
         else:
             raise PermissionDenied()
+
+
+class SiteMessageList(generics.ListCreateAPIView):
+    """
+    站内公告的相关功能
+    """
+    queryset = siteMessge.objects.filter(isdelete = False)
+    serializer_class = SiteMessageSerializer
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        if request.user.is_staff == False: # 如果不是管理员则只能看到自己的公告列表
+            queryset = queryset.filter(fromuser = request.user)
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def perform_create(self, serializer):
+        serializer.save(fromuser = self.request.user)
+
+
+class SiteMessageDetails(generics.RetrieveUpdateDestroyAPIView):
+    """
+    站内公告详情的相关功能
+    """
+    queryset = siteMessge.objects.filter(isdelete = False)
+    serializer_class = SiteMessageSerializer
+
+    def perform_destroy(self, instance):
+        if not self.request.user.is_staff: # 非管理员删除则需要判断是否该消息属于操作者
+            if instance.fromuser.id != self.request.user.id:
+                raise PermissionDenied()
+            else:
+                instance.isdelete = True
+                instance.save()
+
 
 class AuthInfoList(generics.ListAPIView):
     queryset = userAuthinfo.objects.all()

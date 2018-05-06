@@ -10,12 +10,16 @@ from .views import permissionList
 from .views import AuthInfoList
 from .views import PermissionListOfMe
 from .views import update_gift_dealer_vip_level
+from .views import SiteMessageDetails,SiteMessageList
 from .views import CustomJSONWebTokenAPIView
 
 app_name = "users"
 
 urlpatterns = [
     path('auth-info', AuthInfoList.as_view(),name="authInfoList"),
+
+    path('site-messages', SiteMessageList.as_view(), name= "sitemessage_list"),
+    path('site-messages/<int:pk>', SiteMessageDetails.as_view(), name="sitemessage_details"),
 
     path('private-areas',privateareaList.as_view(),name= "privatelist"),
     path('private-areas/<int:pk>',privateareaDetail.as_view(),name="privatedetail"),

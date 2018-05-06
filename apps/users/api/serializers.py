@@ -1,4 +1,4 @@
-from apps.users.models import privatearea,UserProfile,userAuthinfo,supplier
+from apps.users.models import privatearea,UserProfile,userAuthinfo,supplier, siteMessge
 from  rest_framework.serializers import ModelSerializer
 from rest_framework import  serializers
 from  django.contrib.auth.models import Permission,Group
@@ -90,6 +90,11 @@ class userprofileSerializer(ModelSerializer):
             user.set_password(new_password)
             user.save()
         return user
+
+class SiteMessageSerializer(ModelSerializer):
+    class Meta:
+        model = siteMessge
+        fields = ('id', 'title', 'content', 'publishdate', 'updatetime')
 
 
 

@@ -51,7 +51,7 @@ class vipLevelChangeHistory(models.Model):
 # 站内信
 class siteMessge(models.Model):
     fromuser = models.ForeignKey(UserProfile, related_name="fromuser", on_delete=models.CASCADE)
-    touser = models.ForeignKey(UserProfile, related_name="touser", on_delete=models.CASCADE)
+    touser = models.ForeignKey(UserProfile, related_name="touser", on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=500, null=True)
     content = models.CharField(max_length=500, null=True)
     isdelete = models.BooleanField(default=False)
