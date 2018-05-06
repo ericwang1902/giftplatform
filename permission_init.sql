@@ -119,9 +119,9 @@ WHERE NOT EXISTS (
 ) LIMIT 1;
 
 INSERT INTO auth_permission(name, content_type_id, codename)
-	SELECT * FROM (SELECT 'Can setting giftdealer vip',(SELECT id FROM django_content_type WHERE model='userprofile' LIMIT 1), 'giftdealer_vip_setting') AS tmp
+	SELECT * FROM (SELECT 'Can setting giftdealer vip',(SELECT id FROM django_content_type WHERE model='userprofile' LIMIT 1), 'vipsetting_giftdealer') AS tmp
 	WHERE NOT EXISTS (
-			SELECT * FROM auth_permission WHERE codename='giftdealer_vip_setting'
+			SELECT * FROM auth_permission WHERE codename='vipsetting_giftdealer'
 	) LIMIT 1;
 /*******************/
 
@@ -208,7 +208,7 @@ WHERE NOT EXISTS (
 
 /*广告管理权限初始化*/
 INSERT INTO auth_permission(name, content_type_id, codename)
-SELECT * FROM (SELECT 'Can list advertisements', (SELECT id FROM django_content_type WHERE model='advertising' LIMIT 1), 'list_advertisements') AS tmp
+SELECT * FROM (SELECT 'Can list advertisements', (SELECT id FROM django_content_type WHERE model='advertising' LIMIT 1), 'list_advertisement') AS tmp
 WHERE NOT EXISTS(
 	SELECT * FROM auth_permission WHERE codename='list_advertisement'
 ) LIMIT 1;
