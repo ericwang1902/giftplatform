@@ -329,7 +329,7 @@ def categories_list(request):
     :param request:
     :return:
     """
-    categories_list = category.objects.filter(Q(isroot=True) and Q(isdelete=False))  # 查找所有的根级分组
+    categories_list = category.objects.filter(Q(isroot=True) & Q(isdelete=False))  # 查找所有的根级分组
     return render(request, 'products/categories_list.html', {'categories_list': categories_list})
 
 
