@@ -118,6 +118,11 @@ WHERE NOT EXISTS (
 	SELECT * FROM auth_permission WHERE codename='auth_giftdealer'
 ) LIMIT 1;
 
+INSERT INTO auth_permission(name, content_type_id, codename)
+	SELECT * FROM (SELECT 'Can setting giftdealer vip',(SELECT id FROM django_content_type WHERE model='userprofile' LIMIT 1), 'vipsetting_giftdealer') AS tmp
+	WHERE NOT EXISTS (
+			SELECT * FROM auth_permission WHERE codename='vipsetting_giftdealer'
+	) LIMIT 1;
 /*******************/
 
 /*商品分组权限初始化*/
@@ -200,6 +205,33 @@ WHERE NOT EXISTS (
 	SELECT * FROM auth_permission WHERE codename='delete_scene'
 ) LIMIT 1;
 /*******************/
+
+/*广告管理权限初始化*/
+INSERT INTO auth_permission(name, content_type_id, codename)
+SELECT * FROM (SELECT 'Can list advertisements', (SELECT id FROM django_content_type WHERE model='advertising' LIMIT 1), 'list_advertisement') AS tmp
+WHERE NOT EXISTS(
+	SELECT * FROM auth_permission WHERE codename='list_advertisement'
+) LIMIT 1;
+
+
+INSERT INTO auth_permission(name, content_type_id, codename)
+	SELECT * FROM (SELECT 'Can change advertisement', (SELECT id FROM django_content_type WHERE model='advertising' LIMIT 1), 'change_advertisement') AS tmp
+	WHERE NOT EXISTS(
+			SELECT * FROM auth_permission WHERE codename='change_advertisement'
+	) LIMIT 1;
+
+INSERT INTO auth_permission(name, content_type_id, codename)
+	SELECT * FROM (SELECT 'Can add advertisement', (SELECT id FROM django_content_type WHERE model='advertising' LIMIT 1), 'add_advertisement') AS tmp
+	WHERE NOT EXISTS(
+			SELECT * FROM auth_permission WHERE codename='add_advertisement'
+	) LIMIT 1;
+
+INSERT INTO auth_permission(name, content_type_id, codename)
+	SELECT * FROM (SELECT 'Can delete advertisement', (SELECT id FROM django_content_type WHERE model='advertising' LIMIT 1), 'delete_advertisement') AS tmp
+	WHERE NOT EXISTS(
+			SELECT * FROM auth_permission WHERE codename='delete_advertisement'
+	) LIMIT 1;
+/*****************/
 
 /*私有域管理权限初始化*/
 INSERT INTO auth_permission(name, content_type_id, codename)

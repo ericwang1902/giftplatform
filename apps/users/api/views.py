@@ -1,8 +1,8 @@
 from rest_framework import generics, mixins
 
-from .serializers import privateareaSerialzer, groupSerialzer, userprofileSerializer, permissionSerializer, AuthInfoSerializer
+from .serializers import privateareaSerialzer, groupSerialzer, userprofileSerializer, permissionSerializer, AuthInfoSerializer, SupplierSerializer, SiteMessageSerializer
 
-from apps.users.models import privatearea, UserProfile, userAuthinfo
+from apps.users.models import privatearea, UserProfile, userAuthinfo, vipLevelChangeHistory, siteMessge
 from apps.viplevels.models import vipLevel
 
 from django.contrib.auth.models import Permission, Group
@@ -19,6 +19,9 @@ from rest_framework_jwt.serializers import JSONWebTokenSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from datetime import datetime
+from rest_framework.decorators import  api_view
+from rest_framework.exceptions import NotFound, APIException
+from dateutil import parser
 
 jwt_response_payload_handler = api_settings.JWT_RESPONSE_PAYLOAD_HANDLER
 
@@ -29,6 +32,12 @@ class CustomJSONWebTokenAPIView(JSONWebTokenAPIView):
 
         if serializer.is_valid():
             user = serializer.object.get('user') or request.user
+
+            # 如果该用户为供应商，并且该供应商在私有域中，如果该私有域停用则禁止登录
+            if user.inprivatearea == True and user.type == 'supplier':
+                if user.privatearea.status == 1:
+                    return Response({ 'message': 'forbiden login' }, status = status.HTTP_403_FORBIDDEN)
+
             token = serializer.object.get('token')
             response_data = jwt_response_payload_handler(token, user, request)
             response = Response(response_data)
@@ -313,7 +322,7 @@ class GiftDealerDetail(generics.GenericAPIView, mixins.RetrieveModelMixin, mixin
 # 供应商
 class supplierList(generics.ListAPIView, generics.CreateAPIView):
     queryset = UserProfile.objects.all()
-    serializer_class = userprofileSerializer
+    serializer_class = SupplierSerializer
     filter_backends = (filters.SearchFilter,)
     search_fields = ('username', 'mobile', 'email')
 
@@ -351,7 +360,7 @@ class supplierList(generics.ListAPIView, generics.CreateAPIView):
 class supplierDetail(generics.GenericAPIView, mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
                      mixins.DestroyModelMixin):
     queryset = UserProfile.objects.all()
-    serializer_class = userprofileSerializer
+    serializer_class = SupplierSerializer
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
@@ -379,6 +388,46 @@ class supplierDetail(generics.GenericAPIView, mixins.RetrieveModelMixin, mixins.
         else:
             raise PermissionDenied()
 
+
+class SiteMessageList(generics.ListCreateAPIView):
+    """
+    站内公告的相关功能
+    """
+    queryset = siteMessge.objects.filter(isdelete = False)
+    serializer_class = SiteMessageSerializer
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        if request.user.is_staff == False: # 如果不是管理员则只能看到自己的公告列表
+            queryset = queryset.filter(fromuser = request.user)
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def perform_create(self, serializer):
+        serializer.save(fromuser = self.request.user)
+
+
+class SiteMessageDetails(generics.RetrieveUpdateDestroyAPIView):
+    """
+    站内公告详情的相关功能
+    """
+    queryset = siteMessge.objects.filter(isdelete = False)
+    serializer_class = SiteMessageSerializer
+
+    def perform_destroy(self, instance):
+        if not self.request.user.is_staff: # 非管理员删除则需要判断是否该消息属于操作者
+            if instance.fromuser.id != self.request.user.id:
+                raise PermissionDenied()
+            else:
+                instance.isdelete = True
+                instance.save()
+
+
 class AuthInfoList(generics.ListAPIView):
     queryset = userAuthinfo.objects.all()
     serializer_class = AuthInfoSerializer
@@ -395,3 +444,41 @@ class AuthInfoList(generics.ListAPIView):
             queryset = self.queryset.filter(Q(userid=userid))
         return queryset
 
+@api_view(['GET','PUT'])
+def update_gift_dealer_vip_level(request, gift_company_id):
+    """
+    更新礼品上的充值会员信息
+    :param request:
+    :param gift_company_id:
+    :return:
+    """
+    user = UserProfile.objects.get(pk=gift_company_id)
+    if user is None:
+        raise NotFound(detail="gift company not found", code=404)
+
+    if user.type != "giftcompany":
+        raise NotFound(detail="gift company not found", code=404)
+
+    if request.method == 'PUT':
+        vip_instance = vipLevel.objects.get(pk=request.data.get('viplevel', None))
+        if vip_instance is not None:
+            vip_record = vipLevelChangeHistory()
+            vip_record.userid = user
+            vip_record.orignallevel = user.viplevel
+            vip_record.destlevel = vip_instance
+            vip_record.start_time = parser.parse(request.data.get('start_time', None))
+            vip_record.end_time = parser.parse(request.data.get('end_time', None))
+            vip_record.save()
+            user.viplevel = vip_instance
+            user.save()
+            return Response(userprofileSerializer(user).data, status=status.HTTP_200_OK)
+        else:
+            return Response({"detail": "viplevel not existed"}, status=status.HTTP_400_BAD_REQUEST)
+
+    latest_vip_change = vipLevelChangeHistory.objects.filter(userid=user).order_by('-id').first()
+    return Response({
+        "userId": user.id,
+        "viplevel": latest_vip_change.destlevel.id,
+        "startTime": latest_vip_change.start_time,
+        "endTime": latest_vip_change.end_time
+    })

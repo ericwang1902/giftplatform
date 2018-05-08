@@ -1,5 +1,5 @@
 {% extends 'share/base_layout_usercenter.html' %}
-{% block title %}我的资料{% endblock %}
+{% block title %}系统消息{% endblock %}
 
 
 
@@ -16,16 +16,47 @@
                     <th>状态</th>
                     <th>操作</th>
                 </tr>
-                <tr>
-                    <td>1</td>
-                    <td>会员充值有好礼！</td>
-                    <td>2018年3月21日</td>
-                    <td>系统管理员</td>
-                    <td>未读</td>
-                    <td>查看</td>
-                </tr>
-
+                {% for item in msgs %}
+                    <tr>
+                        <td>1</td>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.publishdate|date:'Y-m-d H:i:s' }}</td>
+                        <td>{{ item.fromuser }}</td>
+                        <td>{% if item.hasread %}已读{% else %}未读{% endif %}</td>
+                        <td><a href="{% url 'gift_platform_site:sysinfodetail' %}?m={{ item.id }}">查看</a></td>
+                    </tr>
+                {% endfor %}
             </table>
+            <div class="pagination">
+                {% if msgs.has_previous %}
+                    <span class="page-item">
+            <a href="{% url 'gift_platform_site:sysinfo' %}?page={{ msgs.previous_page_number }}">上一页</a>
+        </span>
+                {% endif %}
+                {% for i in pager_array %}
+                    {% if i == '...' %}
+                        <span class="page-item more">
+                    ...
+                </span>
+                    {% else %}
+                        <span class="page-item {% if i == msgs.number|stringformat:"i" %} current-page {% endif %}">
+                    <a href="{% url 'gift_platform_site:sysinfo' %}?page={{ i }}">{{ i }}</a>
+                </span>
+                    {% endif %}
+                {% endfor %}
+                <span class="page-item">
+            {% if msgs.has_next %}
+                <a href="{% url 'gift_platform_site:sysinfo' %}?page={{ msgs.next_page_number }}">下一页</a>
+            {% endif %}
+        </span>
+                <div class="jump-to">
+                    <span>到</span>
+                    <input type="text" class="jump-to-input"/>
+                    <span>页</span>
+                    <a href="#" class="jump-btn">确定</a>
+                </div>
+            </div>
+            <div class="clear"></div>
         </div>
     </div>
 

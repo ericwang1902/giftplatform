@@ -1,0 +1,13 @@
+{% extends "share/base_layout_with_search.html" %}
+
+{% block title %}消息详情{% endblock %}
+
+{% block content %}
+<div class="reg-step-div">
+    <div class="nocurrentstep">{{ msgobj.title }}</div>
+</div>
+<hr class="hrline2"/>
+<div class="container">
+<div class="pc">{{ msgobj.content }}</div>
+</div>
+{% endblock %}

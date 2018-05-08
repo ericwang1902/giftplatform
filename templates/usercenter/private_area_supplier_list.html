@@ -2,7 +2,13 @@
 {% block title %}一点礼品-公告中心{% endblock %}
 {% block content1 %}
     {% load static %}
-
+    {% if messages %}
+        <script>
+            {% for message in messages %}
+                alert('{{ message }}');
+            {% endfor %}
+        </script>
+    {% endif %}
 <div class="right-content">
     <div class="content">
 <table class="msgcentertable">
@@ -14,16 +20,20 @@
         <th>创建时间</th>
         <th>操作</th>
     </tr>
+    {% for supplier in suppliers %}
     <tr>
-        {% for supplier in suppliers %}
         <td>{{ supplier.id }}</td>
-        <td>{{ supplier.supplier_set.first.sppliername }}</td>
+            {% with supplier.supplier_set.all|first as supplier_private %}
+                <td>{{ supplier_private.suppliername }}</td>
+            {% endwith %}
         <td>{% if supplier.is_active %}正常{% else %}禁用{% endif %}</td>
         <td>{{ supplier.last_login }}</td>
         <td>{{ supplier.date_joined }}</td>
-        <td>查看</td>
-        {% endfor %}
+        <td>
+            <a href="{% url "gift_platform_site:edit_private_suppliers" supplier_id=supplier.id %}">编辑</a>
+        </td>
     </tr>
+    {% endfor %}
 </table>
     <div class="pagination">
         {% if suppliers.has_previous %}

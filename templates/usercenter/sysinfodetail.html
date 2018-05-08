@@ -1,0 +1,20 @@
+{% extends 'share/base_layout_usercenter.html' %}
+{% block title %}系统消息{% endblock %}
+
+{% block content1 %}
+    {% load static %}
+    <div class="right-content">
+        <div class="content">
+            <a href="{% url 'gift_platform_site:sysinfo' %}">返回</a>
+            <div class="reg-step-div">
+                <div class="nocurrentstep">{{ msgobj.title }}</div>
+            </div>
+            <hr class="hrline2"/>
+            <div class="container">
+                <div class="pc">{{ msgobj.content }}</div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+{% endblock %}

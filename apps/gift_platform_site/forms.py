@@ -22,3 +22,15 @@ class modifypwdform(forms.Form):
 class loginform(forms.Form):
     username = forms.CharField(required=True, error_messages={'required': u'用户名或密码不能为空'})
     password = forms.CharField(required=True, error_messages={'required': u'用户名或密码不能为空'})
+
+
+class PrivateAreaSupplierForm(forms.Form):
+    """
+    创建私有域供应商的form
+    """
+    username = forms.CharField(label="用户名", required=True, error_messages={"required": u"用户名不能为空"}) # 用户名
+    password = forms.CharField(required=True)
+    supplier_name = forms.CharField(label="供应商店铺名", required=True)
+    tel = forms.CharField(required=True, label="联系电话")
+    qq = forms.CharField(label="QQ", required=False)
+    email = forms.CharField(label="Email", required=False)

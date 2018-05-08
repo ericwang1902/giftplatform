@@ -222,10 +222,9 @@ class ProductDetails(generics.RetrieveAPIView,generics.UpdateAPIView,generics.De
         return Response(serializer.data)
 
     def perform_destroy(self, instance):
-        supplierid = self.kwargs.get('pk', None)
-        productid = self.kwargs.get('productid', None)
         instance.isdelete = True
         productItem.objects.filter(product=instance).update(isdelete = True)
+        instance.save()
 
 
 #供应商/产品接口,根据供应商id获取该供应商的产品列表
