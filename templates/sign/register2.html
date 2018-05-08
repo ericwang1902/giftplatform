@@ -131,12 +131,28 @@
             <div>
                 <p></p>
                 <div>
-                    <a href="javascript:void(0)" onclick="document.getElementById('reg2form').submit()">注册</a>
+                    <a href="javascript:void(0)" onclick="a()">注册</a>
                 </div>
             </div>
             <div></div>
         </div>
      </form>
+    <script type="text/javascript">
+        function a() {
+            var check = document.getElementsByTagName('vehicle')[0];
+            var form = document.getElementById('reg2form');
+            if (check)
+            {
+                form.submit();
+            }
+            else {
+                alert("请阅读使用协议")
+            }
+        }
+
+
+
+    </script>
 
     </div>
 

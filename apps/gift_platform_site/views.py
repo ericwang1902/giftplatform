@@ -75,6 +75,7 @@ class LoginView(View):
                                 'error_message': "供应商请从供应商入口登录"
                             })
 
+
                     else:#未通过审核
                         request.session['info']="未通过认证，请重新上传"
                         return redirect('/sign/login')
