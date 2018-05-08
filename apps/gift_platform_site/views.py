@@ -35,9 +35,17 @@ def home(request):
 
 class IndexView(LoginRequiredMixin, View):
     def get(self, request):
-        products = product.objects.filter(Q(status=0) and Q(isdelete=False))[0:16]
+        queryset = product.objects.filter(Q(status=0) & Q(isdelete=False))
+        t = request.GET.get('t', '0')
+        print(t)
+        if t == '1':
+            queryset = queryset.filter(productItems__onshell=True).distinct()
+        queryset = queryset.order_by('-createtime')
+
+        products = queryset[0:16]
         currentuser = request.user
-        return render(request, "home/index.html", {"products": products, "currentuser": currentuser})
+
+        return render(request, "home/index.html", {"products": products, "currentuser": currentuser, "t": t})
 
 
 # 支持手机号或者用户名登陆

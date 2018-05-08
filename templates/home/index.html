@@ -4,14 +4,14 @@
     {% load static %}
 <div class="container">
     <div class="btn-group dynamic-latest-sellout-btn-group">
-        <div class="active">
-            <a>最新</a>
+        <div class="{% if t != '1' %}active{% endif %}">
+            <a href="{% url "gift_platform_site:index" %}">最新</a>
         </div>
         <div>
             <span class="split"></span>
         </div>
-        <div>
-            <a>特惠</a>
+        <div class="{% if t == '1' %}active{% endif %}">
+            <a href="/home?t=1">特惠</a>
         </div>
     </div>
     <div class="clear"></div>
