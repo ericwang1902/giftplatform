@@ -290,7 +290,7 @@ class ModifyPwdView(LoginRequiredMixin, View):
             user = authenticate(username=request.user.username, password=pwd)
             if user is not None:
                 if newpwd1 == newpwd2:
-                    user.password = newpwd1
+                    user.password = make_password(newpwd1)
                     user.save()
                     logout(request)
                     # 要一个render
@@ -984,6 +984,46 @@ class sysinfodetailView(View):
 class findpwdView(View):
     def get(self, request):
         return render(request, 'sign/findpwd.html')
+    def post(self,request):
+        fndform = forms.findpwdform(request.POST)
+        if fndform.is_valid():
+            mobile = request.POST.get("mobile")
+            checkcode = request.POST.get("checkcode")
+            pwd1 = request.POST.get("pwd1")
+            pwd2 = request.POST.get("pwd2")
+
+            user = None
+
+            try:
+                user = UserProfile.objects.get(mobile=mobile)
+            except  Exception as e:
+                user= None
+
+            if user is not None:
+                if pwd1 == pwd2:
+                    user.password = make_password(pwd1)
+                    user.save()
+                    resinfo="密码修改成功"
+                    return render(request,
+                                  'sign/findpwd.html',
+                                  {'resinfo': resinfo})
+                else:
+                    errormessge1 = "两次输入的密码不一致"
+                    return render(request,
+                                  'sign/findpwd.html',
+                                  {'errormesg1': errormessge1})
+            else:
+                # 手机号不存在
+                errormessge = "手机号不存在"
+                return render(request,
+                              'sign/findpwd.html',
+                              {'errormesg': errormessge})
+        else:
+            return render(request,
+                          'sign/findpwd.html',
+                          {'fndform': fndform})
+
+
 
 
 def delete_from_cart(request, product_id):

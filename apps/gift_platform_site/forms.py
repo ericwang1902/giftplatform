@@ -34,3 +34,9 @@ class PrivateAreaSupplierForm(forms.Form):
     tel = forms.CharField(required=True, label="联系电话")
     qq = forms.CharField(label="QQ", required=False)
     email = forms.CharField(label="Email", required=False)
+
+class findpwdform(forms.Form):
+    mobile = forms.CharField(label="手机号",required=True,error_messages={'required':u'手机号不能为空'})
+    checkcode = forms.CharField(required=True, error_messages={'required': u'验证码不能为空'})
+    pwd1 = forms.CharField(required=True, error_messages={'required': u'密码不能为空'})
+    pwd2 = forms.CharField(required=True, error_messages={'required': u'请重复输入密码'})

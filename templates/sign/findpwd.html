@@ -10,7 +10,7 @@
     <div class="nocurrentstep">找回密码</div>
 </div>
 <div class="regform">
-<form method="post" id="findpwdform">
+<form method="post" id="findpwdform" action="{% url 'gift_platform_site:findpwd' %}">
     <div class="usernamereg">
         <div></div>
         <div>
@@ -18,8 +18,14 @@
             <div><input name="mobile" placeholder="请输入注册手机号"/></div>
         </div>
         <div>
-            <img src="{% static 'gift_platform_site/images/wrong.png' %}">
-            <p class="wrong">该手机号不存在</p>
+            {% if errormesg %}
+                <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                <p class="wrong">该手机号不存在</p>
+            {% endif %}
+            {% if fndform.errors.mobile %}
+                <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                <p class="wrong">请填写手机号！</p>
+            {% endif %}
         </div>
     </div>
     <div class="mobilereg">
@@ -28,7 +34,12 @@
             <p>验证码：</p>
             <div><input name="checkcode" placeholder="请输入验证码"/><a href="#">发送验证码</a></div>
         </div>
-        <div></div>
+        <div>
+            {% if fndform.errors.checkcode %}
+                <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                <p class="wrong">请填写验证码！</p>
+            {% endif %}
+        </div>
     </div>
     <div class="yanzhengmareg">
         <div></div>
@@ -36,7 +47,16 @@
             <p>重置密码：</p>
             <div><input name="pwd1" placeholder="请输入新密码"/></div>
         </div>
-        <div></div>
+        <div>
+            {% if errormesg1 %}
+                <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                <p class="wrong">两次密码输入不相同！</p>
+            {% endif %}
+            {% if fndform.errors.pwd1 %}
+                <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                <p class="wrong">请输入密码！</p>
+            {% endif %}
+        </div>
     </div>
     <div class="emailreg">
         <div></div>
@@ -44,7 +64,19 @@
             <p>确认密码：</p>
             <div><input name="pwd2" placeholder="请再次输入密码"/></div>
         </div>
-        <div></div>
+        <div>
+            {% if fndform.errors.pwd2 %}
+                <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                <p class="wrong">请输入密码！</p>
+            {% endif %}
+        </div>
+    <script type="text/javascript">
+        {% if resinfo %}
+            alert("修改成功！")
+            window.location.href="/sign/login"
+        {% endif %}
+
+    </script>
     </div>
 
     <div class="forgetpwdbtn">
@@ -52,11 +84,12 @@
         <div>
             <p></p>
             <div>
-                <a href="#">提交</a>
+                <a href="#" onclick="document.getElementById('findpwdform').submit()">提交</a>
             </div>
         </div>
         <div></div>
     </div>
+{% csrf_token %}
 </form>
 </div>
 {% endblock %}
