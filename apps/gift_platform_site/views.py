@@ -909,7 +909,7 @@ def search_products(request):
 class msgCenterView(View):
     @method_decorator(login_required)
     def get(self, request):
-        query_set = siteMessge.objects.all()
+        query_set = siteMessge.objects.all().filter(Q(isdelete=False) & Q(status="pass"))
         query_set = query_set.filter(~Q(fromuser=1))
 
         paginator = Paginator(query_set, 12)
@@ -947,7 +947,7 @@ class msgdetailView(View):
 class sysinfoView(View):
     @method_decorator(login_required)
     def get(self, request):
-        query_set = siteMessge.objects.all()
+        query_set = siteMessge.objects.all().filter(isdelete=False)
         query_set = query_set.filter(fromuser=1)
 
         paginator = Paginator(query_set, 5)
