@@ -94,7 +94,7 @@ class userprofileSerializer(ModelSerializer):
 class SiteMessageSerializer(ModelSerializer):
     class Meta:
         model = siteMessge
-        fields = ('id', 'title', 'content', 'publishdate', 'updatetime')
+        fields = ('id', 'title', 'content', 'publishdate', 'updatetime', 'status')
 
 
 

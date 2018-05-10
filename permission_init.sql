@@ -232,6 +232,12 @@ INSERT INTO auth_permission(name, content_type_id, codename)
 			SELECT * FROM auth_permission WHERE codename='delete_advertisement'
 	) LIMIT 1;
 /*****************/
+/*公告列表审核权限*/
+INSERT INTO auth_permission(name, content_type_id, codename)
+SELECT * FROM (SELECT 'Can list all messages',(SELECT id FROM django_content_type WHERE model='siteMessage' LIMIT 1), 'list_sitemessage') AS tmp
+WHERE NOT EXISTS (
+	SELECT * FROM auth_permission WHERE codename='list_sitemessage'
+) LIMIT 1;
 
 /*私有域管理权限初始化*/
 INSERT INTO auth_permission(name, content_type_id, codename)

@@ -398,6 +398,9 @@ class SiteMessageList(generics.ListCreateAPIView):
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
+        status = self.request.query_params.get('status', None)
+        if status is not None:
+            queryset = queryset.filter(status = status)
         if request.user.is_staff == False: # 如果不是管理员则只能看到自己的公告列表
             queryset = queryset.filter(fromuser = request.user)
         page = self.paginate_queryset(queryset)
@@ -443,6 +446,27 @@ class AuthInfoList(generics.ListAPIView):
         if userid is not None:
             queryset = self.queryset.filter(Q(userid=userid))
         return queryset
+
+
+@api_view(['PUT'])
+def update_site_message_status(request, message_id):
+    """
+    更新公告审核状态
+    :param request:
+    :param message_id:
+    :return:
+    """
+    message = siteMessge.objects.get(pk=message_id)
+    if message is None:
+        raise NotFound(detail="message not found", code=404)
+
+    auth_status = request.data.get('status', 'waitting')
+    if auth_status not in ('waitting', 'pass', 'reject'):
+        auth_status = 'waitting'
+    message.status = auth_status
+    message.save()
+    return Response({'status': message.status})
+
 
 @api_view(['GET','PUT'])
 def update_gift_dealer_vip_level(request, gift_company_id):

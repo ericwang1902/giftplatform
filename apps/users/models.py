@@ -58,6 +58,7 @@ class siteMessge(models.Model):
     hasread = models.BooleanField(default=False)
     publishdate = models.DateTimeField(auto_now_add=True,null=True, blank=True)
     updatetime = models.DateTimeField(auto_now=True,null=True, blank=True)
+    status = models.CharField(max_length=100, choices=(("pass", "审核通过"), ("waitting", "等待审核"), ("reject", "审核驳回")), default="waitting") # 站内公告的审核状态
 
 
 # supplier的补充数据结构

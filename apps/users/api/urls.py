@@ -10,7 +10,7 @@ from .views import permissionList
 from .views import AuthInfoList
 from .views import PermissionListOfMe
 from .views import update_gift_dealer_vip_level
-from .views import SiteMessageDetails,SiteMessageList
+from .views import SiteMessageDetails,SiteMessageList, update_site_message_status
 from .views import CustomJSONWebTokenAPIView
 
 app_name = "users"
@@ -20,6 +20,7 @@ urlpatterns = [
 
     path('site-messages', SiteMessageList.as_view(), name= "sitemessage_list"),
     path('site-messages/<int:pk>', SiteMessageDetails.as_view(), name="sitemessage_details"),
+    path('site-messages/<int:message_id>/status', update_site_message_status, name="sitemessage_status"),
 
     path('private-areas',privateareaList.as_view(),name= "privatelist"),
     path('private-areas/<int:pk>',privateareaDetail.as_view(),name="privatedetail"),
