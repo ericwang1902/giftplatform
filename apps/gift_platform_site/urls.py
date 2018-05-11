@@ -1,5 +1,5 @@
 from django.urls import path
-from apps.gift_platform_site.views import LoginView,RegView1,RegView2,RegView3
+from apps.gift_platform_site.views import LoginView,RegView1,RegView2,RegView3,verifyCodeView
 from apps.gift_platform_site.views import IndexView, new_private_supplier
 from apps.gift_platform_site.views import MyaccountView,ModifyPwdView,logoutView, brands_list, categories_list, category_product_list, root_category_product_list, search_products
 from apps.gift_platform_site.views import search_supplier, CartView, product_details
@@ -18,6 +18,7 @@ urlpatterns =  [
     path('sign/register1',RegView1.as_view(),name="reg1"),
     path('sign/register2',RegView2.as_view(),name="reg2"),
     path('sign/reg3', RegView3.as_view(), name="reg3"),
+    path('sign/verifycode',verifyCodeView.as_view(),name="verifycode"),
     path('sign/findpwd',findpwdView.as_view(),name="findpwd"),
 
     path('home/', IndexView.as_view(),name="home"),

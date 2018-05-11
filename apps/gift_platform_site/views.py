@@ -22,6 +22,9 @@ from django.conf import settings
 import os
 import datetime
 from django.contrib import messages
+import random,time
+from publicModules.demo_sms_send import send_sms
+import uuid
 
 
 def home(request):
@@ -184,6 +187,27 @@ class RegView2(View):
 
         else:
             return render(request, 'sign/register2.html', {"regForm": regForm, "formsets": request.POST})  # form验证信息回显
+
+
+def createPhoneCode(request):
+        chars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+        x = random.choice(chars), random.choice(chars), random.choice(chars), random.choice(chars)
+        verifyCode = "".join(x)
+        request.session["phoneVerifyCode"] = {"time": int(time.time()), "code": verifyCode}
+        print(verifyCode)
+        return verifyCode
+
+class verifyCodeView(View):
+    def get(self,request):
+        #生成验证码
+        createPhoneCode(request)
+        #发送验证码
+        code = request.session["phoneVerifyCode"]
+        print(code)
+        __business_id = uuid.uuid1()
+        # print(__business_id)
+        params = "{\"code\":\"12345\"}"
+        send_sms(__business_id, "17798885277", "一点科技", "SMS_134190252", params)
 
 
 class RegView3(View):

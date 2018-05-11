@@ -34,7 +34,7 @@
             <div></div>
             <div>
                 <p>手机号：</p>
-                <div><input placeholder="请输入手机号" name="mobile" value="{{ formsets.mobile }}"/><a href="#">发送验证码</a></div>
+                <div><input placeholder="请输入手机号" name="mobile" value="{{ formsets.mobile }}"/><a href="javascript:void(0)" onclick="b()">发送验证码</a></div>
             </div>
             <div>
                 {% if regForm.errors.mobile %}
@@ -137,6 +137,7 @@
             <div></div>
         </div>
      </form>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"type="text/javascript"></script>
     <script type="text/javascript">
         function a() {
             var check = document.getElementsByTagName('vehicle')[0];
@@ -148,6 +149,11 @@
             else {
                 alert("请阅读使用协议")
             }
+        }
+        function b() {
+            $.get("{% url 'gift_platform_site:verifycode' %}",function(){
+                alert('test')
+            })
         }
 
 
