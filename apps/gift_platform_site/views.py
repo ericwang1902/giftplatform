@@ -224,12 +224,12 @@ class verifyCodeView(View):
             #生成验证码
             createPhoneCode(request)
             #发送验证码
-            codeObj = request.session["phoneVerifyCode"]
-            print(codeObj)
+            code = request.session["phoneVerifyCode"]["code"]
+            print(code)
             business_id = uuid.uuid1()
             # print(__business_id)
-            params = "{\"code\":\"12345\"}"
-            #send_sms(__business_id, "17798885277", "一点科技", "SMS_134190252", params)
+            params = "{\"code\":\""+ code +"\"}"
+            send_sms(business_id, phone, "一点科技", "SMS_134190252", params)
             return HttpResponse("successed")
 
 
