@@ -113,6 +113,34 @@
 
                 </div>
             </div>
+            {% ifequal usertype "1" %}
+                <div class="shopname">
+                    <div></div>
+                    <div>
+                        <p>店铺名称：</p>
+                        <div><input placeholder="请输入店铺主页名称" type="text" name="shopname" value="{{ formsets.shopname }}"/></div>
+                    </div>
+                    <div>
+                        {% if wronginfo3 %}
+                            <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                            <p class="wrong">{{ wronginfo3 }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="qqnumber">
+                    <div></div>
+                    <div>
+                        <p>QQ：</p>
+                        <div><input placeholder="请输入qq号" type="text" name="qqnumber" value="{{ formsets.qqnumber }}"/></div>
+                    </div>
+                    <div>
+                        {% if wronginfo4 %}
+                            <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                            <p class="wrong">{{ wronginfo4}}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endifequal %}
             <input hidden name="usertype" value="{{ usertype }}"/>
             {% csrf_token %}
             <div class="xieyireg">
@@ -201,11 +229,13 @@
                 if($('#vehicle').is(':checked')) {
                     // do something
                     console.log('fdsdf')
-                     form.submit();
+                    form.submit();
                 }
                 else {
                     alert("请阅读使用协议")
                 }
+
+
             }
 
 

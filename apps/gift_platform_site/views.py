@@ -119,12 +119,33 @@ class RegView1(View):
 class RegView2(View):
     def get(self, request):
         usertype = request.GET.get("type")
+        print(usertype)
         request.session["usertype"] = usertype
         return render(request, "sign/register2.html", {"usertype": usertype})
 
     def post(self, request):
+        wronginfo3 = None
+        wronginfo4 = None
         regForm = forms.regForm(request.POST)
+        usertype = request.GET.get("type")
+        if usertype == "":
+            usertype = request.session["usertype"]
+
         if regForm.is_valid():
+            if usertype == "1":
+                # 判断店铺和qq，如果合法，就创建
+                shopname = request.POST.get('shopname')
+                qqnumber = request.POST.get('qqnumber')
+
+                if shopname == "":
+                    # Todo:render显示错误
+                    wronginfo3="店铺名称不得为空"
+                if qqnumber == "":
+                    wronginfo4="qq号不得为空"
+                if qqnumber == "" or shopname == "":
+                    return render(request, 'sign/register2.html', {"regForm": regForm, "formsets": request.POST,"usertype": usertype,"wronginfo3": wronginfo3,"wronginfo4": wronginfo4})  # form验证信息回显
+
+
             username = request.POST.get('username')
             mobile = request.POST.get('mobile')
             checkcode = request.POST.get('checkcode')
@@ -134,24 +155,23 @@ class RegView2(View):
 
 
 
-            usertype = request.GET.get("type")
-            if usertype=="":
-                usertype=request.session["usertype"]
             if usertype != '1' and usertype != '2':
                 print("usertype:",usertype)
                 print("用户类型错误！")
                 return redirect('/sign/register1')
+
+            print(usertype)
 
             # 增加判断用户名、手机号是否重复的逻辑
             # 如果有该用户
             usernamecount = UserProfile.objects.filter(username=username).count()
             if usernamecount > 0:
                 return render(request, 'sign/register2.html',
-                              {"wronginfousername": "已存在该用户名，请更换", "formsets": request.POST})
+                              {"wronginfousername": "已存在该用户名，请更换", "formsets": request.POST,"wronginfo3": wronginfo3,"wronginfo4": wronginfo4})
             mobilecount = UserProfile.objects.filter(mobile=mobile).count()
             if mobilecount > 0:
                 return render(request, 'sign/register2.html',
-                              {"wronginfomobile": "已存在该手机号，请更换", "formsets": request.POST})
+                              {"wronginfomobile": "已存在该手机号，请更换", "formsets": request.POST,"wronginfo3": wronginfo3,"wronginfo4": wronginfo4})
 
             request.session["usertype"] = usertype
 
@@ -178,25 +198,46 @@ class RegView2(View):
                     if usertype == '1':
                         request.session["usertype"] = "supplier"
                         userins.type = "supplier"
-
                     elif usertype == '2':
                         request.session["usertype"] = "giftcompany"
                         userins.type = "giftcompany"
 
-                    userins.save()
+
+                    if userins.type=="supplier":
+                        # 判断店铺和qq，如果合法，就创建
+                        shopname = request.POST.get('shopname')
+                        qqnumber = request.POST.get('qqnumber')
+                        userins.save()
+                        # Todo:创建店铺
+                        supplierins = supplier()
+                        supplierins.suppliername=shopname
+                        supplierins.qq=qqnumber
+                        supplierins.userid=userins
+                        supplierins.save()
+                    else:
+                        userins.save()
 
                     return redirect('/sign/reg3')
 
                 else:
                     return render(request, 'sign/register2.html',
-                                  {"wronginfo": "两次输入的密码不相同", "formsets": request.POST,"usertype": usertype})  #
+                                  {"wronginfo": "两次输入的密码不相同", "formsets": request.POST,"usertype": usertype,"wronginfo3": wronginfo3,"wronginfo4": wronginfo4})  #
             else:
                 return render(request, 'sign/register2.html',
-                              {"wronginfo2": "验证码错误", "formsets": request.POST,"usertype": usertype})
+                              {"wronginfo2": "验证码错误", "formsets": request.POST,"usertype": usertype,"wronginfo3": wronginfo3,"wronginfo4": wronginfo4})
 
 
         else:
-            return render(request, 'sign/register2.html', {"regForm": regForm, "formsets": request.POST,"usertype": usertype})  # form验证信息回显
+            if usertype == "1":
+                # 判断店铺和qq，如果合法，就创建
+                shopname = request.POST.get('shopname')
+                qqnumber = request.POST.get('qqnumber')
+                if shopname == "":
+                    # Todo:render显示错误
+                    wronginfo3="店铺名称不得为空"
+                if qqnumber == "":
+                    wronginfo4="qq号不得为空"
+            return render(request, 'sign/register2.html', {"regForm": regForm, "formsets": request.POST,"usertype": usertype,"wronginfo3": wronginfo3,"wronginfo4": wronginfo4})  # form验证信息回显
 
 
 def createPhoneCode(request):
@@ -229,7 +270,7 @@ class verifyCodeView(View):
             business_id = uuid.uuid1()
             # print(__business_id)
             params = "{\"code\":\""+ code +"\"}"
-            send_sms(business_id, phone, "一点科技", "SMS_134190252", params)
+            print(send_sms(business_id, phone, "一点科技", "SMS_134190252", params))
             return HttpResponse("successed")
 
 class findpwdCodeView(View):
