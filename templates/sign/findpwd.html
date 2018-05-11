@@ -1,96 +1,150 @@
 {% extends 'share/base_layout_reg.html' %}
 
 {% block title %}
-找回密码
+    找回密码
 {% endblock %}
 
 {% block content %}
     {% load static %}
-<div class="reg-step-div">
-    <div class="nocurrentstep">找回密码</div>
-</div>
-<div class="regform">
-<form method="post" id="findpwdform" action="{% url 'gift_platform_site:findpwd' %}">
-    <div class="usernamereg">
-        <div></div>
-        <div>
-            <p>手机号：</p>
-            <div><input name="mobile" placeholder="请输入注册手机号"/></div>
-        </div>
-        <div>
-            {% if errormesg %}
-                <img src="{% static 'gift_platform_site/images/wrong.png' %}">
-                <p class="wrong">该手机号不存在</p>
-            {% endif %}
-            {% if fndform.errors.mobile %}
-                <img src="{% static 'gift_platform_site/images/wrong.png' %}">
-                <p class="wrong">请填写手机号！</p>
-            {% endif %}
-        </div>
+    <div class="reg-step-div">
+        <div class="nocurrentstep">找回密码</div>
     </div>
-    <div class="mobilereg">
-        <div></div>
-        <div>
-            <p>验证码：</p>
-            <div><input name="checkcode" placeholder="请输入验证码"/><a href="#">发送验证码</a></div>
-        </div>
-        <div>
-            {% if fndform.errors.checkcode %}
-                <img src="{% static 'gift_platform_site/images/wrong.png' %}">
-                <p class="wrong">请填写验证码！</p>
-            {% endif %}
-        </div>
-    </div>
-    <div class="yanzhengmareg">
-        <div></div>
-        <div>
-            <p>重置密码：</p>
-            <div><input name="pwd1" placeholder="请输入新密码"/></div>
-        </div>
-        <div>
-            {% if errormesg1 %}
-                <img src="{% static 'gift_platform_site/images/wrong.png' %}">
-                <p class="wrong">两次密码输入不相同！</p>
-            {% endif %}
-            {% if fndform.errors.pwd1 %}
-                <img src="{% static 'gift_platform_site/images/wrong.png' %}">
-                <p class="wrong">请输入密码！</p>
-            {% endif %}
-        </div>
-    </div>
-    <div class="emailreg">
-        <div></div>
-        <div>
-            <p>确认密码：</p>
-            <div><input name="pwd2" placeholder="请再次输入密码"/></div>
-        </div>
-        <div>
-            {% if fndform.errors.pwd2 %}
-                <img src="{% static 'gift_platform_site/images/wrong.png' %}">
-                <p class="wrong">请输入密码！</p>
-            {% endif %}
-        </div>
-    <script type="text/javascript">
-        {% if resinfo %}
-            alert("修改成功！")
-            window.location.href="/sign/login"
-        {% endif %}
-
-    </script>
-    </div>
-
-    <div class="forgetpwdbtn">
-        <div></div>
-        <div>
-            <p></p>
-            <div>
-                <a href="#" onclick="document.getElementById('findpwdform').submit()">提交</a>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"type="text/javascript"></script>
+    <div class="regform">
+        <form method="post" id="findpwdform" action="{% url 'gift_platform_site:findpwd' %}">
+            <div class="usernamereg">
+                <div></div>
+                <div>
+                    <p>手机号：</p>
+                    <div><input id="mobile" name="mobile" placeholder="请输入注册手机号" value="{{ phone }}"/></div>
+                </div>
+                <div>
+                    {% if errormesg %}
+                        <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                        <p class="wrong">该手机号不存在</p>
+                    {% endif %}
+                    {% if fndform.errors.mobile %}
+                        <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                        <p class="wrong">请填写手机号！</p>
+                    {% endif %}
+                </div>
             </div>
-        </div>
-        <div></div>
+            <div class="mobilereg">
+                <div></div>
+                <div>
+                    <p>验证码：</p>
+                    <div>
+                        <input name="checkcode" placeholder="请输入验证码"/>
+                        <a id="sendcode" href="javascript:void(0)" >发送验证码</a>
+                        <a id="sendcode1" hidden href="javascript:void(0)" >发送验证码</a>
+                    </div>
+                </div>
+                <div>
+                    {% if fndform.errors.checkcode %}
+                        <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                        <p class="wrong">请填写验证码！</p>
+                    {% endif %}
+                    {% if errormesg2 %}
+                        <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                        <p class="wrong">验证码错误！</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="yanzhengmareg">
+                <div></div>
+                <div>
+                    <p>重置密码：</p>
+                    <div><input name="pwd1" placeholder="请输入新密码"/></div>
+                </div>
+                <div>
+                    {% if errormesg1 %}
+                        <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                        <p class="wrong">两次密码输入不相同！</p>
+                    {% endif %}
+                    {% if fndform.errors.pwd1 %}
+                        <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                        <p class="wrong">请输入密码！</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="emailreg">
+                <div></div>
+                <div>
+                    <p>确认密码：</p>
+                    <div><input name="pwd2" placeholder="请再次输入密码"/></div>
+                </div>
+                <div>
+                    {% if fndform.errors.pwd2 %}
+                        <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                        <p class="wrong">请输入密码！</p>
+                    {% endif %}
+                </div>
+                <script type="text/javascript">
+                    {% if resinfo %}
+                        alert("修改成功！")
+                        window.location.href="/sign/login"
+                    {% endif %}
+
+                </script>
+            </div>
+
+            <div class="forgetpwdbtn">
+                <div></div>
+                <div>
+                    <p></p>
+                    <div>
+                        <a href="#" onclick="document.getElementById('findpwdform').submit()">提交</a>
+                    </div>
+                </div>
+                <div></div>
+            </div>
+            {% csrf_token %}
+        </form>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $("#sendcode").click(function(){
+                    var tel = $("#mobile").val()
+                    var yidongreg = /^(134[012345678]\d{7}|1[34578][012356789]\d{8})$/;
+                    var dianxinreg = /^1[3578][01379]\d{8}$/;
+                    var liantongreg = /^1[34578][01256]\d{8}$/;
+
+                    if(yidongreg.test(tel)||dianxinreg.test(tel)||liantongreg.test(tel)){
+                        //请求接口发验证码
+
+                        $.get("{% url 'gift_platform_site:findpwdcode' %}"+"?phone="+tel,function(data){
+                            if(data=="nouser")//没有该用户
+                            {
+                                alert("不存在使用该手机号注册的用户信息，请确认后在此输入")
+                            }
+                            if(data=="successed")//发送验证码成功
+                            {
+                                $("#sendcode").hide()
+                                $("#sendcode1").show()
+
+                                var time = 30
+                                var timer = setInterval(fun1,1000)
+                                function fun1() {
+                                    time--;
+                                    if(time>=0){
+                                        $('#sendcode1').text(time + "s后重新发送");
+                                    }
+                                    else {
+                                        $('#sendcode1').text("重新发送验证码");
+                                        $('#sendcode1').disabled = false;  //倒计时结束能够重新点击发送的按钮
+                                        clearTimeout(timer);  //清除定时器
+                                        time = 5;  //设置循环重新开始条件
+                                        $('#sendcode').show()
+                                        $('#sendcode1').hide()
+                                    }
+                                }
+                            }
+                        })
+                    }else {
+                        alert("请输入正确的手机号")
+                    }
+                })
+            })
+        </script>
     </div>
-{% csrf_token %}
-</form>
-</div>
 {% endblock %}
 

@@ -22,6 +22,9 @@ from django.conf import settings
 import os
 import datetime
 from django.contrib import messages
+import random,time
+from publicModules.demo_sms_send import send_sms
+import uuid
 
 
 def home(request):
@@ -116,6 +119,7 @@ class RegView1(View):
 class RegView2(View):
     def get(self, request):
         usertype = request.GET.get("type")
+        request.session["usertype"] = usertype
         return render(request, "sign/register2.html", {"usertype": usertype})
 
     def post(self, request):
@@ -128,8 +132,13 @@ class RegView2(View):
             pwd1 = request.POST.get('pwd1')
             pwd2 = request.POST.get('pwd2')
 
+
+
             usertype = request.GET.get("type")
+            if usertype=="":
+                usertype=request.session["usertype"]
             if usertype != '1' and usertype != '2':
+                print("usertype:",usertype)
                 print("用户类型错误！")
                 return redirect('/sign/register1')
 
@@ -144,9 +153,13 @@ class RegView2(View):
                 return render(request, 'sign/register2.html',
                               {"wronginfomobile": "已存在该手机号，请更换", "formsets": request.POST})
 
+            request.session["usertype"] = usertype
+
+
             # 如果没有该用户
             # 校验验证码逻辑
-            if checkcode:
+            code = request.session["phoneVerifyCode"]["code"]
+            if checkcode==code:
                 # 校验重复输入的密码逻辑
                 if pwd1 == pwd2:
                     request.session["username"] = username
@@ -176,15 +189,70 @@ class RegView2(View):
 
                 else:
                     return render(request, 'sign/register2.html',
-                                  {"wronginfo": "两次输入的密码不相同", "formsets": request.POST})  #
+                                  {"wronginfo": "两次输入的密码不相同", "formsets": request.POST,"usertype": usertype})  #
             else:
                 return render(request, 'sign/register2.html',
-                              {"wronginfo2": "验证码错误", "formsets": request.POST})
+                              {"wronginfo2": "验证码错误", "formsets": request.POST,"usertype": usertype})
 
 
         else:
-            return render(request, 'sign/register2.html', {"regForm": regForm, "formsets": request.POST})  # form验证信息回显
+            return render(request, 'sign/register2.html', {"regForm": regForm, "formsets": request.POST,"usertype": usertype})  # form验证信息回显
 
+
+def createPhoneCode(request):
+    chars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    x = random.choice(chars), random.choice(chars), random.choice(chars), random.choice(chars)
+    verifyCode = "".join(x)
+    request.session["phoneVerifyCode"] = {"time": int(time.time()), "code": verifyCode}
+    print("code:",verifyCode)
+    return verifyCode
+
+class verifyCodeView(View):
+    def get(self,request):
+        phone = request.GET.get("phone")
+        #检查phone是否已用
+        print("phone:",phone)
+        userins=None
+        try:
+            userins = UserProfile.objects.get(Q(username=phone) | Q(mobile=phone))
+        except  Exception as e:
+            userins= None
+
+        if userins is not None:
+            return HttpResponse("HasUsed")
+        else:
+            #生成验证码
+            createPhoneCode(request)
+            #发送验证码
+            code = request.session["phoneVerifyCode"]["code"]
+            print(code)
+            business_id = uuid.uuid1()
+            # print(__business_id)
+            params = "{\"code\":\""+ code +"\"}"
+            send_sms(business_id, phone, "一点科技", "SMS_134190252", params)
+            return HttpResponse("successed")
+
+class findpwdCodeView(View):
+    def get(self,request):
+        phone = request.GET.get("phone")
+        #检查是否有该客户
+        try:
+            userins = UserProfile.objects.get(Q(username=phone)|Q(mobile= phone))
+        except Exception as e:
+            userins = None
+
+        if userins is not None:
+            #Todo:发送验证码
+            createPhoneCode(request)
+            code = request.session["phoneVerifyCode"]["code"]
+            print(code)
+            business_id = uuid.uuid1()
+            params = "{\"code\":\""+ code +"\"}"
+            send_sms(business_id, phone, "一点科技", "SMS_134190252", params)
+            return HttpResponse("successed")
+        else:
+            #Todo:返回不存在该手机号，nouser
+            return HttpResponse("nouser")
 
 class RegView3(View):
     def get(self, request):
@@ -1000,24 +1068,30 @@ class findpwdView(View):
                 user= None
 
             if user is not None:
-                if pwd1 == pwd2:
-                    user.password = make_password(pwd1)
-                    user.save()
-                    resinfo="密码修改成功"
-                    return render(request,
-                                  'sign/findpwd.html',
-                                  {'resinfo': resinfo})
+                code = request.session["phoneVerifyCode"]["code"]
+                if(code==checkcode):
+                    if pwd1 == pwd2:
+                        user.password = make_password(pwd1)
+                        user.save()
+                        resinfo="密码修改成功"
+                        return render(request,
+                                      'sign/findpwd.html',
+                                      {'resinfo': resinfo,'phone':mobile})
+                    else:
+                        errormessge1 = "两次输入的密码不一致"
+                        return render(request,
+                                      'sign/findpwd.html',
+                                      {'errormesg1': errormessge1,'phone':mobile})
                 else:
-                    errormessge1 = "两次输入的密码不一致"
                     return render(request,
                                   'sign/findpwd.html',
-                                  {'errormesg1': errormessge1})
+                                  {'errormesg2':"验证码错误",'phone':mobile})
             else:
                 # 手机号不存在
                 errormessge = "手机号不存在"
                 return render(request,
                               'sign/findpwd.html',
-                              {'errormesg': errormessge})
+                              {'errormesg': errormessge,'phone':mobile})
         else:
             return render(request,
                           'sign/findpwd.html',
