@@ -232,6 +232,27 @@ class verifyCodeView(View):
             send_sms(business_id, phone, "一点科技", "SMS_134190252", params)
             return HttpResponse("successed")
 
+class findpwdCodeView(View):
+    def get(self,request):
+        phone = request.GET.get("phone")
+        #检查是否有该客户
+        try:
+            userins = UserProfile.objects.get(Q(username=phone)|Q(mobile= phone))
+        except Exception as e:
+            userins = None
+
+        if userins is not None:
+            #Todo:发送验证码
+            createPhoneCode(request)
+            code = request.session["phoneVerifyCode"]["code"]
+            print(code)
+            business_id = uuid.uuid1()
+            params = "{\"code\":\""+ code +"\"}"
+            send_sms(business_id, phone, "一点科技", "SMS_134190252", params)
+            return HttpResponse("successed")
+        else:
+            #Todo:返回不存在该手机号，nouser
+            return HttpResponse("nouser")
 
 class RegView3(View):
     def get(self, request):
@@ -1047,24 +1068,30 @@ class findpwdView(View):
                 user= None
 
             if user is not None:
-                if pwd1 == pwd2:
-                    user.password = make_password(pwd1)
-                    user.save()
-                    resinfo="密码修改成功"
-                    return render(request,
-                                  'sign/findpwd.html',
-                                  {'resinfo': resinfo})
+                code = request.session["phoneVerifyCode"]["code"]
+                if(code==checkcode):
+                    if pwd1 == pwd2:
+                        user.password = make_password(pwd1)
+                        user.save()
+                        resinfo="密码修改成功"
+                        return render(request,
+                                      'sign/findpwd.html',
+                                      {'resinfo': resinfo,'phone':mobile})
+                    else:
+                        errormessge1 = "两次输入的密码不一致"
+                        return render(request,
+                                      'sign/findpwd.html',
+                                      {'errormesg1': errormessge1,'phone':mobile})
                 else:
-                    errormessge1 = "两次输入的密码不一致"
                     return render(request,
                                   'sign/findpwd.html',
-                                  {'errormesg1': errormessge1})
+                                  {'errormesg2':"验证码错误",'phone':mobile})
             else:
                 # 手机号不存在
                 errormessge = "手机号不存在"
                 return render(request,
                               'sign/findpwd.html',
-                              {'errormesg': errormessge})
+                              {'errormesg': errormessge,'phone':mobile})
         else:
             return render(request,
                           'sign/findpwd.html',
