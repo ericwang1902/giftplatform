@@ -1,11 +1,12 @@
 {% extends 'share/base_layout_reg.html' %}
 
 {% block title %}
-填写注册信息
+    填写注册信息
 {% endblock %}
 
 {% block content %}
     {% load static %}
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"type="text/javascript"></script>
     <div class="reg-step-div">
         <div class="nocurrentstep">1.选择类型</div>
         <div class="btwsteps"></div>
@@ -13,13 +14,13 @@
     </div>
     <div class="regform">
         <form method="post" enctype="multipart/form-data" action="{% url 'gift_platform_site:reg2' %}?type={{ usertype }}" id="reg2form">
-        <div class="usernamereg">
-            <div></div>
-            <div>
-                <p>用户名：</p>
-                <div><input placeholder="请输入用户名" name="username" value="{{ formsets.username }}"/></div>
-            </div>
-            <div>
+            <div class="usernamereg">
+                <div></div>
+                <div>
+                    <p>用户名：</p>
+                    <div><input placeholder="请输入用户名" name="username" value="{{ formsets.username }}"/></div>
+                </div>
+                <div>
                     {% if regForm.errors.username %}
                         <img src="{% static 'gift_platform_site/images/wrong.png' %}">
                         <p class="wrong">{{ regForm.errors.username.0 }}</p>
@@ -28,137 +29,190 @@
                         <img src="{% static 'gift_platform_site/images/wrong.png' %}">
                         <p class="wrong">{{ wronginfousername }}</p>
                     {% endif %}
-            </div>
-        </div>
-        <div class="mobilereg">
-            <div></div>
-            <div>
-                <p>手机号：</p>
-                <div><input placeholder="请输入手机号" name="mobile" value="{{ formsets.mobile }}"/><a href="javascript:void(0)" onclick="b()">发送验证码</a></div>
-            </div>
-            <div>
-                {% if regForm.errors.mobile %}
-                    <img src="{% static 'gift_platform_site/images/wrong.png' %}">
-                    <p class="wrong">{{ regForm.errors.mobile.0 }}</p>
-                {% endif %}
-                {% if wronginfomobile %}
-                    <img src="{% static 'gift_platform_site/images/wrong.png' %}">
-                    <p class="wrong">{{ wronginfomobile }}</p>
-                {% endif %}
-            </div>
-        </div>
-        <div class="yanzhengmareg">
-            <div></div>
-            <div>
-                <p>验证码：</p>
-                <div><input placeholder="请输入验证码" name="checkcode" value="{{ formsets.checkcode }}"/></div>
-            </div>
-            <div>
-                {% if regForm.errors.checkcode %}
-                    <img src="{% static 'gift_platform_site/images/wrong.png' %}">
-                    <p class="wrong">{{ regForm.errors.checkcode.0 }}</p>
-                {% endif %}
-                {% if wronginfo %}
-                    <img src="{% static 'gift_platform_site/images/wrong.png' %}">
-                    <p class="wrong">{{ wronginfo2 }}</p>
-                {% endif %}
-            </div>
-        </div>
-        <div class="emailreg">
-            <div></div>
-            <div>
-                <p>邮箱：</p>
-                <div><input placeholder="请输入邮箱" type="email" name="email" value="{{ formsets.email }}"/></div>
-            </div>
-            <div>
-                {% if regForm.errors.email %}
-                    <img src="{% static 'gift_platform_site/images/wrong.png' %}">
-                    <p class="wrong">{{ regForm.errors.email.0 }}</p>
-                {% endif %}
-            </div>
-        </div>
-        <div class="pwd1">
-            <div></div>
-            <div>
-                <p>密&nbsp;&nbsp;&nbsp;&nbsp;码：</p>
-                <div><input placeholder="请输入密码" type="password" name="pwd1" value="{{ formsets.pwd1 }}"/></div>
-            </div>
-            <div>
-                {% if regForm.errors.pwd1 %}
-                    <img src="{% static 'gift_platform_site/images/wrong.png' %}">
-                    <p class="wrong">{{ regForm.errors.pwd1.0 }}</p>
-                {% endif %}
-            </div>
-        </div>
-        <div class="pwd2">
-            <div></div>
-            <div>
-                <p>确认密码：</p>
-                <div><input placeholder="请再次输入密码" type="password" name="pwd2" value="{{ formsets.pwd2 }}"/></div>
-            </div>
-            <div>
-                {% if regForm.errors.pwd2 %}
-                    <img src="{% static 'gift_platform_site/images/wrong.png' %}">
-                    <p class="wrong">{{ regForm.errors.pwd2.0 }}</p>
-                {% endif %}
-                {% if wronginfo %}
-                    <img src="{% static 'gift_platform_site/images/wrong.png' %}">
-                    <p class="wrong">{{ wronginfo }}</p>
-                {% endif %}
-
-            </div>
-        </div>
-        <input hidden name="usertype" value="{{ usertype }}"/>
-        {% csrf_token %}
-        <div class="xieyireg">
-            <div></div>
-            <div>
-                <p></p>
-                <div>
-                    <input type="checkbox" name="vehicle" value="Bike" />
-                    <p>我同意并遵守<a target="_blank" href="{% url 'gift_platform_site:protocol' %}">《一点礼品系统服务条款》</a></p>
                 </div>
             </div>
-            <div>
-                {% if regForm.errors.vehicle %}
-                    <img src="{% static 'gift_platform_site/images/wrong.png' %}">
-                    <p class="wrong">{{ regForm.errors.vehicle.0 }}</p>
-                {% endif %}
-            </div>
-        </div>
-        <div class="regbtninstance">
-            <div></div>
-            <div>
-                <p></p>
+            <div class="mobilereg">
+                <div></div>
                 <div>
-                    <a href="javascript:void(0)" onclick="a()">注册</a>
+                    <p>手机号：</p>
+                    <div>
+                        <input id="mobile" placeholder="请输入手机号" name="mobile" value="{{ formsets.mobile }}"/>
+                        <a id="sendcode" href="javascript:void(0)" >发送验证码</a>
+                        <a id="sendcode1" hidden href="javascript:void(0)" >发送验证码</a>
+                    </div>
+                </div>
+                <div>
+                    {% if regForm.errors.mobile %}
+                        <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                        <p class="wrong">{{ regForm.errors.mobile.0 }}</p>
+                    {% endif %}
+                    {% if wronginfomobile %}
+                        <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                        <p class="wrong">{{ wronginfomobile }}</p>
+                    {% endif %}
                 </div>
             </div>
-            <div></div>
-        </div>
-     </form>
-    <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"type="text/javascript"></script>
-    <script type="text/javascript">
-        function a() {
-            var check = document.getElementsByTagName('vehicle')[0];
-            var form = document.getElementById('reg2form');
-            if (check)
-            {
-                form.submit();
+            <div class="yanzhengmareg">
+                <div></div>
+                <div>
+                    <p>验证码：</p>
+                    <div><input placeholder="请输入验证码" name="checkcode" value="{{ formsets.checkcode }}"/></div>
+                </div>
+                <div>
+                    {% if regForm.errors.checkcode %}
+                        <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                        <p class="wrong">{{ regForm.errors.checkcode.0 }}</p>
+                    {% endif %}
+                    {% if wronginfo2 %}
+                        <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                        <p class="wrong">{{ wronginfo2 }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="emailreg">
+                <div></div>
+                <div>
+                    <p>邮箱：</p>
+                    <div><input placeholder="请输入邮箱" type="email" name="email" value="{{ formsets.email }}"/></div>
+                </div>
+                <div>
+                    {% if regForm.errors.email %}
+                        <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                        <p class="wrong">{{ regForm.errors.email.0 }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="pwd1">
+                <div></div>
+                <div>
+                    <p>密&nbsp;&nbsp;&nbsp;&nbsp;码：</p>
+                    <div><input placeholder="请输入密码" type="password" name="pwd1" value="{{ formsets.pwd1 }}"/></div>
+                </div>
+                <div>
+                    {% if regForm.errors.pwd1 %}
+                        <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                        <p class="wrong">{{ regForm.errors.pwd1.0 }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="pwd2">
+                <div></div>
+                <div>
+                    <p>确认密码：</p>
+                    <div><input placeholder="请再次输入密码" type="password" name="pwd2" value="{{ formsets.pwd2 }}"/></div>
+                </div>
+                <div>
+                    {% if regForm.errors.pwd2 %}
+                        <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                        <p class="wrong">{{ regForm.errors.pwd2.0 }}</p>
+                    {% endif %}
+                    {% if wronginfo %}
+                        <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                        <p class="wrong">{{ wronginfo }}</p>
+                    {% endif %}
+
+                </div>
+            </div>
+            <input hidden name="usertype" value="{{ usertype }}"/>
+            {% csrf_token %}
+            <div class="xieyireg">
+                <div></div>
+                <div>
+                    <p></p>
+                    <div>
+                        <input type="checkbox" id="vehicle" name="vehicle" />
+                        <p>我同意并遵守<a target="_blank" href="{% url 'gift_platform_site:protocol' %}">《一点礼品系统服务条款》</a></p>
+                    </div>
+                </div>
+                <div>
+                    {% if regForm.errors.vehicle %}
+                        <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                        <p class="wrong">{{ regForm.errors.vehicle.0 }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="regbtninstance">
+                <div></div>
+                <div>
+                    <p></p>
+                    <div>
+                        <a href="javascript:void(0)" onclick="a()">注册</a>
+                    </div>
+                </div>
+                <div></div>
+            </div>
+        </form>
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+                    $("#sendcode").click(function () {
+                            var tel = $("#mobile").val()
+                            var yidongreg = /^(134[012345678]\d{7}|1[34578][012356789]\d{8})$/;
+                            var dianxinreg = /^1[3578][01379]\d{8}$/;
+                            var liantongreg = /^1[34578][01256]\d{8}$/;
+                            // var reg = /^1[3|4|5|7|8]\d{9}$/;//这一种也可以
+                            //判断手机号是否合法
+                            if (yidongreg.test(tel)||dianxinreg.test(tel)||liantongreg.test(tel))
+                            {
+                                //请求接口发验证码
+                                $.get("{% url 'gift_platform_site:verifycode' %}"+"?phone="+tel,function(data){
+                                    if(data=="HasUsed")
+                                    {
+                                        alert("该手机号已被使用")
+                                    }
+                                    if(data=="successed")//已经发送成功
+                                    {
+                                        //将按钮设置成不可用
+                                        //$('#sendcode').setAttribute('disabled',true)
+                                        console.log('ttt')
+                                        $('#sendcode').hide()
+                                        $('#sendcode1').show()
+
+                                        var time = 30;  //倒计时5秒
+                                        var timer = setInterval(fun1, 1000);  //设置定时器
+                                        function fun1() {
+                                            console.log(time)
+                                            time--;
+                                            if(time>=0) {
+                                                $('#sendcode1').text(time + "s后重新发送");
+                                            }else{
+                                                $('#sendcode1').text("重新发送验证码");
+                                                $('#sendcode1').disabled = false;  //倒计时结束能够重新点击发送的按钮
+                                                clearTimeout(timer);  //清除定时器
+                                                time = 5;  //设置循环重新开始条件
+                                                $('#sendcode').show()
+                                                $('#sendcode1').hide()
+                                            }
+                                        }
+                                    }
+                                })
+                            }
+                            else {
+                                alert("请输入正确手机号")
+                            }
+
+                        }
+                    )
+                }
+            )
+
+            function a() {
+                var form = document.getElementById('reg2form');
+                if($('#vehicle').is(':checked')) {
+                    // do something
+                    console.log('fdsdf')
+                     form.submit();
+                }
+                else {
+                    alert("请阅读使用协议")
+                }
             }
-            else {
-                alert("请阅读使用协议")
-            }
-        }
-        function b() {
-            $.get("{% url 'gift_platform_site:verifycode' %}",function(){
-                alert('test')
-            })
-        }
 
 
 
-    </script>
+
+
+        </script>
 
     </div>
 
