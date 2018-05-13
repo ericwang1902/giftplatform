@@ -2,48 +2,62 @@
 {% block title %}一点礼品-登录{% endblock %}
 {% block content %}
     {% load static %}
-<div class="container">
-    <div class="login-center">
-        <div><img src="{% static 'gift_platform_site/images/Bitmap.png' %}"></div>
-        <div class="loginform">
-            <p>请登录</p>
+    <div class="container">
+        <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"type="text/javascript"></script>
+        <div class="login-center">
+            <div><img src="{% static 'gift_platform_site/images/Bitmap.png' %}"></div>
+            <div class="loginform">
+                <p>请登录</p>
 
-            <form action="{% url 'gift_platform_site:login' %}" method="post" id="loginform">
-                {% csrf_token %}
-            <div class="usernamelogin">
-                <img id="uricon" src="{% static 'gift_platform_site/images/loginusername.png' %}">
-                <input name="username" placeholder="请输入用户名"/>
-                <img id="clearicon" src="{% static 'gift_platform_site/images/clear.png' %}">
-            </div>
-            <div class="pwdlogin">
-                <img id="pwdicon" src="{% static 'gift_platform_site/images/pwd.png' %}">
-                <input name="password" placeholder="请输入密码"/>
-                <img id="clearicon2" src="{% static 'gift_platform_site/images/clear.png' %}">
-            </div>
-            <div class="loginbtndiv">
-                <a href="javascript:void(0)" onclick="document.getElementById('loginform').submit()">登录</a>
+                <form action="{% url 'gift_platform_site:login' %}" method="post" id="loginform">
+                    {% csrf_token %}
+                    <div class="usernamelogin">
+                        <img id="uricon" src="{% static 'gift_platform_site/images/loginusername.png' %}">
+                        <input name="username" placeholder="请输入用户名"/>
+                        <img id="clearicon" src="{% static 'gift_platform_site/images/clear.png' %}">
+                    </div>
+                    <div class="pwdlogin">
+                        <img id="pwdicon" src="{% static 'gift_platform_site/images/pwd.png' %}">
+                        <input name="password" placeholder="请输入密码"/>
+                        <img id="clearicon2" src="{% static 'gift_platform_site/images/clear.png' %}">
+                    </div>
+                    <div class="loginbtndiv">
+                        <a href="javascript:void(0)" onclick="document.getElementById('loginform').submit()">登录</a>
 
-            </div>
-            <input hidden name="next" type="text" value="{{ next }}"/>
-            <div class="loginbtndiv">
-                {% if error_message %}
-                <span style="color: red">{{ error_message }}</span>
-                {% endif %}
-                {% if sh_message %}
-                <span style="color: red">{{ sh_message }}</span>
-                {% endif %}
-                 {% if loginform.errors %}
-                     <span style="color: red">{{ loginform.errors.username.0 }}</span>
-                {% endif %}
-            </div>
+                    </div>
+                    <input hidden name="next" type="text" value="{{ next }}"/>
+                    <div class="loginbtndiv">
+                        {% if error_message %}
+                            <span style="color: red">{{ error_message }}</span>
+                        {% endif %}
+                        {% if sh_message %}
+                            <span style="color: red">{{ sh_message }}</span>
+                        {% endif %}
+                        {% if loginform.errors %}
+                            <span style="color: red">{{ loginform.errors.username.0 }}</span>
+                        {% endif %}
+                    </div>
 
-            <div class="otherdiv">
-                <a href="{% url 'gift_platform_site:reg1' %}">免费注册</a>
-                <a href="{% url 'gift_platform_site:findpwd' %}">忘记账号密码</a>
+                    <div class="otherdiv">
+                        <a href="{% url 'gift_platform_site:reg1' %}">免费注册</a>
+                        <a href="{% url 'gift_platform_site:findpwd' %}">忘记账号密码</a>
+                    </div>
+                    <input hidden id="shtp" value="{{ msg }}"/>
+                </form>
             </div>
-            </form>
+            <script type="text/javascript">
+                window.onload=function () {
+                    shtp= $("#shtp").val()
+                    if(shtp == '1' )
+                    {
+                        alert("您上传的图片未通过审核，请重新上传")
+                        window.location="{% url 'gift_platform_site:reg3' %}"
+                    }
+
+                }
+
+            </script>
+
         </div>
-
     </div>
-</div>
 {% endblock %}
