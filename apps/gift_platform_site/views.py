@@ -77,6 +77,18 @@ class LoginView(View):
             user = authenticate(username=request.POST['username'], password=request.POST['password'])
             print(user)
             if user is not None:  # 用户名和密码正确，且已经经过管理员审核操作,通过或者退回
+                #Todo:不管管理员有没有操作，检查是否上传了认证照片，如果没有照片信息，就跳转到上传认证图片界面
+                userauthins = None
+                try:
+                    userauthins = userAuthinfo.objects.get(Q(userid=user))
+                except  Exception as e:
+                    userauthins = None
+
+                if userauthins is None:
+                    request.session["username"] = request.POST["username"]
+                    return redirect("/sign/reg3")
+                #上面代码是为了判断没有提交认证信息
+
                 if user.currentpoint == 'bc':  # 管理员已经操作
                     if user.authStatus == True:  # 通过审核
                         if user.type == 'giftcompany':
@@ -91,8 +103,11 @@ class LoginView(View):
                             })
 
                     else:  # 未通过审核
-                        request.session['info'] = "未通过认证，请重新上传"
-                        return redirect('/sign/login')
+                        #Todo:为通过审核，要跳转到上传认证图片界面
+                        request.session["username"] = request.POST["username"]
+                        return render(request, 'sign/login.html', {
+                            'sh_message': "未通过审核，请重新上传",'msg':1
+                        })
                 else:  # user.currentpoint=='ck':#管理员尚未操作
                     return render(request, 'sign/login.html', {
                         'sh_message': "请等待审核通过后再进行登录"
