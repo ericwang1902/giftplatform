@@ -92,6 +92,9 @@ class categoryDetail(generics.GenericAPIView,mixins.RetrieveModelMixin,mixins.Up
 class subcategoryList(generics.ListAPIView,generics.CreateAPIView):
     queryset = category.objects.all()
     serializer_class = categorySerializer
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('name',)
+
 
     def get_queryset(self):
         p=self.kwargs.get('parent', None)
