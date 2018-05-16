@@ -33,6 +33,9 @@
             <div class="product-list-wrap">
                 {% for product in supplier.userid.product_set.all|slice:":4" %}
                     <div class="product-list-item">
+                        {% if product.inprivatearea %}
+                            <span class="private-tag"></span>
+                        {% endif %}
                         <img class="image-cover" src="{{ product.images.first.productimage.url }}" />
                         <div class="desc-wrap">
                             <div class="name">{{ product.name }}</div>

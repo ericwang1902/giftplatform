@@ -21,6 +21,9 @@
         {% endif %}
         {% for product in products %}
         <div class="product-list-item">
+            {% if product.inprivatearea %}
+               <span class="private-tag"></span>
+            {% endif %}
             <a href="{% url "gift_platform_site:product_details" product_id=product.id %}"><img class="image-cover" src="{{ product.images.first.productimage.url }}" /></a>
             <div class="desc-wrap">
                 <div class="name"><a href="{% url "gift_platform_site:product_details" product_id=product.id %}">{{ product.name }}</a></div>

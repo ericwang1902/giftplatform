@@ -39,6 +39,7 @@ def home(request):
 class IndexView(LoginRequiredMixin, View):
     def get(self, request):
         queryset = product.objects.filter(Q(status=0) & Q(isdelete=False))
+        queryset = queryset.filter(Q(inprivatearea=False) | Q(privatearea = request.user.privatearea ))
         t = request.GET.get('t', '0')
         print(t)
         if t == '1':

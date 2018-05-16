@@ -30,8 +30,8 @@
         <div class="query-item-wrap">
             <span class="query-name">区域</span>
             <a class="query-param {% if in_private == '0' %} select {% endif %}" href="{% url 'gift_platform_site:search_products'  %}?in_private=0&price_range={{ price_range }}&q={{ search_query }}">不限</a>
-            <a class="query-param {% if in_private == '1' %} select {% endif %}" href="{% url 'gift_platform_site:search_products'  %}?in_private=2&price_range={{ price_range }}&q={{ search_query }}">公有</a>
-            <a class="query-param {% if in_private == '2' %} select {% endif %}" href="{% url 'gift_platform_site:search_products'  %}?in_private=1&price_range={{ price_range }}&q={{ search_query }}">私有</a>
+            <a class="query-param {% if in_private == '2' %} select {% endif %}" href="{% url 'gift_platform_site:search_products'  %}?in_private=2&price_range={{ price_range }}&q={{ search_query }}">公有</a>
+            <a class="query-param {% if in_private == '1' %} select {% endif %}" href="{% url 'gift_platform_site:search_products'  %}?in_private=1&price_range={{ price_range }}&q={{ search_query }}">私有</a>
         </div>
         {% endif %}
     </div>
@@ -42,6 +42,9 @@
     <div class="product-list-wrap">
         {% for product in products %}
         <div class="product-list-item">
+            {% if product.inprivatearea %}
+                <span class="private-tag"></span>
+            {% endif %}
             <img class="image-cover" src="{{ product.images.first.productimage.url }}" />
             <div class="desc-wrap">
                 <div class="name">{{ product.name }}</div>
