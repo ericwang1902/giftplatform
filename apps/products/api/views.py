@@ -36,6 +36,8 @@ class brandsList(generics.GenericAPIView,mixins.ListModelMixin,mixins.CreateMode
     parser_classes = (MultiPartParser,)
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name',)
+    pagination_class = PageNumberPagination
+    pagination_class.page_size = 10
 
     def get(self,request,*args,**kwargs):
         return self.list(request,*args,**kwargs)
@@ -153,6 +155,8 @@ class ProductsList(generics.ListCreateAPIView):
     serializer_class = ProductSerializer
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name',)
+    pagination_class = PageNumberPagination
+    pagination_class.page_size = 10
 
     def create(self, request, *args, **kwargs):
         data = dict.copy(request.data)
@@ -246,6 +250,8 @@ class ProductDetails(generics.RetrieveAPIView,generics.UpdateAPIView,generics.De
 class supplierProdcutsList(generics.ListAPIView):
     queryset = product.objects.all()
     serializer_class = ProductSerializer
+    pagination_class = PageNumberPagination
+    pagination_class.page_size = 10
 
     def get_queryset(self):
         queryset = self.queryset.filter(belongs=self.request.user)
@@ -275,6 +281,8 @@ class tagsList(generics.GenericAPIView,mixins.ListModelMixin,mixins.CreateModelM
     serializer_class = tagsSerializer
     filter_backends = (filters.SearchFilter,)
     search_fields = ('tagname',)
+    pagination_class = PageNumberPagination
+    pagination_class.page_size = 10
 
     def get_queryset(self):
         queryset = tags.objects.all()
