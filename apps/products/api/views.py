@@ -14,6 +14,7 @@ from django.db.models import Q
 from rest_framework.parsers import MultiPartParser
 from rest_framework.views import APIView
 from giftplatform.settings import MEDIA_ROOT
+from rest_framework.pagination import PageNumberPagination
 import os
 
 class ProductDescriptionMedia(APIView):
@@ -64,6 +65,8 @@ class categoryList(generics.GenericAPIView,mixins.ListModelMixin,mixins.CreateMo
     serializer_class = categorySerializer
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name',)
+    pagination_class = PageNumberPagination
+    pagination_class.page_size = 10
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -99,6 +102,8 @@ class subcategoryList(generics.ListAPIView,generics.CreateAPIView):
     serializer_class = categorySerializer
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name',)
+    pagination_class = PageNumberPagination
+    pagination_class.page_size = 10
 
 
     def get_queryset(self):
