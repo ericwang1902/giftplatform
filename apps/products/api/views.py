@@ -60,7 +60,7 @@ class brandsDetail(generics.GenericAPIView,mixins.RetrieveModelMixin,mixins.Upda
 
 
 class categoryList(generics.GenericAPIView,mixins.ListModelMixin,mixins.CreateModelMixin):
-    queryset = category.objects.all().filter(Q(isroot=True))
+    queryset = category.objects.all().filter(Q(isroot=True) & Q(isdelete=False))
     serializer_class = categorySerializer
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name',)
@@ -83,6 +83,11 @@ class categoryDetail(generics.GenericAPIView,mixins.RetrieveModelMixin,mixins.Up
         kwargs['partial'] = True
         return self.update(request,*args,**kwargs)
 
+    def perform_destroy(self, instance):
+        pk = self.kwargs.get('pk', None)
+        category.objects.filter(id=pk).update(isdelete=True)
+        category.objects.filter(parent_id=pk).update(isdelete=True)
+
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
 
@@ -90,7 +95,7 @@ class categoryDetail(generics.GenericAPIView,mixins.RetrieveModelMixin,mixins.Up
 
 #需要修改~~~~~~~~~~~
 class subcategoryList(generics.ListAPIView,generics.CreateAPIView):
-    queryset = category.objects.all()
+    queryset = category.objects.all().filter(isdelete=False)
     serializer_class = categorySerializer
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name',)
@@ -99,7 +104,9 @@ class subcategoryList(generics.ListAPIView,generics.CreateAPIView):
     def get_queryset(self):
         p=self.kwargs.get('parent', None)
         queryset = self.queryset.filter(parent=p)
-        print(queryset)
+        search_string = self.request.GET.get('search', None)
+        if search_string is not None and search_string != '':
+            queryset = queryset.filter(name=search_string)
         return queryset
 
     def perform_create(self, serializer):
@@ -130,7 +137,7 @@ class subcategoryDetail(generics.RetrieveAPIView,generics.UpdateAPIView,generics
     def perform_destroy(self, instance):
         pk = self.kwargs.get('pk', None)
         parent = self.kwargs.get('parent', None)
-        category.objects.filter(id=pk,parent=parent).update(isdelete=0)
+        category.objects.filter(id=pk,parent=parent).update(isdelete=True)
 
 #商品创建统一接口
 class ProductImageUploaderView(generics.CreateAPIView):
