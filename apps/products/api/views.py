@@ -158,6 +158,12 @@ class ProductsList(generics.ListCreateAPIView):
     pagination_class = PageNumberPagination
     pagination_class.page_size = 10
 
+    def perform_create(self, serializer):
+        if self.request.user.inprivatearea:
+            serializer.save(inprivatearea=True, privatearea=self.request.user.privatearea)
+        else:
+            serializer.save()
+
     def create(self, request, *args, **kwargs):
         data = dict.copy(request.data)
         images = data.pop("images", None)

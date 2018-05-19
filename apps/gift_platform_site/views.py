@@ -626,6 +626,7 @@ def brands_product_list(request, brand_id):
             else:
                 query_set = query_set.filter(inprivatearea=False)
         else:
+            query_set = query_set.filter(Q(privatearea=request.user.privatearea) | Q(inprivatearea=False))
             result_data_dict['in_private'] = '0'
     else:
         result_data_dict['has_private_area'] = False
@@ -748,6 +749,7 @@ def category_product_list(request, parent_category_id, child_category_id):
             else:
                 query_set = query_set.filter(inprivatearea=False)
         else:
+            query_set = query_set.filter(Q(privatearea=request.user.privatearea) | Q(inprivatearea=False))
             result_data_dict['in_private'] = '0'
     else:
         result_data_dict['has_private_area'] = False
