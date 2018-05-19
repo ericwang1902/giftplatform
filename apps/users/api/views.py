@@ -20,7 +20,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from datetime import datetime
 from rest_framework.decorators import  api_view
-from rest_framework.exceptions import NotFound, APIException
+from rest_framework.exceptions import NotFound, APIException, ValidationError
 from dateutil import parser
 
 jwt_response_payload_handler = api_settings.JWT_RESPONSE_PAYLOAD_HANDLER
@@ -76,9 +76,12 @@ class privateareaList(generics.GenericAPIView, mixins.ListModelMixin, mixins.Cre
             giftdealer_id = self.request.data.pop('userId', None)
             privatearea_instance = serializer.save()
             giftdealer = UserProfile.objects.get(pk=giftdealer_id)
-            giftdealer.inprivatearea = True
-            giftdealer.privatearea = privatearea_instance
-            giftdealer.save()
+            if not giftdealer.inprivatearea:
+                giftdealer.inprivatearea = True
+                giftdealer.privatearea = privatearea_instance
+                giftdealer.save()
+            else:
+                raise ValidationError("user already has privatearea", code=400)
 
     def post(self, request, *args, **kwargs):
         if request.user.has_perm('users.add_privatearea'):
