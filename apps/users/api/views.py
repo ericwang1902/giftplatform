@@ -131,11 +131,17 @@ class PermissionListOfMe(generics.GenericAPIView, mixins.ListModelMixin):
         return self.list(request, *args, **kwargs)
 
 
+class UnlimitPagination(PageNumberPagination):
+    """
+    针对需要返回全部数据的编写的分页类
+    """
+    page_size = 10000
+
+
 class permissionList(generics.GenericAPIView, mixins.ListModelMixin):
     queryset = Permission.objects.all()
     serializer_class = permissionSerializer
-    pagination_class = PageNumberPagination
-    pagination_class.page_size = 1000
+    pagination_class = UnlimitPagination
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
