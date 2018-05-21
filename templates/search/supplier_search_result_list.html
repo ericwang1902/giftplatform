@@ -32,6 +32,7 @@
         <div>
             <div class="product-list-wrap">
                 {% for product in supplier.userid.product_set.all|slice:":4" %}
+                    {% if product.isdelete == False %}
                     <div class="product-list-item">
                         {% if product.inprivatearea %}
                             <span class="private-tag"></span>
@@ -42,6 +43,7 @@
                             <div class="price">￥{{ product.productItems.first.price }}</div>
                         </div>
                     </div>
+                    {% endif %}
                 {% endfor %}
                 <div class="clear"></div>
             </div>
