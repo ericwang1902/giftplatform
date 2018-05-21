@@ -7,42 +7,29 @@
         <a href="/">首页</a>><a href="javascript:void(0)">搜索结果</a>
     </div>
 {% for supplier in suppliers %}
-    <div class="supplier-product-list">
+       <div class="supplier-item">
         <div class="supplier-item-header">
             <div class="name">
-                <div>{{ supplier.suppliername }}</div>
-                <!--<a class="subscribe-btn">订阅</a>-->
+                {{ supplier.suppliername }}
+                <!--<span>地址：浙江省杭州西湖区</span>-->
             </div>
-            <div class="social-btns-wrap">
-                <div class="social-btn">
-                    <img src="{% static 'gift_platform_site/images/mobile.png' %}">
-                    <span>手机</span>
-                </div>
-                <div class="social-btn">
-                    <img src="{% static 'gift_platform_site/images/wechat.png' %}">
-                    <span>微信</span>
-                </div>
-                <div class="social-btn">
-                    <img src="{% static 'gift_platform_site/images/qq.png' %}">
-                    <span>QQ</span>
-                </div>
-            </div>
+            <a href="{% url "gift_platform_site:supplier_products" supplier_id=supplier.id %}" class="more-btn">了解更多</a>
             <div class="clear"></div>
         </div>
         <div>
             <div class="product-list-wrap">
                 {% for product in supplier.userid.product_set.all|slice:":4" %}
                     {% if product.isdelete == False %}
-                    <div class="product-list-item">
-                        {% if product.inprivatearea %}
-                            <span class="private-tag"></span>
-                        {% endif %}
-                        <a href="{% url "gift_platform_site:product_details" product_id=product.id %}"><img class="image-cover" src="{{ product.images.first.productimage.url }}" /></a>
-                        <div class="desc-wrap">
-                            <div class="name"><a href="{% url "gift_platform_site:product_details" product_id=product.id %}">{{ product.name }}</a></div>
-                            <div class="price">￥{{ product.productItems.first.price }}</div>
+                        <div class="product-list-item">
+                            {% if product.inprivatearea %}
+                                <span class="private-tag"></span>
+                            {% endif %}
+                            <a href="{% url "gift_platform_site:product_details" product_id=product.id %}"><img class="image-cover" src="{{ product.images.first.productimage.url }}" /></a>
+                            <div class="desc-wrap">
+                                <div class="name"><a href="{% url "gift_platform_site:product_details" product_id=product.id %}">{{ product.name }}</a></div>
+                                <div class="price">￥{{ product.productItems.first.price }}</div>
+                            </div>
                         </div>
-                    </div>
                     {% endif %}
                 {% endfor %}
                 <div class="clear"></div>

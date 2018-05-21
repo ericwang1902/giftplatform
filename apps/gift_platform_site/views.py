@@ -878,6 +878,22 @@ def root_category_product_list(request, parent_category_id):
 
     return render(request, 'products/root_category_product_list.html', result_data_dict)
 
+@login_required
+def supplier_products(request, supplier_id):
+    supplier_instance = supplier.objects.get(pk=supplier_id)
+    result_data_dict = {}  # 视图信息数据字典
+    result_data_dict['supplier'] = supplier_instance
+
+    product_query_set = supplier_instance.userid.product_set.all()
+
+    paginator = Paginator(product_query_set, 16)
+    page = request.GET.get('page')
+    products = paginator.get_page(page)
+
+    pager_array = generate_pager_array(products.number, products.paginator.num_pages)
+    result_data_dict['pager_array'] = pager_array
+    result_data_dict['products'] = products
+    return render(request, 'products/supplier_product_list.html', result_data_dict)
 
 @login_required
 def search_supplier(request):

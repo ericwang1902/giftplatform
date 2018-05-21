@@ -1,0 +1,83 @@
+{% extends "share/base_layout_with_search.html" %}
+{%  load static %}
+{% block title %}一点礼品-{{ supplier.suppliername }}{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="bread-crumb">
+            <a href="/">首页</a>><a href="javascript:void(0)">{{ supplier.suppliername }}</a>
+        </div>
+            <div class="supplier-product-list">
+                <div class="supplier-item-header">
+                    <div class="name">
+                        <div>{{ supplier.suppliername }}</div>
+                        <!--<a class="subscribe-btn">订阅</a>-->
+                    </div>
+                    <div class="social-btns-wrap">
+                        <div class="social-btn">
+                            <img src="{% static 'gift_platform_site/images/mobile.png' %}">
+                            <span>手机</span>
+                        </div>
+                        <div class="social-btn">
+                            <img src="{% static 'gift_platform_site/images/wechat.png' %}">
+                            <span>微信</span>
+                        </div>
+                        <div class="social-btn">
+                            <img src="{% static 'gift_platform_site/images/qq.png' %}">
+                            <span>QQ</span>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div>
+                    <div class="product-list-wrap">
+                        {% for product in products %}
+                            {% if product.isdelete == False %}
+                                <div class="product-list-item">
+                                    {% if product.inprivatearea %}
+                                        <span class="private-tag"></span>
+                                    {% endif %}
+                                    <a href="{% url "gift_platform_site:product_details" product_id=product.id %}"><img class="image-cover" src="{{ product.images.first.productimage.url }}" /></a>
+                                    <div class="desc-wrap">
+                                        <div class="name"><a href="{% url "gift_platform_site:product_details" product_id=product.id %}">{{ product.name }}</a></div>
+                                        <div class="price">￥{{ product.productItems.first.price }}</div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+        <div class="pagination">
+            {% if products.has_previous %}
+                <span class="page-item">
+            <a href="{% url 'gift_platform_site:supplier_products' supplier_id=supplier.id %}?page={{ suppliers.previous_page_number }}&q={{ search_query }}">上一页</a>
+        </span>
+            {% endif %}
+            {% for i in pager_array %}
+                {% if i == '...' %}
+                    <span class="page-item more">
+                    ...
+                </span>
+                {% else %}
+                    <span class="page-item {% if i == products.number|stringformat:"i" %} current-page {% endif %}">
+                    <a href="{% url 'gift_platform_site:supplier_products'  supplier_id=supplier.id  %}?page={{ i }}">{{ i }}</a>
+                </span>
+                {% endif %}
+            {% endfor %}
+            <span class="page-item">
+            {% if suppliers.has_next %}
+                <a href="{% url 'gift_platform_site:supplier_products'  supplier_id=supplier.id %}?page={{ products.next_page_number }}">下一页</a>
+            {% endif %}
+        </span>
+            <div class="jump-to">
+                <span>到</span>
+                <input type="text" class="jump-to-input" />
+                <span>页</span>
+                <a href="#" class="jump-btn">确定</a>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+{% endblock %}
+
