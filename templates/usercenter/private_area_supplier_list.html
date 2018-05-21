@@ -23,12 +23,10 @@
     {% for supplier in suppliers %}
     <tr>
         <td>{{ supplier.id }}</td>
-            {% with supplier.supplier_set.all|first as supplier_private %}
-                <td>{{ supplier_private.suppliername }}</td>
-            {% endwith %}
+        <td>{{ supplier.supplier.suppliername }}</td>
         <td>{% if supplier.is_active %}正常{% else %}禁用{% endif %}</td>
-        <td>{{ supplier.last_login }}</td>
-        <td>{{ supplier.date_joined }}</td>
+        <td>{{ supplier.last_login|date:"Y-m-d" }}</td>
+        <td>{{ supplier.date_joined|date:"Y-m-d" }}</td>
         <td>
             <a href="{% url "gift_platform_site:edit_private_suppliers" supplier_id=supplier.id %}">编辑</a>
         </td>
