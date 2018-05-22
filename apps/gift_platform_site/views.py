@@ -4,6 +4,7 @@ from django.views import View
 from django.contrib.auth.backends import ModelBackend
 from apps.users.models import UserProfile, supplier, siteMessge
 from apps.products.models import product, brands, category, productItem
+from apps.advertising.models import Advertising
 from django.db.models import Q
 from django.contrib.auth.hashers import make_password
 from . import forms
@@ -46,10 +47,19 @@ class IndexView(LoginRequiredMixin, View):
             queryset = queryset.filter(productItems__onshell=True).distinct()
         queryset = queryset.order_by('-createtime')
 
-        products = queryset[0:16]
         currentuser = request.user
 
-        return render(request, "home/index.html", {"products": products, "currentuser": currentuser, "t": t})
+        index_advertise = Advertising.objects.filter(Q(position="index")&Q(status=0)&Q(is_deleted=False)).first()
+
+
+        if index_advertise is not None:
+            products = queryset[0:15]
+        else:
+            products = queryset[0:16]
+
+        advertise_position_index = products.count() / 2 # 计算广告出现的位置
+
+        return render(request, "home/index.html", {"advertise_position_index":advertise_position_index ,"advertising": index_advertise ,"products": products, "currentuser": currentuser, "t": t})
 
 
 # 支持手机号或者用户名登陆
