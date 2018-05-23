@@ -61,6 +61,17 @@ class siteMessge(models.Model):
     status = models.CharField(max_length=100, choices=(("pass", "审核通过"), ("waitting", "等待审核"), ("reject", "审核驳回")), default="waitting") # 站内公告的审核状态
 
 
+def wechat_qr_path(instance, filename):
+    """
+    微信二维码图片
+    :param instance:
+    :param filename:
+    :return:
+    """
+    ext = filename.split('.')[-1]
+    return 'images/suppliers/{0}/{1}_wechat_qr_code.{2}'.format(instance.userid.id, instance.userid.id, ext)
+
+
 # supplier的补充数据结构
 class supplier(models.Model):
     suppliername = models.CharField(max_length=200, null=False)
@@ -68,3 +79,4 @@ class supplier(models.Model):
     qq = models.CharField(max_length=20, null=True, blank=True)
     email = models.CharField(max_length=40, null=False)
     userid = models.OneToOneField(UserProfile, on_delete=models.CASCADE, blank=True, null=True)
+    wechat_qr_code_img = models.ImageField(upload_to=wechat_qr_path)
