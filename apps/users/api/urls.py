@@ -10,6 +10,7 @@ from .views import permissionList
 from .views import AuthInfoList
 from .views import PermissionListOfMe
 from .views import update_gift_dealer_vip_level
+from .views import supplier_info
 from .views import SiteMessageDetails,SiteMessageList, update_site_message_status
 from .views import CustomJSONWebTokenAPIView
 
@@ -40,7 +41,8 @@ urlpatterns = [
 
     path('gift-dealers/<int:gift_company_id>/vip',update_gift_dealer_vip_level,name='giftdealervipupdate'),
 
+    path('suppliers/me', supplier_info, name="mySupplierInfo"),
     path('suppliers',supplierList.as_view(),name="suppliersList"),
-    path('suppliers/<int:pk>',supplierDetail.as_view(),name='supplierDetail')
+    path('suppliers/<int:pk>',supplierDetail.as_view(),name='supplierDetail'),
 
 ]

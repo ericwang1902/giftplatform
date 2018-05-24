@@ -1,6 +1,6 @@
 from rest_framework import generics, mixins
 
-from .serializers import privateareaSerialzer, groupSerialzer, userprofileSerializer, permissionSerializer, AuthInfoSerializer, SupplierSerializer, SiteMessageSerializer
+from .serializers import privateareaSerialzer, groupSerialzer, userprofileSerializer, permissionSerializer, AuthInfoSerializer, SupplierSerializer, SiteMessageSerializer, SupplierShopInfoSerializer
 
 from apps.users.models import privatearea, UserProfile, userAuthinfo, vipLevelChangeHistory, siteMessge
 from apps.viplevels.models import vipLevel
@@ -328,6 +328,8 @@ class GiftDealerDetail(generics.GenericAPIView, mixins.RetrieveModelMixin, mixin
             raise PermissionDenied()
 
 
+
+
 # 供应商
 class supplierList(generics.ListAPIView, generics.CreateAPIView):
     queryset = UserProfile.objects.all()
@@ -475,6 +477,19 @@ def update_site_message_status(request, message_id):
     message.status = auth_status
     message.save()
     return Response({'status': message.status})
+
+@api_view(['GET', 'PUT'])
+def supplier_info(request):
+    if request.user.type != "supplier":
+        raise NotFound(detail="not supplier", code=404)
+    else:
+        if request.method == 'GET':
+            return Response(SupplierShopInfoSerializer(request.user.supplier).data, status=status.HTTP_200_OK)
+        if request.method == 'PUT':
+            serializer = SupplierShopInfoSerializer(request.user.supplier, request.data, partial=True)
+            serializer.is_valid()
+            serializer.save()
+            return Response(SupplierShopInfoSerializer(request.user.supplier).data, status=status.HTTP_200_OK)
 
 
 @api_view(['GET','PUT'])
