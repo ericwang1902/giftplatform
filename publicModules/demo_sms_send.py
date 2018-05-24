@@ -7,7 +7,7 @@ import uuid
 from aliyunsdkcore.profile import region_provider
 from aliyunsdkcore.http import method_type as MT
 from aliyunsdkcore.http import format_type as FT
-import const
+from . import const
 
 """
 短信业务调用接口示例，版本号：v20170525
