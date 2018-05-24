@@ -79,4 +79,4 @@ class supplier(models.Model):
     qq = models.CharField(max_length=20, null=True, blank=True)
     email = models.CharField(max_length=40, null=False)
     userid = models.OneToOneField(UserProfile, on_delete=models.CASCADE, blank=True, null=True)
-    wechat_qr_code_img = models.ImageField(upload_to=wechat_qr_path)
+    wechat_qr_code_img = models.ImageField(upload_to=wechat_qr_path, blank=True, null=True)
