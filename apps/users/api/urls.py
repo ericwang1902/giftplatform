@@ -13,6 +13,7 @@ from .views import update_gift_dealer_vip_level
 from .views import supplier_info
 from .views import SiteMessageDetails,SiteMessageList, update_site_message_status
 from .views import CustomJSONWebTokenAPIView
+from .views import ServiceList
 
 app_name = "users"
 
@@ -44,5 +45,7 @@ urlpatterns = [
     path('suppliers/me', supplier_info, name="mySupplierInfo"),
     path('suppliers',supplierList.as_view(),name="suppliersList"),
     path('suppliers/<int:pk>',supplierDetail.as_view(),name='supplierDetail'),
+
+    path('service', ServiceList.as_view(), name="serviceList")
 
 ]

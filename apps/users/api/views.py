@@ -185,6 +185,14 @@ class groupDetail(generics.GenericAPIView, mixins.RetrieveModelMixin, mixins.Upd
             raise PermissionDenied()
 
 
+class ServiceList(generics.ListAPIView):
+    """
+    获取所有客服的账号
+    """
+    serializer_class = userprofileSerializer
+    queryset = UserProfile.objects.filter(groups__name="客服")
+
+
 # 管理员用来查询系统管理员和客服人员的所有帐号信息
 class adminstratorList(generics.ListAPIView, generics.CreateAPIView):
     queryset = UserProfile.objects.all()
@@ -530,3 +538,5 @@ def update_gift_dealer_vip_level(request, gift_company_id):
         "startTime": latest_vip_change.start_time,
         "endTime": latest_vip_change.end_time
     })
+
+
