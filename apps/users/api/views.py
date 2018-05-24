@@ -484,7 +484,7 @@ def supplier_info(request):
         raise NotFound(detail="not supplier", code=404)
     else:
         if request.method == 'GET':
-            return Response(SupplierShopInfoSerializer(request.user.supplier).data, status=status.HTTP_200_OK)
+            return Response(SupplierShopInfoSerializer(request.user.supplier, context={'request': request}).data, status=status.HTTP_200_OK)
         if request.method == 'PUT':
             serializer = SupplierShopInfoSerializer(request.user.supplier, request.data, partial=True)
             serializer.is_valid()
