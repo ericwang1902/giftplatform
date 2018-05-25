@@ -13,18 +13,39 @@
                         <!--<a class="subscribe-btn">订阅</a>-->
                     </div>
                     <div class="social-btns-wrap">
+                        {% if supplier.tel %}
                         <div class="social-btn">
-                            <img src="{% static 'gift_platform_site/images/mobile.png' %}">
-                            <span>手机</span>
+                            <a href="javascript:void(0)" onclick="$('.tel-container').slideToggle()">
+                                <img src="{% static 'gift_platform_site/images/mobile.png' %}">
+                                <span>手机</span>
+                            </a>
                         </div>
+                        <div class="social-btn tel-container" style="display: none">
+                            <span>{{ supplier.tel }}</span>
+                        </div>
+                        {% endif %}
+                        {% if supplier.qq %}
                         <div class="social-btn">
-                            <img src="{% static 'gift_platform_site/images/wechat.png' %}">
-                            <span>微信</span>
+                            <a href="javascript:void(0)" onclick="$('.qq-container').slideToggle()">
+                                <img src="{% static 'gift_platform_site/images/qq.png' %}">
+                                <span>QQ</span>
+                            </a>
                         </div>
+                        <div class="social-btn qq-container" style="display: none">
+                            <span>{{ supplier.qq }}</span>
+                        </div>
+                        {% endif %}
+                        {% if supplier.wechat_qr_code_img %}
                         <div class="social-btn">
-                            <img src="{% static 'gift_platform_site/images/qq.png' %}">
-                            <span>QQ</span>
+                            <a href="javascript:void(0)" onclick="$('.qr-container').fadeToggle()">
+                                <img src="{% static 'gift_platform_site/images/wechat.png' %}">
+                                <span>微信</span>
+                            </a>
+                            <div class="arrow_box qr-container" style="display: none;">
+                                <img class="qr-img" src="{{ supplier.wechat_qr_code_img.url }}" />
+                            </div>
                         </div>
+                        {% endif %}
                     </div>
                     <div class="clear"></div>
                 </div>
