@@ -70,7 +70,7 @@ def generate_ppt(product_list, path):
             else:
                 price_content = price_content + "供货价：{} - {} 元".format(start_favored_price, end_favored_price)
         #
-            p.text = price_content
+        p.text = price_content
         #
 
         # 规格添加
