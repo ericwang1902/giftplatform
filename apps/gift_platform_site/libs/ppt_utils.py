@@ -27,7 +27,7 @@ def generate_ppt(product_list, path):
         width = Cm(10.92)
         height = Cm(15.29)
 
-        pic = slide.shapes.add_picture(os.path.join(settings.BASE_DIR, product.images.first().productimage.path) , left, top)
+        pic = slide.shapes.add_picture(os.path.join(settings.BASE_DIR, product.images.first().productimage.path) , left, top, width)
         #
 
         # 描述
