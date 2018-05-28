@@ -157,7 +157,7 @@
             $('.cart-footer span').text(response.length + '个商品');
             $('.product-count').text(response.length);
         });
-        $(document).on('click', '#cart .del-btn', function () {
+        $(document).off().on('click', '#cart .del-btn', function () {
             if (confirm('确认删除此商品?')) {
                 var productId = $(this).attr('productId');
                 $.ajax({
