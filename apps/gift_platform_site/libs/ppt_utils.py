@@ -63,12 +63,14 @@ def generate_ppt(product_list, path):
         product_items = product.productItems.order_by("favouredprice").all()
         start_favored_price = product_items.first().favouredprice
         end_favored_price = product_items.last().favouredprice
-        if start_price == end_price:
-            price_content = price_content + "供货价：{} 元".format(start_favored_price)
-        else:
-            price_content = price_content + "供货价：{} - {} 元".format(start_favored_price, end_favored_price)
+
+        if start_favored_price != 0 and end_favored_price != 0:
+            if start_price == end_price:
+                price_content = price_content + "供货价：{} 元".format(start_favored_price)
+            else:
+                price_content = price_content + "供货价：{} - {} 元".format(start_favored_price, end_favored_price)
         #
-        p.text = price_content
+            p.text = price_content
         #
 
         # 规格添加
