@@ -1,6 +1,7 @@
 from pptx import Presentation
 from pptx.util import Cm,Pt
 from django.conf import settings
+from pptx.enum.text import MSO_AUTO_SIZE
 import os
 
 
@@ -17,7 +18,7 @@ def generate_ppt(product_list, path):
         slide = prs.slides.add_slide(blank_slide_layout)
 
         # logo
-        slide.shapes.add_picture(os.path.join(settings.BASE_DIR, product.brand.logo.path), Cm(0), Cm(0), Cm(5.58), Cm(3.62))
+        slide.shapes.add_picture(os.path.join(settings.BASE_DIR, product.brand.logo.path), Cm(0), Cm(0), Cm(4.02), Cm(2.61))
         #
 
         # 主图
@@ -26,7 +27,7 @@ def generate_ppt(product_list, path):
         width = Cm(10.92)
         height = Cm(15.29)
 
-        slide.shapes.add_picture(os.path.join(settings.BASE_DIR, product.images.first().productimage.path) , left, top, width, height)
+        pic = slide.shapes.add_picture(os.path.join(settings.BASE_DIR, product.images.first().productimage.path) , left, top, width)
         #
 
         # 描述
@@ -49,16 +50,31 @@ def generate_ppt(product_list, path):
 
         p = tf.paragraphs[0]
         p.font.name = 'Microsoft YaHei'
+        price_content = ""
         if start_price == end_price:
-            p.text = "市场价：{} 元".format(start_price)
+            price_content = "市场价：{} 元".format(start_price)
         else:
-            p.text = "市场价：{} - {} 元".format(start_price, end_price)
+            price_content = "市场价：{} - {} 元".format(start_price, end_price)
         p.font.bold = True
         p.font.size = Pt(15)
+        price_content = price_content + '\n'
+
+        # 计算供货价
+        product_items = product.productItems.order_by("favouredprice").all()
+        start_favored_price = product_items.first().favouredprice
+        end_favored_price = product_items.last().favouredprice
+
+        if start_favored_price != 0 and end_favored_price != 0:
+            if start_price == end_price:
+                price_content = price_content + "供货价：{} 元".format(start_favored_price)
+            else:
+                price_content = price_content + "供货价：{} - {} 元".format(start_favored_price, end_favored_price)
+        #
+        p.text = price_content
         #
 
         # 规格添加
-        details_box = slide.shapes.add_textbox(Cm(14.29), Cm(4.66), Cm(6.15), Cm(2.82))
+        details_box = slide.shapes.add_textbox(Cm(14.29), Cm(4.70), Cm(6.15), Cm(2.82))
         tf = details_box.text_frame
         tf.clear()
 
@@ -70,7 +86,8 @@ def generate_ppt(product_list, path):
         for spec_name in specname_array:
             text_row = '{}:'.format(spec_name)
             for sku in product.productItems.all():
-                text_row = text_row + sku.attributes.get(spec_name) + ' '
+                if sku.attributes.get(spec_name) not in text_row: # 排除掉已经添加的规格
+                    text_row = text_row + sku.attributes.get(spec_name) + ' '
             spec_desc_text = spec_desc_text + text_row + '\n'
             #p = tf.add_paragraph()
         p.font.bold = False
@@ -80,10 +97,11 @@ def generate_ppt(product_list, path):
         #
 
 
-        title_box = slide.shapes.add_textbox(Cm(14.29), Cm(8.37), Cm(11.47), Cm(11.11))
+        title_box = slide.shapes.add_textbox(Cm(14.29), Cm(8.37), Cm(10.47), Cm(9.9))
         tf = title_box.text_frame
         tf.word_wrap = True
         tf.clear()
+        tf.auto_size = MSO_AUTO_SIZE.TEXT_TO_FIT_SHAPE
         p = tf.paragraphs[0]
         p.font.name = 'Microsoft YaHei'
         p.text = "产品卖点："
@@ -93,7 +111,8 @@ def generate_ppt(product_list, path):
         p.font.bold = False
         p.font.size = Pt(11)
         p.font.name = 'Microsoft YaHei'
-        p.text = product.simple_description
+        if product.simple_description is not None:
+            p.text = product.simple_description
         p.line_spacing = 1.5
 
         """
