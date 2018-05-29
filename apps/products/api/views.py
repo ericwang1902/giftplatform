@@ -14,7 +14,7 @@ from django.db.models import Q
 from rest_framework.parsers import MultiPartParser
 from rest_framework.views import APIView
 from giftplatform.settings import MEDIA_ROOT
-from rest_framework.pagination import PageNumberPagination
+from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
 import os
 
 class ProductDescriptionMedia(APIView):
@@ -62,6 +62,42 @@ class brandsDetail(generics.GenericAPIView,mixins.RetrieveModelMixin,mixins.Upda
         return self.destroy(request, *args, **kwargs)
 
 
+class UnlimitPagination(LimitOffsetPagination):
+    default_limit =  100000
+
+
+class AllCategoryList(generics.GenericAPIView, mixins.ListModelMixin):
+    """
+    返回所有的父分组
+    """
+    queryset = category.objects.all().filter(Q(isroot=True) & Q(isdelete=False))
+    serializer_class = categorySerializer
+    pagination_class = UnlimitPagination
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+
+class AllSubCategoryList(generics.GenericAPIView, mixins.ListModelMixin):
+    """
+    返回所有的子分组列表
+    """
+    queryset = category.objects.all().filter(isdelete=False)
+    serializer_class = categorySerializer
+    pagination_class = UnlimitPagination
+
+    def get_queryset(self):
+        p=self.kwargs.get('parent', None)
+        queryset = self.queryset.filter(parent=p)
+        search_string = self.request.GET.get('search', None)
+        if search_string is not None and search_string != '':
+            queryset = queryset.filter(name=search_string)
+        return queryset
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+
 class categoryList(generics.GenericAPIView,mixins.ListModelMixin,mixins.CreateModelMixin):
     queryset = category.objects.all().filter(Q(isroot=True) & Q(isdelete=False))
     serializer_class = categorySerializer
@@ -98,7 +134,6 @@ class categoryDetail(generics.GenericAPIView,mixins.RetrieveModelMixin,mixins.Up
 
 
 
-#需要修改~~~~~~~~~~~
 class subcategoryList(generics.ListAPIView,generics.CreateAPIView):
     queryset = category.objects.all().filter(isdelete=False)
     serializer_class = categorySerializer

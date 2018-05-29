@@ -15,6 +15,8 @@ from  .views import tagsList,tagsDetail
 
 from .views import ProductsList,ProductDetails,ProductImageUploaderView, ProductDescriptionMedia
 
+from .views import AllCategoryList, AllSubCategoryList
+
 app_name="products"
 
 urlpatterns=[
@@ -27,6 +29,8 @@ urlpatterns=[
     path('brands/',brandsList.as_view(),name="productslist"),
     path('brands/<int:pk>',brandsDetail.as_view(),name="productdetail"),
 
+    path('categories/all',AllCategoryList.as_view(),name="allcategorylist"),
+    path('categories/<int:parent>/categories/all',AllSubCategoryList.as_view(),name="allsubcategorylist"),
     path('categories',categoryList.as_view(),name="categorylist"),
     path('categories/<int:pk>',categoryDetail.as_view(),name="categorydetail"),
 
