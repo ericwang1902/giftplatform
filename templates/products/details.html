@@ -24,6 +24,14 @@
             <div class="product-title">
                 <h1>{{ product.name }}</h1>
                 <span></span>
+                <div class="supplier">
+                    <span>品牌</span>
+                    {% if product.brand %}
+                    <span>{{ product.brand.name }}</span>
+                    {% else %}
+                    <span>无</span>
+                    {% endif %}
+                </div>
                 <div class="price">
                     <span>单价</span>
                     {% if start_price == end_price %}
@@ -34,7 +42,7 @@
                 </div>
                 <div class="supplier">
                     <span>商家</span>
-                    <span>{{ supplier_name }}</span>
+                    <span><a href="{% url "gift_platform_site:supplier_products" supplier_id=supplier_id %}">{{ supplier_name }}</a></span>
                 </div>
             {% for key,value in attribute_values.items %}
                 <div class="spec-group">
