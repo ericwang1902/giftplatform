@@ -1312,6 +1312,8 @@ def product_details(request, product_id):
 
     result_dict["supplier_name"] = product_instance.belongs.supplier.suppliername
 
+    result_dict["supplier_id"] = product_instance.belongs.supplier.id
+
     result_dict["product"] = product_instance
 
     # 开始统计所有的属性和对应的方法
