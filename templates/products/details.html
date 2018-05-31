@@ -32,6 +32,14 @@
                     <span>无</span>
                     {% endif %}
                 </div>
+                <div class="supplier">
+                    <span>型号</span>
+                    {% if product.model %}
+                        <span>{{ product.model }}</span>
+                    {% else %}
+                        <span>无</span>
+                    {% endif %}
+                </div>
                 <div class="price">
                     <span>单价</span>
                     {% if start_price == end_price %}
