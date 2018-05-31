@@ -135,6 +135,7 @@ class ProductSerializer(ModelSerializer):
         instance.yijiandaifa = validated_data.get('yijiandaifa', instance.yijiandaifa)
         instance.newup = validated_data.get('newup', instance.newup)
         instance.simple_description = validated_data.get('simple_description', instance.simple_description)
+        instance.model = validated_data.get('model', instance.model)
 
         # 开始删除所有已经不使用的product image
         old_product_main_image_items = productImage.objects.filter(Q(productid=instance, product_item_id=None))

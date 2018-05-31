@@ -33,6 +33,7 @@ class tags(models.Model):
 #产品类
 class product(models.Model):
     name = models.CharField(max_length=100,null=True)
+    model = models.CharField(max_length=100, verbose_name="型号", null=True, blank=True)
     description = models.TextField(verbose_name="说明",null=True,blank=True)
     simple_description = models.TextField(verbose_name="卖点", null=True,blank=True)
     createtime= models.DateTimeField(auto_now_add=True)
