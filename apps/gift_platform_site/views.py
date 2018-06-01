@@ -1308,7 +1308,7 @@ def product_details(request, product_id):
     result_dict["end_price"] = product_items.last().price
     #
 
-    result_dict["main_images"] = product_instance.images.all()
+    result_dict["main_images"] = product_instance.images.filter(product_item_id=None).all()[:5]
 
     result_dict["supplier_name"] = product_instance.belongs.supplier.suppliername
 
