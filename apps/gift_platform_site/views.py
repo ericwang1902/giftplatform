@@ -1347,7 +1347,8 @@ def export_ppt(request):
         for cart_item in request.session.get('cart'):
             id_list.append(cart_item['product_id'])
         generate_ppt(product.objects.filter(pk__in=id_list), ppt_absolute_path)
-        print(ppt_path)
+        del request.session['cart']
+        request.session.modified = True
         return HttpResponse(json.dumps({'result': 'ok', 'file_url': '/media/{}'.format(ppt_path)}),
                             content_type="application/json", status="200")
         # 开始进行ppt生成操作
