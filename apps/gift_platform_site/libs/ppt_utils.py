@@ -18,20 +18,33 @@ def generate_ppt(product_list, path):
         slide = prs.slides.add_slide(blank_slide_layout)
 
         # logo
-        slide.shapes.add_picture(os.path.join(settings.BASE_DIR, product.brand.logo.path), Cm(0), Cm(0), Cm(4.02), Cm(2.61))
+        # slide.shapes.add_picture(os.path.join(settings.BASE_DIR, product.brand.logo.path), Cm(0), Cm(0), Cm(4.02), Cm(2.61))
         #
 
         # 主图
         left = Cm(1.59)
         top = Cm(2.98)
         width = Cm(10.92)
-        height = Cm(15.29)
+        height = Cm(10.92)
 
-        pic = slide.shapes.add_picture(os.path.join(settings.BASE_DIR, product.images.first().productimage.path) , left, top, width)
+        pic = slide.shapes.add_picture(os.path.join(settings.BASE_DIR, product.images.first().productimage.path) , left, top, width, height)
         #
 
+        # 规格图片
+        print(len(product_list))
+        spec_pics = product.images.all()[1:4]
+        spec_img_width = Cm(1.8)
+        spec_img_space = Cm(0.64)
+        spec_img_top = Cm(14.6)
+        spec_img_start_width = Cm(1.59)
+        i = 0
+
+        for spec_pic in spec_pics:
+            slide.shapes.add_picture(os.path.join(settings.BASE_DIR, spec_pic.productimage.path), Cm(1.59 + i * 1.8 + i * 0.64) , spec_img_top, spec_img_width)
+            i = i + 1
+
         # 描述
-        desc_box = slide.shapes.add_textbox(Cm(14.29), Cm(2.78), Cm(8.33), Cm(1.32))
+        desc_box = slide.shapes.add_textbox(Cm(14.29), Cm(2.78), Cm(10.56), Cm(15.71))
         tf = desc_box.text_frame
         tf.clear()
         p = tf.paragraphs[0]
@@ -40,15 +53,28 @@ def generate_ppt(product_list, path):
         p.font.name = 'Microsoft YaHei'
         p.font.size = Pt(28)
 
+        if product.brand is not None:
+            p = tf.add_paragraph()
+            p.font.bold = True
+            p.font.size = Pt(15)
+            p.text = "品牌：{}".format(product.brand.name)
+
+        if product.model is not None:
+            p = tf.add_paragraph()
+            p.font.bold = True
+            p.font.size = Pt(15)
+            p.text = "型号：{}".format(product.model)
+
         # 价格
-        price_box = slide.shapes.add_textbox(Cm(14.29), Cm(4.11), Cm(6.15), Cm(2.82))
-        tf = price_box.text_frame
-        tf.clear()
+        # price_box = slide.shapes.add_textbox(Cm(14.29), Cm(4.11), Cm(6.15), Cm(2.82))
+        #tf = price_box.text_frame
+        #tf.clear()
         product_items = product.productItems.order_by("price").all()
         start_price = product_items.first().price
         end_price = product_items.last().price
 
-        p = tf.paragraphs[0]
+        #p = tf.paragraphs[0]
+        p = tf.add_paragraph()
         p.font.name = 'Microsoft YaHei'
         price_content = ""
         if start_price == end_price:
@@ -74,9 +100,9 @@ def generate_ppt(product_list, path):
         #
 
         # 规格添加
-        details_box = slide.shapes.add_textbox(Cm(14.29), Cm(4.70), Cm(6.15), Cm(2.82))
-        tf = details_box.text_frame
-        tf.clear()
+        #details_box = slide.shapes.add_textbox(Cm(14.29), Cm(4.70), Cm(6.15), Cm(2.82))
+        #tf = details_box.text_frame
+        #tf.clear()
 
         p = tf.add_paragraph()
 
@@ -97,12 +123,13 @@ def generate_ppt(product_list, path):
         #
 
 
-        title_box = slide.shapes.add_textbox(Cm(14.29), Cm(8.37), Cm(10.47), Cm(9.9))
-        tf = title_box.text_frame
-        tf.word_wrap = True
-        tf.clear()
-        tf.auto_size = MSO_AUTO_SIZE.TEXT_TO_FIT_SHAPE
-        p = tf.paragraphs[0]
+        #title_box = slide.shapes.add_textbox(Cm(14.29), Cm(8.37), Cm(10.47), Cm(9.9))
+        #tf = title_box.text_frame
+        #tf.word_wrap = True
+        #tf.clear()
+        #tf.auto_size = MSO_AUTO_SIZE.TEXT_TO_FIT_SHAPE
+        #p = tf.paragraphs[0]
+        p = tf.add_paragraph()
         p.font.name = 'Microsoft YaHei'
         p.text = "产品卖点："
         p.font.bold = True
