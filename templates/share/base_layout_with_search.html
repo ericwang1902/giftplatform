@@ -173,7 +173,7 @@
             }
         });
         $('#export-ppt-btn').click(function () {
-            if (confirm('是否导出为PPT?')) {
+            if (confirm('保存PPT至本地?')) {
                 $.ajax({
                     url: '{% url 'gift_platform_site:export_ppt' %}',
                     type: 'POST',
