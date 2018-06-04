@@ -33,14 +33,14 @@ def generate_ppt(product_list, path):
         # 规格图片
         print(len(product_list))
         spec_pics = product.images.all()[1:4]
-        spec_img_width = Cm(1.8)
-        spec_img_space = Cm(0.64)
+        spec_img_width = Cm(2.5)
+        spec_img_space = Cm(0.31)
         spec_img_top = Cm(14.6)
         spec_img_start_width = Cm(1.59)
         i = 0
 
         for spec_pic in spec_pics:
-            slide.shapes.add_picture(os.path.join(settings.BASE_DIR, spec_pic.productimage.path), Cm(1.59 + i * 1.8 + i * 0.64) , spec_img_top, spec_img_width)
+            slide.shapes.add_picture(os.path.join(settings.BASE_DIR, spec_pic.productimage.path), Cm(1.59 + i * 2.5 + i * 0.31) , spec_img_top, spec_img_width)
             i = i + 1
 
         # 描述
