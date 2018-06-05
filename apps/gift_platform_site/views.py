@@ -26,6 +26,35 @@ from django.contrib import messages
 import random,time
 from publicModules.demo_sms_send import send_sms
 import uuid
+from django.contrib.sessions.models import Session
+from django.contrib.auth.signals import user_logged_in
+from django.db.models import Q
+from django.utils import timezone
+
+
+def limit_sessions(sender, user, request, **kwargs):
+    """
+    限制session单用户登录，仅适用于活动数量较少的情况
+    :param sender:
+    :param user:
+    :param request:
+    :param kwargs:
+    :return:
+    """
+    for session in Session.objects.filter(
+        ~Q(session_key = request.session.session_key),
+        expire_date__gte = timezone.now()
+    ):
+        data = session.get_decoded()
+        if data.get('_auth_user_id', None) == str(user.id):
+            # found duplicate session, expire it
+            session.expire_date = timezone.now()
+            session.save()
+
+    return
+
+
+user_logged_in.connect(limit_sessions)
 
 
 def home(request):
