@@ -17,9 +17,9 @@
             <p>营业执照：</p>
             <div>
                 <input hidden type="text" name="pp" value="1">
-                <input hidden type="file" id="uploadinput" onchange="document.getElementById('filename').innerHTML=this.value" accept="image/png,image/jpg" name="yyzz"/>
+                <input hidden type="file" id="uploadinput" onchange="document.getElementById('filename').innerHTML=this.value;document.getElementById('reg3zp').submit()" accept="image/png,image/jpg" name="yyzz"/>
                 <a href="javascript:void(0)" onclick="document.getElementById('uploadinput').click()">选择图片</a>
-                <a href="javascript:void(0)" onclick="document.getElementById('reg3zp').submit()">上传</a>
+{#                <a href="javascript:void(0)" onclick="document.getElementById('reg3zp').submit()">上传</a>#}
             </div>
         </div>
         <div>
