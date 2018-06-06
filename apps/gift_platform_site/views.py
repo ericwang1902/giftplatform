@@ -107,7 +107,11 @@ class CustomBackend(ModelBackend):
 
 class LoginView(View):
     def get(self, request):
-        next = request.GET.get('next')
+        next=""
+        if request.GET.__contains__("next"):
+            next = request.GET.get('next')
+        else:
+            next ="/home"
         print(next)
         return render(request, "sign/login.html", {'next': next})
 
@@ -138,10 +142,15 @@ class LoginView(View):
                     if user.authStatus == True:  # 通过审核
                         if user.type == 'giftcompany':
                             login(request, user)
-                            if request.POST.get('next') != 'None':
-                                return redirect(request.POST.get('next'))
-                            else:
-                                return redirect('/home')
+
+                            # if request.POST.get('next','') !="":
+                            #     print(request.POST.get('next'))
+                            #     return redirect(request.POST.get('next'))
+                            # else:
+                            #     return redirect('/home')
+
+                            return redirect(request.POST.get('next'))
+
                         elif user.type == 'supplier':
                             return render(request, 'sign/login.html', {
                                 'error_message': "供应商请从供应商入口登录"
