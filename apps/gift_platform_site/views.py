@@ -97,7 +97,7 @@ class CustomBackend(ModelBackend):
         try:
             print(username)
             print(password)
-            user = UserProfile.objects.get(Q(username=username) | Q(mobile=username))
+            user = UserProfile.objects.get(Q(username=username) | Q(mobile=username) )
             print(user.check_password(password))
             if user.check_password(password):
                 return user
@@ -128,6 +128,11 @@ class LoginView(View):
                     request.session["username"] = request.POST["username"]
                     return redirect("/sign/reg3")
                 #上面代码是为了判断没有提交认证信息
+
+                if user.is_active==False:
+                    return render(request,'sign/login.html',{
+                        'error_message': "该用户已经失效"
+                    })
 
                 if user.currentpoint == 'bc':  # 管理员已经操作
                     if user.authStatus == True:  # 通过审核
