@@ -58,6 +58,7 @@ class productItem(models.Model):
     status = models.IntegerField(default=0)
     onshell = models.BooleanField(default=False)
     favouredprice = models.DecimalField(default=0,decimal_places=2,max_digits=10)
+    stock = models.IntegerField(default=0, blank=True, null=True)
     isdelete = models.BooleanField(default=False)
     product = models.ForeignKey(product, related_name='productItems', on_delete=models.CASCADE, blank=True,null=True)
 

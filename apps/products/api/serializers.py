@@ -91,7 +91,6 @@ class ProductSerializer(ModelSerializer):
                 product_image.type = 0
                 product_image.save()
         for product_item_data in product_items:
-            print(product_item_data)
             item_images = product_item_data.pop('images', None)
             product_item = productItem.objects.create(product=product_instance, **product_item_data)
             for product_item_image in item_images:
@@ -187,6 +186,7 @@ class ProductSerializer(ModelSerializer):
                     product_item_instance.attributes = item.get('attributes', product_item_instance.attributes)
                     product_item_instance.onshell = item.get('onshell', product_item_instance.onshell)
                     product_item_instance.favouredprice = item.get('favouredprice', product_item_instance.favouredprice)
+                    product_item_instance.stock = item.get('stock', product_item_instance.stock)
 
                     # 开始处理已经不使用的sku图
                     old_product_item_image_items = productImage.objects.filter(Q(productid=instance, product_item_id=product_item_instance))
