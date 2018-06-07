@@ -13,7 +13,10 @@
             </span>
             <div class="form-item">
                 <label>用户名：</label>
-                <input name="username" placeholder="请输入用户名"/>
+                <input name="username" placeholder="请输入用户名" value="{{ form_data.username }}"/>
+                {% if form.errors.username %}
+                    <label id="username-error" class="error" for="username">{{ form.errors.username }}</label>
+                {% endif %}
             </div>
             <div class="form-item">
                 <label>密码：</label>
@@ -25,15 +28,21 @@
             </div>
             <div class="form-item">
                 <label>店铺名：</label>
-                <input name="supplier_name" placeholder="请输入店铺名" />
+                <input name="supplier_name" placeholder="请输入店铺名" value="{{ form_data.supplier_name }}" />
+                {% if form.errors.supplier_name %}
+                    <label id="supplier_name-error" class="error" for="supplier_name">{{ form.errors.supplier_name }}</label>
+                {% endif %}
             </div>
             <div class="form-item">
                 <label>联系电话：</label>
-                <input name="tel" placeholder="请输入联系电话" />
+                <input name="tel" placeholder="请输入联系电话" value="{{ form_data.tel }}" />
+                {% if form.errors.tel %}
+                    <label id="tel-error" class="error" for="tel">{{ form.errors.tel }}</label>
+                {% endif %}
             </div>
             <div class="form-item">
                 <label>QQ：</label>
-                <input name="qq" placeholder="请输入联系QQ" />
+                <input name="qq" placeholder="请输入联系QQ" value="{{ form_data.qq }}" />
             </div>
             <a class="save-btn" href="javascript:void(0)" id="ok-btn">保存</a>
         </form>
@@ -51,17 +60,21 @@
                 rules: {
                     username: "required",
                     password: "required",
+                    supplier_name: "required",
                     confirm_password: {
                         required: true,
                         equalTo: '#password'
                     },
                     tel: {
-                        chinaTel: true
+                        required: true,
+                        chinaTel: true,
                     }
                 },
                 messages: {
                     username: "请输入用户名",
                     password: "请输入密码",
+                    supplier_name: "请输入店铺名",
+                    tel: "请输入联系电话",
                     confirm_password: {
                         required: "请输入密码",
                         equalTo: "两次密码输入不一致"

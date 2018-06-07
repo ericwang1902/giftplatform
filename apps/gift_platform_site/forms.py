@@ -1,4 +1,5 @@
 from django import forms
+from apps.users.models import UserProfile
 
 class regForm(forms.Form):
     username =forms.CharField(required=True,error_messages={'required':u'用户名不能为空'})
@@ -28,6 +29,14 @@ class PrivateAreaSupplierForm(forms.Form):
     """
     创建私有域供应商的form
     """
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        try:
+            UserProfile.objects.get(username__iexact=username)
+        except UserProfile.DoesNotExist:
+            return username
+        raise forms.ValidationError("用户名已被使用。")
+
     username = forms.CharField(label="用户名", required=True, error_messages={"required": u"用户名不能为空"}) # 用户名
     password = forms.CharField(required=True)
     supplier_name = forms.CharField(label="供应商店铺名", required=True)

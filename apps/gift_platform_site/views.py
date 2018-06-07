@@ -1605,7 +1605,6 @@ class PrivateSupplier(View):
         :return:
         """
         form = forms.PrivateAreaSupplierForm(request.POST)
-        print(form)
         if form.is_valid():
             user = UserProfile.objects.create_user(username=form.cleaned_data['username'],
                                                    password=form.cleaned_data['password'])
@@ -1622,4 +1621,7 @@ class PrivateSupplier(View):
 
             return redirect('/usercenter/privatearea/suppliers')
         else:
-            return render(request, 'usercenter/new_supplier_in_private_area.html')
+            return render(request, 'usercenter/new_supplier_in_private_area.html', {
+                'form': form,
+                'form_data': request.POST
+            })
