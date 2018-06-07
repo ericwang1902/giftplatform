@@ -148,8 +148,10 @@ class LoginView(View):
                             #     return redirect(request.POST.get('next'))
                             # else:
                             #     return redirect('/home')
-
-                            return redirect(request.POST.get('next'))
+                            try:
+                                return redirect(request.POST.get('next'))
+                            except  Exception as e:
+                                return redirect('/home')
 
                         elif user.type == 'supplier':
                             return render(request, 'sign/login.html', {
