@@ -939,7 +939,7 @@ def supplier_products(request, supplier_id):
     result_data_dict = {}  # 视图信息数据字典
     result_data_dict['supplier'] = supplier_instance
 
-    product_query_set = supplier_instance.userid.product_set.all()
+    product_query_set = supplier_instance.userid.product_set.all().filter(isdelete=False)
 
     paginator = Paginator(product_query_set, 16)
     page = request.GET.get('page')
