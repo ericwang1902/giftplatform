@@ -37,6 +37,12 @@ class PrivateAreaSupplierForm(forms.Form):
             return username
         raise forms.ValidationError("用户名已被使用。")
 
+    def clean_tel(self):
+        tel = self.cleaned_data['tel']
+        if UserProfile.objects.filter(mobile__iexact=tel).count() == 0:
+            return tel
+        raise forms.ValidationError("手机号码已被使用。")
+
     username = forms.CharField(label="用户名", required=True, error_messages={"required": u"用户名不能为空"}) # 用户名
     password = forms.CharField(required=True)
     supplier_name = forms.CharField(label="供应商店铺名", required=True)
