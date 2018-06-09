@@ -90,8 +90,24 @@
             <span>到</span>
             <input type="text" class="jump-to-input" />
             <span>页</span>
-            <a href="#" class="jump-btn">确定</a>
+            <a href="javascript:void(0)" class="jump-btn">确定</a>
         </div>
+        <script>
+            function updateQueryStringParameter(uri, key, value) {
+                var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+                var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+                if (uri.match(re)) {
+                    return uri.replace(re, '$1' + key + "=" + value + '$2');
+                }
+                else {
+                    return uri + separator + key + "=" + value;
+                }
+            }
+            $('.jump-btn').click(function () {
+                var nextUrl = updateQueryStringParameter(window.location.href, 'page', parseInt($('.jump-to-input').val()))
+                window.location.href = nextUrl;
+            });
+        </script>
     </div>
     <div class="clear"></div>
 </div>
