@@ -131,7 +131,7 @@ def generate_ppt(product_list, path):
         #p = tf.paragraphs[0]
         p = tf.add_paragraph()
         p.font.name = 'Microsoft YaHei'
-        p.text = "产品卖点："
+        p.text = "产品介绍："
         p.font.bold = True
         p.font.size = Pt(11)
         p = tf.add_paragraph()
