@@ -5,7 +5,9 @@
     <title>{% block title %}一点礼品{% endblock %}</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'gift_platform_site/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'gift_platform_site/js/jquery.mCustomScrollbar.min.css' %}">
     <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="{% static 'gift_platform_site/js/jquery.mCustomScrollbar.concat.min.js' %}"></script>
     <script>
         function getCookie(name) {
             var cookieValue = null;
@@ -188,7 +190,8 @@
                     }
                 });
             }
-        })
+        });
+        $('.product-list').mCustomScrollbar();
     };
 
     var refreshCart = function () {
@@ -253,5 +256,16 @@
         initCart();
     })
 </script>
+<style>
+    .cart-content .product-list {
+        max-height: 200px;
+    }
+    #mCSB_1_container {
+        margin-right: 10px !important;
+    }
+    #mCSB_1_scrollbar_vertical {
+        right: -6px;
+    }
+</style>
 </body>
 </html>
