@@ -1334,6 +1334,7 @@ def product_details(request, product_id):
         temp_dict['id'] = record.id
         temp_dict['attributes'] = record.attributes
         temp_dict['price'] = record.price
+        temp_dict['sell_price'] = record.favouredprice
         temp_dict['image'] = record.images.first().productimage.url
         product_item_list.append(temp_dict)
     result_dict["product_items_json"] = json.dumps(product_item_list, default=default)
@@ -1344,6 +1345,13 @@ def product_details(request, product_id):
     result_dict["end_price"] = product_items.last().price
     #
 
+    # 根据所有商品sku计算商品的供货价范围
+    product_items = product_instance.productItems.order_by("favouredprice").all()
+    result_dict["sell_start_price"] = product_items.first().favouredprice
+    result_dict["sell_end_price"] = product_items.last().favouredprice
+    #
+
+
     result_dict["main_images"] = product_instance.images.filter(product_item_id=None).all()[:5]
 
     result_dict["supplier_name"] = product_instance.belongs.supplier.suppliername
@@ -1352,7 +1360,10 @@ def product_details(request, product_id):
 
     result_dict["product"] = product_instance
 
-    result_dict["product_simple_description"] = product_instance.simple_description.replace("\n", "</br>")
+    if product_instance.simple_description is not None:
+        result_dict["product_simple_description"] = product_instance.simple_description.replace("\n", "</br>")
+    else:
+        result_dict["product_simple_description"] = "暂无"
 
     # 开始统计所有的属性和对应的方法
     # TODO: 后台改进，将各个属性的具体值存入数据库防止重复计算

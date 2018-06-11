@@ -40,12 +40,20 @@
                         <span>无</span>
                     {% endif %}
                 </div>
-                <div class="price">
-                    <span>单价</span>
+                <div class="price" id="price">
+                    <span>市场价</span>
                     {% if start_price == end_price %}
                         <span>￥</span><span>{{ start_price }}</span>
                     {% else %}
                     <span>￥</span><span>{{ start_price }} - {{ end_price }}</span>
+                    {% endif %}
+                </div>
+                <div class="price" id="sell-price">
+                    <span>供货价</span>
+                    {% if sell_start_price == sell_end_price %}
+                        <span>￥</span><span>{{ sell_start_price }}</span>
+                    {% else %}
+                        <span>￥</span><span>{{ sell_start_price }} - {{ sell_end_price }}</span>
                     {% endif %}
                 </div>
                 <div class="supplier">
@@ -132,7 +140,8 @@
 
             var hasSelectedSku = checkHasSelectedProductItem(productItems, selectedAttributes);
             if (hasSelectedSku !== null) {
-                $('.price span:nth-child(3)').html(hasSelectedSku.price);//
+                $('#price span:nth-child(3)').html(hasSelectedSku.price);//
+                $('#sell-price span:nth-child(3)').html(hasSelectedSku.sell_price);//
                 selectedSkuId = hasSelectedSku.id;
                 $('.preview img').attr('src', hasSelectedSku.image);
             }
