@@ -1336,7 +1336,6 @@ def product_details(request, product_id):
         temp_dict['price'] = record.price
         temp_dict['image'] = record.images.first().productimage.url
         product_item_list.append(temp_dict)
-    print(product_item_list)
     result_dict["product_items_json"] = json.dumps(product_item_list, default=default)
 
     # 根据所有商品sku计算商品的价格区间范围
@@ -1352,6 +1351,8 @@ def product_details(request, product_id):
     result_dict["supplier_id"] = product_instance.belongs.supplier.id
 
     result_dict["product"] = product_instance
+
+    result_dict["product_simple_description"] = product_instance.simple_description.replace("\n", "</br>")
 
     # 开始统计所有的属性和对应的方法
     # TODO: 后台改进，将各个属性的具体值存入数据库防止重复计算
