@@ -78,17 +78,9 @@ class IndexView(LoginRequiredMixin, View):
 
         currentuser = request.user
 
-        index_advertise = Advertising.objects.filter(Q(position="index")&Q(status=0)&Q(is_deleted=False)).first()
+        products = queryset[0:16]
 
-
-        if index_advertise is not None:
-            products = queryset[0:15]
-        else:
-            products = queryset[0:16]
-
-        advertise_position_index = products.count() / 2 # 计算广告出现的位置
-
-        return render(request, "home/index.html", {"advertise_position_index":advertise_position_index ,"advertising": index_advertise ,"products": products, "currentuser": currentuser, "t": t})
+        return render(request, "home/index.html", {"products": products, "currentuser": currentuser, "t": t})
 
 
 # 支持手机号或者用户名登陆
