@@ -5,13 +5,13 @@
 <div class="container">
     <div class="btn-group dynamic-latest-sellout-btn-group">
         <div class="{% if t != '1' %}active{% endif %}">
-            <a href="{% url "gift_platform_site:index" %}">最新</a>
+            <a href="{% url "gift_platform_site:index" %}">全部</a>
         </div>
         <div>
             <span class="split"></span>
         </div>
         <div class="{% if t == '1' %}active{% endif %}">
-            <a href="/home?t=1">特惠</a>
+            <a href="/home?t=1">私有</a>
         </div>
     </div>
     <div class="clear"></div>

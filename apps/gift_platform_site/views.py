@@ -73,7 +73,7 @@ class IndexView(LoginRequiredMixin, View):
         t = request.GET.get('t', '0')
         print(t)
         if t == '1':
-            queryset = queryset.filter(productItems__onshell=True).distinct()
+            queryset = queryset.filter(belongs__privatearea_id=request.user.privatearea.id).distinct()
         queryset = queryset.order_by('-createtime')
 
         currentuser = request.user
