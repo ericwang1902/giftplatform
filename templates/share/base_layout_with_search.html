@@ -240,17 +240,9 @@
         })(jQuery);
 
         (function ($) {
-            var cartDisplay = false;
-            $('.cart-wrap').mouseenter(function () {
-                cartDisplay = true;
-                $('.cart-content').show();
+            $('.cart-wrap').click(function() {
+                $('.cart-content').toggle();
             });
-            $('.cart-content').mouseleave(function (e) {
-                if (cartDisplay) {
-                    cartDisplay = false
-                    $(this).hide();
-                }
-            })
         })(jQuery);
 
         initCart();
