@@ -601,20 +601,20 @@ def brands_product_list(request, brand_id):
 
     # 价格查询逻辑
     def price_0_to_20(queryset):
-        return queryset.filter(productItems__price__range=[0, 20]).distinct()
+        return queryset.filter(productItems__favouredprice__range =[0, 20]).distinct()
 
     def price_20_to_50(queryset):
         print(1)
-        return queryset.filter(productItems__price__range=[20, 50]).distinct()
+        return queryset.filter(productItems__favouredprice__range=[20, 50]).distinct()
 
     def price_50_to_100(queryset):
-        return queryset.filter(productItems__price__range=[50, 100]).distinct()
+        return queryset.filter(productItems__favouredprice__range=[50, 100]).distinct()
 
     def price_100_to_200(queryset):
-        return queryset.filter(productItems__price__range=[100, 200]).distinct()
+        return queryset.filter(productItems__favouredprice__range=[100, 200]).distinct()
 
     def price_gte_200(queryset):
-        return queryset.filter(productItems__price__gte=200).distinct()
+        return queryset.filter(productItems__favouredprice__gte=200).distinct()
 
     price_query_switch = {
         '1': price_0_to_20,
@@ -724,20 +724,19 @@ def category_product_list(request, parent_category_id, child_category_id):
 
     # 价格查询逻辑
     def price_0_to_20(queryset):
-        return queryset.filter(productItems__price__range=[0, 20]).distinct()
+        return queryset.filter(productItems__favouredprice__range=[0, 20]).distinct()
 
     def price_20_to_50(queryset):
-        print(1)
-        return queryset.filter(productItems__price__range=[20, 50]).distinct()
+        return queryset.filter(productItems__favouredprice__range=[20, 50]).distinct()
 
     def price_50_to_100(queryset):
-        return queryset.filter(productItems__price__range=[50, 100]).distinct()
+        return queryset.filter(productItems__favouredprice__range=[50, 100]).distinct()
 
     def price_100_to_200(queryset):
-        return queryset.filter(productItems__price__range=[100, 200]).distinct()
+        return queryset.filter(productItems__favouredprice__range=[100, 200]).distinct()
 
     def price_gte_200(queryset):
-        return queryset.filter(productItems__price__gte=200).distinct()
+        return queryset.filter(productItems__favouredprice__gte=200).distinct()
 
     price_query_switch = {
         '1': price_0_to_20,
@@ -836,19 +835,19 @@ def root_category_product_list(request, parent_category_id):
 
     # 价格查询逻辑
     def price_0_to_20(queryset):
-        return queryset.filter(productItems__price__range=[0, 20]).distinct()
+        return queryset.filter(productItems__favouredprice__range=[0, 20]).distinct()
 
     def price_20_to_50(queryset):
-        return queryset.filter(productItems__price__range=[20, 50]).distinct()
+        return queryset.filter(productItems__favouredprice__range=[20, 50]).distinct()
 
     def price_50_to_100(queryset):
-        return queryset.filter(productItems__price__range=[50, 100]).distinct()
+        return queryset.filter(productItems__favouredprice__range=[50, 100]).distinct()
 
     def price_100_to_200(queryset):
-        return queryset.filter(productItems__price__range=[100, 200]).distinct()
+        return queryset.filter(productItems__favouredprice__range=[100, 200]).distinct()
 
     def price_gte_200(queryset):
-        return queryset.filter(productItems__price__gte=200).distinct()
+        return queryset.filter(productItems__favouredprice__gte=200).distinct()
 
     price_query_switch = {
         '1': price_0_to_20,
@@ -1004,20 +1003,20 @@ def search_products(request):
 
     # 价格查询逻辑
     def price_0_to_20(queryset):
-        return queryset.filter(productItems__price__range=[0, 20]).distinct()
+        return queryset.filter(productItems__favouredprice__range=[0, 20]).distinct()
 
     def price_20_to_50(queryset):
         print(1)
-        return queryset.filter(productItems__price__range=[20, 50]).distinct()
+        return queryset.filter(productItems__favouredprice__range=[20, 50]).distinct()
 
     def price_50_to_100(queryset):
-        return queryset.filter(productItems__price__range=[50, 100]).distinct()
+        return queryset.filter(productItems__favouredprice__range=[50, 100]).distinct()
 
     def price_100_to_200(queryset):
-        return queryset.filter(productItems__price__range=[100, 200]).distinct()
+        return queryset.filter(productItems__favouredprice__range=[100, 200]).distinct()
 
     def price_gte_200(queryset):
-        return queryset.filter(productItems__price__gte=200).distinct()
+        return queryset.filter(productItems__favouredprice__gte=200).distinct()
 
     price_query_switch = {
         '1': price_0_to_20,
@@ -1446,20 +1445,20 @@ def one_send_product_list(request):
 
     # 价格查询逻辑
     def price_0_to_20(queryset):
-        return queryset.filter(productItems__price__range=[0, 20]).distinct()
+        return queryset.filter(productItems__favouredprice__range=[0, 20]).distinct()
 
     def price_20_to_50(queryset):
         print(1)
-        return queryset.filter(productItems__price__range=[20, 50]).distinct()
+        return queryset.filter(productItems__favouredprice__range=[20, 50]).distinct()
 
     def price_50_to_100(queryset):
-        return queryset.filter(productItems__price__range=[50, 100]).distinct()
+        return queryset.filter(productItems__favouredprice__range=[50, 100]).distinct()
 
     def price_100_to_200(queryset):
-        return queryset.filter(productItems__price__range=[100, 200]).distinct()
+        return queryset.filter(productItems__favouredprice__range=[100, 200]).distinct()
 
     def price_gte_200(queryset):
-        return queryset.filter(productItems__price__gte=200).distinct()
+        return queryset.filter(productItems__favouredprice__gte=200).distinct()
 
     price_query_switch = {
         '1': price_0_to_20,
