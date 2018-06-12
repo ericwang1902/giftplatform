@@ -11,7 +11,11 @@
             <span class="split"></span>
         </div>
         <div class="{% if t == '1' %}active{% endif %}">
-            <a href="/home?t=1">私有</a>
+            {% if request.user.inprivatearea %}
+                <a href="/home?t=1">私有</a>
+            {% else %}
+                <a href="javascript:void(0)" onclick="alert('您尚未开通私有域，请联系客服开通!');">私有</a>
+            {% endif %}
         </div>
     </div>
     <div class="clear"></div>
