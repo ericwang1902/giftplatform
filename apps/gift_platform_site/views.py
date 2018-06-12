@@ -1593,7 +1593,7 @@ class PrivateSupplier(View):
         result_data_dict = {}
 
         # 分页处理
-        paginator = Paginator(query_set, 12)
+        paginator = Paginator(query_set, 8)
         page = request.GET.get('page')
         suppliers = paginator.get_page(page)
 
