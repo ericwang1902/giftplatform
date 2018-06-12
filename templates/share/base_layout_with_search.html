@@ -191,7 +191,9 @@
                 });
             }
         });
-        $('.product-list').mCustomScrollbar();
+        $('.product-list').mCustomScrollbar({
+            theme: 'dark'
+        });
     };
 
     var refreshCart = function () {
@@ -240,7 +242,7 @@
         })(jQuery);
 
         (function ($) {
-            $('.cart-wrap').click(function() {
+            $('.cart-info').click(function() {
                 $('.cart-content').toggle();
             });
         })(jQuery);
