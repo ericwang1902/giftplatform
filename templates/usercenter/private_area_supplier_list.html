@@ -46,7 +46,7 @@
                 </span>
             {% else %}
                 <span class="page-item {% if i == suppliers.number|stringformat:"i" %} current-page {% endif %}">
-                    <a href="{% url 'gift_platform_site:private_suppliers' %}?page={{ 1 }}">{{ i }}</a>
+                    <a href="{% url 'gift_platform_site:private_suppliers' %}?page={{ i }}">{{ i }}</a>
                 </span>
             {% endif %}
         {% endfor %}
