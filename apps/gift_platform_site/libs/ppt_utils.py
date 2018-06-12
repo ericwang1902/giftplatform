@@ -129,6 +129,7 @@ def generate_ppt(product_list, path):
         #tf.clear()
         #tf.auto_size = MSO_AUTO_SIZE.TEXT_TO_FIT_SHAPE
         #p = tf.paragraphs[0]
+        tf.word_wrap = True
         p = tf.add_paragraph()
         p.font.name = 'Microsoft YaHei'
         p.text = "产品介绍："
