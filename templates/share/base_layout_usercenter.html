@@ -25,6 +25,9 @@
                 <a class="{% ifequal request.path '/usercenter/privatearea/suppliers/new' %}select{% endifequal %} nav-item"
                    href="{% url 'gift_platform_site:new_private_suppliers' %}">创建供应商</a>
             </div>
+            <div class="category">
+                <span class="category-header"><a href="http://supplier.1dsys.com" target="_blank">供应商后台</a></span>
+            </div>
         {% endif %}
         </div>
         {% block content1 %}
