@@ -22,3 +22,22 @@ def to_range(value):
 
 
 
+@register.filter
+def to_price_output(productItems):
+    product_items = productItems.order_by("price").all()
+    start_price = product_items.first().price
+    end_price = product_items.last().price
+    if start_price == end_price:
+        return start_price
+    else:
+        return '{} - {}'.format(start_price,end_price)
+
+@register.filter
+def to_sell_price_output(productItems):
+    product_items = productItems.order_by("price").all()
+    start_price = product_items.first().favouredprice
+    end_price = product_items.last().favouredprice
+    if start_price == end_price:
+        return start_price
+    else:
+        return '{} - {}'.format(start_price,end_price)
