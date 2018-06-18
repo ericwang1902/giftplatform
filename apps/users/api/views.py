@@ -2,8 +2,9 @@ from rest_framework import generics, mixins
 
 from .serializers import privateareaSerialzer, groupSerialzer, userprofileSerializer, permissionSerializer, AuthInfoSerializer, SupplierSerializer, SiteMessageSerializer, SupplierShopInfoSerializer
 
-from apps.users.models import privatearea, UserProfile, userAuthinfo, vipLevelChangeHistory, siteMessge
+from apps.users.models import privatearea, UserProfile, userAuthinfo, vipLevelChangeHistory, siteMessge, supplier
 from apps.viplevels.models import vipLevel
+from apps.products.models import product
 
 from django.contrib.auth.models import Permission, Group
 
@@ -59,6 +60,7 @@ class ObtainJSONWebToken(CustomJSONWebTokenAPIView):
     Returns a JSON Web Token that can be used for authenticated requests.
     """
     serializer_class = JSONWebTokenSerializer
+
 
 
 class privateareaList(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin):
@@ -485,6 +487,23 @@ def update_site_message_status(request, message_id):
     message.status = auth_status
     message.save()
     return Response({'status': message.status})
+
+@api_view(['GET'])
+def private_info(request, privatearea_id):
+    """
+    获取指定私有域的相关信息
+    :param request:
+    :param privatearea_id:
+    :return:
+    """
+    privatearea_instance = privatearea.objects.get(pk=privatearea_id)
+    supplier_count = supplier.objects.filter(userid__privatearea_id = privatearea_instance.id).count()
+    product_count = product.objects.filter(Q(privatearea_id = privatearea_instance.id) & Q(isdelete=False)).count()
+    return Response({
+        "supplierCount": supplier_count,
+        "productCount": product_count
+    })
+
 
 @api_view(['GET', 'PUT'])
 def supplier_info(request):
