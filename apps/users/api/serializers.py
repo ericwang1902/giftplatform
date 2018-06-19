@@ -1,9 +1,11 @@
 from apps.users.models import privatearea,UserProfile,userAuthinfo,supplier, siteMessge
+from apps.products.models import product
 from  rest_framework.serializers import ModelSerializer
 from rest_framework import  serializers
 from  django.contrib.auth.models import Permission,Group
 from apps.viplevels.api.serializers import viplevelsSerializer
 from django.db.models.fields import related_descriptors
+from django.db.models import Q
 
 class permissionSerializer(ModelSerializer):
     class Meta:
@@ -16,6 +18,17 @@ class AuthInfoSerializer(ModelSerializer):
         fields = "__all__"
 
 class privateareaSerialzer(ModelSerializer):
+    supplier_count = serializers.SerializerMethodField('get_private_supplier_count')
+    product_count = serializers.SerializerMethodField('get_private_product_count')
+
+    def get_private_supplier_count(self, privatearea):
+        supplier_count = supplier.objects.filter(userid__privatearea_id = privatearea.id).count()
+        return supplier_count
+
+    def get_private_product_count(self, privatearea):
+        product_count = product.objects.filter(Q(privatearea_id = privatearea.id) & Q(isdelete=False)).count()
+        return product_count
+
     class Meta:
         model = privatearea
         fields = '__all__'
