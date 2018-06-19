@@ -341,6 +341,31 @@ class GiftDealerDetail(generics.GenericAPIView, mixins.RetrieveModelMixin, mixin
 
 
 # 供应商
+class PrivateSupplierList(generics.ListAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = SupplierSerializer
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('username', 'mobile', 'email')
+
+    def get(self, request, *args, **kwargs):
+        if request.user.has_perm('users.list_supplier'):
+            return self.list(request, *args, **kwargs)
+        else:
+            raise PermissionDenied()
+
+    def get_queryset(self):
+        queryset = self.queryset.filter(Q(type='supplier'))
+        is_auth = self.request.query_params.get('is_auth', None)
+        if is_auth is not None:
+            if is_auth.lower() == 'true':
+                queryset = queryset.filter(Q(authStatus=True))
+            else:
+                queryset = queryset.filter(Q(authStatus=False))
+        privatearea_id = self.kwargs.get('privatearea_id')
+        queryset = queryset.filter(Q(privatearea_id = privatearea_id))
+        return queryset
+
+
 class supplierList(generics.ListAPIView, generics.CreateAPIView):
     queryset = UserProfile.objects.all()
     serializer_class = SupplierSerializer

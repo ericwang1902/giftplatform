@@ -14,7 +14,7 @@ from .views import supplier_info
 from .views import SiteMessageDetails,SiteMessageList, update_site_message_status
 from .views import CustomJSONWebTokenAPIView
 from .views import ServiceList
-from .views import private_info
+from .views import private_info, PrivateSupplierList
 
 app_name = "users"
 
@@ -28,6 +28,7 @@ urlpatterns = [
     path('private-areas',privateareaList.as_view(),name= "privatelist"),
     path('private-areas/<int:pk>',privateareaDetail.as_view(),name="privatedetail"),
     path('private-areas/<int:privatearea_id>/info',private_info, name="privatedetailInfo"),
+    path('private-areas/<int:privatearea_id>/suppliers',PrivateSupplierList.as_view(), name="privatedetail_suppliers"),
 
     path('me/permissions', PermissionListOfMe.as_view(),name="permission_of_me"),
 
