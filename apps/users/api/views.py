@@ -584,3 +584,20 @@ def update_gift_dealer_vip_level(request, gift_company_id):
     })
 
 
+@api_view(["GET"])
+def get_dashboard_info(request):
+    public_giftcompany_count = UserProfile.objects.filter(Q(type="giftcompany")&Q(inprivatearea=False)).count()
+    public_supplier_count = UserProfile.objects.filter(Q(type="supplier")&Q(inprivatearea=False)).count()
+
+    private_giftcompany_count = UserProfile.objects.filter(Q(type="giftcompany")&Q(inprivatearea=True)).count()
+    private_supplier_count = UserProfile.objects.filter(Q(type="supplier")&Q(inprivatearea=True)).count()
+
+    product_count = product.objects.filter(Q(isdelete=False)).count()
+
+    return Response({
+        "publicGiftcompanyCount": public_giftcompany_count,
+        "publicSupplierCount": public_supplier_count,
+        "privateGiftcompanyCount": private_giftcompany_count,
+        "privateSupplierCount": private_supplier_count,
+        "productCount": product_count
+    })

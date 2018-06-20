@@ -14,7 +14,7 @@ from .views import supplier_info
 from .views import SiteMessageDetails,SiteMessageList, update_site_message_status
 from .views import CustomJSONWebTokenAPIView
 from .views import ServiceList
-from .views import private_info, PrivateSupplierList
+from .views import private_info, PrivateSupplierList,get_dashboard_info
 
 app_name = "users"
 
@@ -49,6 +49,7 @@ urlpatterns = [
     path('suppliers',supplierList.as_view(),name="suppliersList"),
     path('suppliers/<int:pk>',supplierDetail.as_view(),name='supplierDetail'),
 
-    path('service', ServiceList.as_view(), name="serviceList")
+    path('service', ServiceList.as_view(), name="serviceList"),
+    path('dashboard',get_dashboard_info, name="dashboard")
 
 ]
