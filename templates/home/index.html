@@ -32,7 +32,7 @@
                 <a href="{% url "gift_platform_site:product_details" product_id=product.id %}"><img class="image-cover" src="{{ product.images.first.productimage.url }}" /></a>
                 <div class="desc-wrap">
                     <div class="name"><a href="{% url "gift_platform_site:product_details" product_id=product.id %}">{{ product.name }}</a></div>
-                    <div class="price">￥{{ product.productItems|to_price_output }}</div>
+                    <div class="price">市场价：￥{{ product.productItems|to_price_output }}</div>
                     <div class="price">供货价：￥{{ product.productItems|to_sell_price_output }}</div>
                     <div class="company">{{ product.belongs.suppliername }}</div>
                 </div>

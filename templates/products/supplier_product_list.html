@@ -14,36 +14,16 @@
                         <!--<a class="subscribe-btn">订阅</a>-->
                     </div>
                     <div class="social-btns-wrap">
-                        {% if supplier.tel %}
-                        <div class="social-btn">
-                            <a href="javascript:void(0)" onclick="$('.tel-container').slideToggle()">
-                                <img src="{% static 'gift_platform_site/images/mobile.png' %}">
-                                <span>手机</span>
-                            </a>
-                        </div>
-                        <div class="social-btn tel-container" style="display: none">
-                            <span>{{ supplier.tel }}</span>
-                        </div>
-                        {% endif %}
-                        {% if supplier.qq %}
-                        <div class="social-btn">
-                            <a href="javascript:void(0)" onclick="$('.qq-container').slideToggle()">
-                                <img src="{% static 'gift_platform_site/images/qq.png' %}">
-                                <span>QQ</span>
-                            </a>
-                        </div>
-                        <div class="social-btn qq-container" style="display: none">
-                            <span>{{ supplier.qq }}</span>
-                        </div>
-                        {% endif %}
-                        {% if supplier.wechat_qr_code_img %}
+                        {% if supplier.contact_info_description %}
                         <div class="social-btn">
                             <a href="javascript:void(0)" onclick="$('.qr-container').fadeToggle()">
-                                <img src="{% static 'gift_platform_site/images/wechat.png' %}">
-                                <span>微信</span>
+                                <img src="{% static 'gift_platform_site/images/mobile.png' %}">
+                                <span>联系方式</span>
                             </a>
                             <div class="arrow_box qr-container" style="display: none;">
-                                <img class="qr-img" src="{{ supplier.wechat_qr_code_img.url }}" />
+                                <div>
+                                    {{ supplier.contact_info_description | safe }}
+                                </div>
                             </div>
                         </div>
                         {% endif %}
@@ -56,7 +36,7 @@
                             {% if product.isdelete == False %}
                                 <div class="product-list-item">
                                     {% if product.inprivatearea %}
-                                        <span class="private-tag"></span>
+                                            <span class="private-tag"></span>
                                     {% endif %}
                                     <a href="{% url "gift_platform_site:product_details" product_id=product.id %}"><img class="image-cover" src="{{ product.images.first.productimage.url }}" /></a>
                                     <div class="desc-wrap">
@@ -116,6 +96,10 @@
         $('.jump-btn').click(function () {
             var nextUrl = updateQueryStringParameter(window.location.href, 'page', parseInt($('.jump-to-input').val()))
             window.location.href = nextUrl;
+        });
+
+        $('.qr-container').mCustomScrollbar({
+            theme: 'dark'
         });
     </script>
 {% endblock %}
