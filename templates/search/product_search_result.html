@@ -1,4 +1,5 @@
 {% extends "share/base_layout_with_search.html" %}
+{% load gift_platform_extras %}
 {% block title %}一点礼品-搜索结果{% endblock %}
 {% block content %}
 <div class="container">
@@ -40,17 +41,21 @@
         <!--<a href="#" class="select sort-btn">人气↓</a>-->
     </div>
     <div class="product-list-wrap">
+        {% if products.paginator.count == 0 %}
+            <div class="no-data">~~空空如也~~</div>
+        {% endif %}
         {% for product in products %}
-        <div class="product-list-item">
-            {% if product.inprivatearea %}
-                <span class="private-tag"></span>
-            {% endif %}
-            <img class="image-cover" src="{{ product.images.first.productimage.url }}" />
-            <div class="desc-wrap">
-                <div class="name">{{ product.name }}</div>
-                <div class="price">￥{{ product.productItems.first.price }}</div>
+            <div class="product-list-item">
+                {% if product.inprivatearea %}
+                    <span class="private-tag"></span>
+                {% endif %}
+                <a href="{% url "gift_platform_site:product_details" product_id=product.id %}"><img class="image-cover" src="{{ product.images.first.productimage.url }}" /></a>
+                <div class="desc-wrap">
+                    <a href="{% url "gift_platform_site:product_details" product_id=product.id %}"><div class="name">{{ product.name }}</div></a>
+                    <div class="price">市场价：￥{{ product.productItems|to_price_output }}</div>
+                    <div class="price">供货价：￥{{ product.productItems|to_sell_price_output }}</div>
+                </div>
             </div>
-        </div>
         {% endfor %}
         <div class="clear"></div>
     </div>
