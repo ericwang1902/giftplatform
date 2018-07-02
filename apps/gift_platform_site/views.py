@@ -574,8 +574,8 @@ def brands_product_list(request, brand_id):
         'SELECT * FROM products_category WHERE id in (SELECT DISTINCT categoryid_id FROM products_product WHERE brand_id = %s) AND isdelete=0',
         [brand_id])
     #
-    price_range = request.GET.get('price_range')  # 1: 0-20 2: 20-50 3: 50-100 4: 100-200 5: 200以上 0: 无限
-    amount_range = request.GET.get('amount_range')  # 1: 0-20 2: 20-50 3: 50-100 4: 100-200 5: 200以上 0：无限
+    price_range = request.GET.get('price_range')  # 1: 0-20 2: 20-50 3: 50-100 4: 100-200 5: 200-500 6: 500-1000 7: 1000-5000 8: 5000以上 0: 无限
+    amount_range = request.GET.get('amount_range')  # 1: 0-20 2: 20-50 3: 50-100 4: 100-200 5: 200-500 6: 500-1000 7: 1000-5000 8: 5000以上 0: 无限
     in_private = request.GET.get('in_private')
     category_id = request.GET.get('category', None)
     if not category_id:
@@ -615,20 +615,32 @@ def brands_product_list(request, brand_id):
     def price_100_to_200(queryset):
         return queryset.filter(productItems__favouredprice__range=[100, 200]).distinct()
 
-    def price_gte_200(queryset):
-        return queryset.filter(productItems__favouredprice__gte=200).distinct()
+    def price_200_to_500(queryset):
+        return queryset.filter(productItems__favouredprice__range=[200, 500]).distinct()
+
+    def price_500_to_1000(queryset):
+        return queryset.filter(productItems__favouredprice__range=[500, 1000]).distinct()
+
+    def price_1000_to_5000(queryset):
+        return queryset.filter(productItems__favouredprice__range=[1000, 5000]).distinct()
+
+    def price_gte_5000(queryset):
+        return queryset.filter(productItems__favouredprice__gte=5000).distinct()
 
     price_query_switch = {
         '1': price_0_to_20,
         '2': price_20_to_50,
         '3': price_50_to_100,
         '4': price_100_to_200,
-        '5': price_gte_200,
+        '5': price_200_to_500,
+        '6': price_500_to_1000,
+        '7': price_1000_to_5000,
+        '8': price_gte_5000,
         '0': lambda x: x
     }
 
     if price_range is not None:
-        if price_range not in ['1', '2', '3', '4', '5']:
+        if price_range not in ['1', '2', '3', '4', '5', '6', '7', '8']:
             price_range = '0'
         query_set = price_query_switch[price_range](query_set)
         result_data_dict['price_range'] = price_range
@@ -706,8 +718,8 @@ def category_product_list(request, parent_category_id, child_category_id):
     :param request:
     :return:
     """
-    price_range = request.GET.get('price_range')  # 1: 0-20 2: 20-50 3: 50-100 4: 100-200 5: 200以上 0: 无限
-    amount_range = request.GET.get('amount_range')  # 1: 0-20 2: 20-50 3: 50-100 4: 100-200 5: 200以上 0：无限
+    price_range = request.GET.get('price_range')  # 1: 0-20 2: 20-50 3: 50-100 4: 100-200 5: 200-500 6: 500-1000 7: 1000-5000 8: 5000以上 0: 无限
+    amount_range = request.GET.get('amount_range')  # 1: 0-20 2: 20-50 3: 50-100 4: 100-200 5: 200-500 6: 500-1000 7: 1000-5000 8: 5000以上 0: 无限
     in_private = request.GET.get('in_private')
 
     result_data_dict = {}  # 视图信息数据字典
@@ -729,6 +741,7 @@ def category_product_list(request, parent_category_id, child_category_id):
         return queryset.filter(productItems__favouredprice__range=[0, 20]).distinct()
 
     def price_20_to_50(queryset):
+        print(1)
         return queryset.filter(productItems__favouredprice__range=[20, 50]).distinct()
 
     def price_50_to_100(queryset):
@@ -737,20 +750,32 @@ def category_product_list(request, parent_category_id, child_category_id):
     def price_100_to_200(queryset):
         return queryset.filter(productItems__favouredprice__range=[100, 200]).distinct()
 
-    def price_gte_200(queryset):
-        return queryset.filter(productItems__favouredprice__gte=200).distinct()
+    def price_200_to_500(queryset):
+        return queryset.filter(productItems__favouredprice__range=[200, 500]).distinct()
+
+    def price_500_to_1000(queryset):
+        return queryset.filter(productItems__favouredprice__range=[500, 1000]).distinct()
+
+    def price_1000_to_5000(queryset):
+        return queryset.filter(productItems__favouredprice__range=[1000, 5000]).distinct()
+
+    def price_gte_5000(queryset):
+        return queryset.filter(productItems__favouredprice__gte=5000).distinct()
 
     price_query_switch = {
         '1': price_0_to_20,
         '2': price_20_to_50,
         '3': price_50_to_100,
         '4': price_100_to_200,
-        '5': price_gte_200,
+        '5': price_200_to_500,
+        '6': price_500_to_1000,
+        '7': price_1000_to_5000,
+        '8': price_gte_5000,
         '0': lambda x: x
     }
 
     if price_range is not None:
-        if price_range not in ['1', '2', '3', '4', '5']:
+        if price_range not in ['1', '2', '3', '4', '5', '6', '7', '8']:
             price_range = '0'
         query_set = price_query_switch[price_range](query_set)
         result_data_dict['price_range'] = price_range
@@ -822,8 +847,8 @@ def category_product_list(request, parent_category_id, child_category_id):
 
 @login_required
 def root_category_product_list(request, parent_category_id):
-    price_range = request.GET.get('price_range')  # 1: 0-20 2: 20-50 3: 50-100 4: 100-200 5: 200以上 0: 无限
-    amount_range = request.GET.get('amount_range')  # 1: 0-20 2: 20-50 3: 50-100 4: 100-200 5: 200以上 0：无限
+    price_range = request.GET.get('price_range')  # 1: 0-20 2: 20-50 3: 50-100 4: 100-200 5: 200-500 6: 500-1000 7: 1000-5000 8: 5000以上 0: 无限
+    amount_range = request.GET.get('amount_range')  # 1: 0-20 2: 20-50 3: 50-100 4: 100-200 5: 200-500 6: 500-1000 7: 1000-5000 8: 5000以上 0: 无限
     in_private = request.GET.get('in_private')
 
     result_data_dict = {}  # 视图信息数据字典
@@ -840,6 +865,7 @@ def root_category_product_list(request, parent_category_id):
         return queryset.filter(productItems__favouredprice__range=[0, 20]).distinct()
 
     def price_20_to_50(queryset):
+        print(1)
         return queryset.filter(productItems__favouredprice__range=[20, 50]).distinct()
 
     def price_50_to_100(queryset):
@@ -848,20 +874,32 @@ def root_category_product_list(request, parent_category_id):
     def price_100_to_200(queryset):
         return queryset.filter(productItems__favouredprice__range=[100, 200]).distinct()
 
-    def price_gte_200(queryset):
-        return queryset.filter(productItems__favouredprice__gte=200).distinct()
+    def price_200_to_500(queryset):
+        return queryset.filter(productItems__favouredprice__range=[200, 500]).distinct()
+
+    def price_500_to_1000(queryset):
+        return queryset.filter(productItems__favouredprice__range=[500, 1000]).distinct()
+
+    def price_1000_to_5000(queryset):
+        return queryset.filter(productItems__favouredprice__range=[1000, 5000]).distinct()
+
+    def price_gte_5000(queryset):
+        return queryset.filter(productItems__favouredprice__gte=5000).distinct()
 
     price_query_switch = {
         '1': price_0_to_20,
         '2': price_20_to_50,
         '3': price_50_to_100,
         '4': price_100_to_200,
-        '5': price_gte_200,
+        '5': price_200_to_500,
+        '6': price_500_to_1000,
+        '7': price_1000_to_5000,
+        '8': price_gte_5000,
         '0': lambda x: x
     }
 
     if price_range is not None:
-        if price_range not in ['1', '2', '3', '4', '5']:
+        if price_range not in ['1', '2', '3', '4', '5', '6', '7', '8']:
             price_range = '0'
         query_set = price_query_switch[price_range](query_set)
         result_data_dict['price_range'] = price_range
@@ -988,8 +1026,8 @@ def search_products(request):
     :param request:
     :return:
     """
-    price_range = request.GET.get('price_range')  # 1: 0-20 2: 20-50 3: 50-100 4: 100-200 5: 200以上 0: 无限
-    amount_range = request.GET.get('amount_range')  # 1: 0-20 2: 20-50 3: 50-100 4: 100-200 5: 200以上 0：无限
+    price_range = request.GET.get('price_range')  # 1: 0-20 2: 20-50 3: 50-100 4: 100-200 5: 200-500 6: 500-1000 7: 1000-5000 8: 5000以上 0: 无限
+    amount_range = request.GET.get('amount_range')  # 1: 0-20 2: 20-50 3: 50-100 4: 100-200 5: 200-500 6: 500-1000 7: 1000-5000 8: 5000以上 0: 无限
     in_private = request.GET.get('in_private')
     query_content = request.GET.get('q')
 
@@ -1017,20 +1055,32 @@ def search_products(request):
     def price_100_to_200(queryset):
         return queryset.filter(productItems__favouredprice__range=[100, 200]).distinct()
 
-    def price_gte_200(queryset):
-        return queryset.filter(productItems__favouredprice__gte=200).distinct()
+    def price_200_to_500(queryset):
+        return queryset.filter(productItems__favouredprice__range=[200, 500]).distinct()
+
+    def price_500_to_1000(queryset):
+        return queryset.filter(productItems__favouredprice__range=[500, 1000]).distinct()
+
+    def price_1000_to_5000(queryset):
+        return queryset.filter(productItems__favouredprice__range=[1000, 5000]).distinct()
+
+    def price_gte_5000(queryset):
+        return queryset.filter(productItems__favouredprice__gte=5000).distinct()
 
     price_query_switch = {
         '1': price_0_to_20,
         '2': price_20_to_50,
         '3': price_50_to_100,
         '4': price_100_to_200,
-        '5': price_gte_200,
+        '5': price_200_to_500,
+        '6': price_500_to_1000,
+        '7': price_1000_to_5000,
+        '8': price_gte_5000,
         '0': lambda x: x
     }
 
     if price_range is not None:
-        if price_range not in ['1', '2', '3', '4', '5']:
+        if price_range not in ['1', '2', '3', '4', '5', '6', '7', '8']:
             price_range = '0'
         query_set = price_query_switch[price_range](query_set)
         result_data_dict['price_range'] = price_range
@@ -1424,8 +1474,8 @@ def one_send_product_list(request):
     categories = category.objects.raw(
         'SELECT * FROM products_category WHERE id in (SELECT DISTINCT categoryid_id FROM products_product WHERE yijiandaifa = 1)')
     #
-    price_range = request.GET.get('price_range')  # 1: 0-20 2: 20-50 3: 50-100 4: 100-200 5: 200以上 0: 无限
-    amount_range = request.GET.get('amount_range')  # 1: 0-20 2: 20-50 3: 50-100 4: 100-200 5: 200以上 0：无限
+    price_range = request.GET.get('price_range')  # 1: 0-20 2: 20-50 3: 50-100 4: 100-200 5: 200-500 6: 500-1000 7: 1000-5000 8: 5000以上 0: 无限
+    amount_range = request.GET.get('amount_range')  # 1: 0-20 2: 20-50 3: 50-100 4: 100-200 5: 200-500 6: 500-1000 7: 1000-5000 8: 5000以上 0: 无限
     in_private = request.GET.get('in_private')
     category_id = request.GET.get('category', None)
     if not category_id:
@@ -1461,20 +1511,32 @@ def one_send_product_list(request):
     def price_100_to_200(queryset):
         return queryset.filter(productItems__favouredprice__range=[100, 200]).distinct()
 
-    def price_gte_200(queryset):
-        return queryset.filter(productItems__favouredprice__gte=200).distinct()
+    def price_200_to_500(queryset):
+        return queryset.filter(productItems__favouredprice__range=[200, 500]).distinct()
+
+    def price_500_to_1000(queryset):
+        return queryset.filter(productItems__favouredprice__range=[500, 1000]).distinct()
+
+    def price_1000_to_5000(queryset):
+        return queryset.filter(productItems__favouredprice__range=[1000, 5000]).distinct()
+
+    def price_gte_5000(queryset):
+        return queryset.filter(productItems__favouredprice__gte=5000).distinct()
 
     price_query_switch = {
         '1': price_0_to_20,
         '2': price_20_to_50,
         '3': price_50_to_100,
         '4': price_100_to_200,
-        '5': price_gte_200,
+        '5': price_200_to_500,
+        '6': price_500_to_1000,
+        '7': price_1000_to_5000,
+        '8': price_gte_5000,
         '0': lambda x: x
     }
 
     if price_range is not None:
-        if price_range not in ['1', '2', '3', '4', '5']:
+        if price_range not in ['1', '2', '3', '4', '5', '6', '7', '8']:
             price_range = '0'
         query_set = price_query_switch[price_range](query_set)
         result_data_dict['price_range'] = price_range

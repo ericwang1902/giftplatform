@@ -14,7 +14,10 @@
             <a class="query-param {% if price_range == '2' %} select {% endif %}" href="{% url 'gift_platform_site:search_products'  %}?price_range=2&in_private={{ in_private }}&q={{ search_query }}">20-50</a>
             <a class="query-param {% if price_range == '3' %} select {% endif %}" href="{% url 'gift_platform_site:search_products'  %}?price_range=3&in_private={{ in_private }}&q={{ search_query }}">50-100</a>
             <a class="query-param {% if price_range == '4' %} select {% endif %}" href="{% url 'gift_platform_site:search_products'  %}?price_range=4&in_private={{ in_private }}&q={{ search_query }}">100-200</a>
-            <a class="query-param {% if price_range == '5' %} select {% endif %}" href="{% url 'gift_platform_site:search_products'  %}?price_range=5&in_private={{ in_private }}&q={{ search_query }}">200以上</a>
+            <a class="query-param {% if price_range == '5' %} select {% endif %}" href="{% url 'gift_platform_site:search_products'  %}?price_range=5&in_private={{ in_private }}&q={{ search_query }}">200-500</a>
+            <a class="query-param {% if price_range == '6' %} select {% endif %}" href="{% url 'gift_platform_site:search_products'  %}?price_range=6&in_private={{ in_private }}&q={{ search_query }}">500-1000</a>
+            <a class="query-param {% if price_range == '7' %} select {% endif %}" href="{% url 'gift_platform_site:search_products'  %}?price_range=7&in_private={{ in_private }}&q={{ search_query }}">1000-5000</a>
+            <a class="query-param {% if price_range == '8' %} select {% endif %}" href="{% url 'gift_platform_site:search_products'  %}?price_range=8&in_private={{ in_private }}&q={{ search_query }}">5000以上</a>
         </div>
         <!--
         <div class="query-item-wrap">
