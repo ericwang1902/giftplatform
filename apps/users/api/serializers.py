@@ -73,6 +73,7 @@ class SupplierSerializer(ModelSerializer):
                 instance.supplier.qq = shop_info.get('qq', None)
                 instance.supplier.tel = shop_info.get('tel', None)
                 instance.supplier.email = shop_info.get('email', None)
+                instance.supplier.contact_info_description = shop_info.get('contact_info_description', None)
                 instance.supplier.save()
             except supplier.DoesNotExist:
                 instance.supplier = supplier.objects.create(userid=instance, **shop_info)
