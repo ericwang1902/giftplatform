@@ -40,6 +40,10 @@
                         <span>无</span>
                     {% endif %}
                 </div>
+                <div class="price" id="sell-price">
+                    <span>常备库存</span>
+                    <span></span><span>{{ stock.stock }}</span>
+                </div>
                 <div class="price" id="price">
                     <span>市场价</span>
                     {% if start_price == end_price %}

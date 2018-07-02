@@ -30,6 +30,8 @@ from django.contrib.sessions.models import Session
 from django.contrib.auth.signals import user_logged_in
 from django.db.models import Q
 from django.utils import timezone
+from django.db.models import Sum
+from django.db.models.functions import Coalesce
 
 
 def limit_sessions(sender, user, request, **kwargs):
@@ -1352,6 +1354,8 @@ def product_details(request, product_id):
     result_dict["sell_start_price"] = product_items.first().favouredprice
     result_dict["sell_end_price"] = product_items.last().favouredprice
     #
+
+    result_dict["stock"] = product_items.aggregate(stock=Coalesce(Sum('stock'), 0))
 
 
     result_dict["main_images"] = product_instance.images.filter(product_item_id=None).all()[:5]
