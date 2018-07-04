@@ -5,65 +5,72 @@
 {% block content %}
     {% load static %}
 
-<div class="reg-step-div">
-    <div class="currentstep">企业认证</div>
-</div>
-{#<hr class="hrline2"/>#}
-<div class="regform">
-    <form method="post"  enctype="multipart/form-data" action="{% url 'gift_platform_site:reg3' %}" id="reg3zp" >
-    <div class="yingyezhizhaoreg">
-        <div></div>
-        <div>
-            <p>营业执照：</p>
-            <div>
-                <input hidden type="text" name="pp" value="1">
-                <input hidden type="file" id="uploadinput" onchange="document.getElementById('filename').innerHTML=this.value;document.getElementById('reg3zp').submit()" accept="image/png,image/jpg" name="yyzz"/>
-                <a href="javascript:void(0)" onclick="document.getElementById('uploadinput').click()">选择图片</a>
-{#                <a href="javascript:void(0)" onclick="document.getElementById('reg3zp').submit()">上传</a>#}
-            </div>
-        </div>
-        <div>
-
-        </div>
+    <div class="reg-step-div">
+        <div class="currentstep">企业认证</div>
     </div>
-        {% csrf_token %}
-    </form>
-    <div class="lujing">
+    {#<hr class="hrline2"/>#}
+    <div class="regform">
+        <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"type="text/javascript"></script>
+        <form method="post"  enctype="multipart/form-data" action="{% url 'gift_platform_site:reg3' %}" id="reg3zp" >
+            <div class="yingyezhizhaoreg">
+                <div></div>
+                <div>
+                    <p>营业执照：</p>
+                    <div>
+                        <input hidden type="text" name="pp" value="1">
+                        <input hidden type="file" id="uploadinput"
+                               onchange="document.getElementById('filename').innerHTML=this.value;
+                                document.getElementById('reg3zp').submit();"
+                               accept="image/*" name="yyzz"/>
+                        <a href="javascript:void(0)" onclick="document.getElementById('uploadinput').click()">选择图片</a>
+                        {#                <a href="javascript:void(0)" onclick="document.getElementById('reg3zp').submit()">上传</a>#}
+                    </div>
+                </div>
+                <div>
+
+                </div>
+            </div>
+            {% csrf_token %}
+        </form>
+        <div class="lujing">
             <div></div>
             <div>
                 <p></p>
                 <div><p id="filename">
-                    {% if yyzz %}上传成功！{% endif %}
+                    {% if yyzz %}上传成功！请等待审核！{% endif %}
                     {% if info %}{{ info }}{% endif %}
                 </p></div>
             </div>
             <div></div>
-    </div>
-    <div class="yingyezhizhaotupianreg">
-        <div></div>
-        <div>
-            <p></p>
-            <div><img src="{{ yyzz }}"></div>
-
         </div>
-        <div>
-            {% if reg3Form.errors.yyzz %}
-                <img src="{% static 'gift_platform_site/images/wrong.png' %}">
-                <p class="wrong">{{ reg3Form.errors.yyzz.0 }}</p>
-            {% endif %}
-        </div>
-    </div>
-
-    <div class="regbtninstance">
-        <div></div>
-        <div>
-            <p></p>
+        <div class="yingyezhizhaotupianreg">
+            <div></div>
             <div>
-                <a href="{% url 'gift_platform_site:login' %}" >提交</a>
+                <p></p>
+                <div><img src="{{ yyzz }}"></div>
+
+            </div>
+            <div>
+                {% if reg3Form.errors.yyzz %}
+                    <img src="{% static 'gift_platform_site/images/wrong.png' %}">
+                    <p class="wrong">{{ reg3Form.errors.yyzz.0 }}</p>
+                {% endif %}
             </div>
         </div>
-        <div></div>
+
+        <div class="regbtninstance">
+            <div></div>
+            <div>
+                <p></p>
+                <div >
+                    {% if yyzz %}
+                    <a id="sub1" href="{% url 'gift_platform_site:login' %}"  >提交</a>
+                    {% endif %}
+                </div>
+            </div>
+            <div></div>
+        </div>
+
     </div>
 
-</div>
 {% endblock %}
