@@ -526,6 +526,10 @@ def generate_pager_array(page_num, page_count):
     :return:
     """
     window_size = 5
+    if page_num > 1:
+        page_num = page_num - 1
+    else:
+        page_num = 1
     if page_count <= 7:
         return list(map(lambda x: str(x), range(1, page_num - 1))) + ['{}'.format(page_num)] + list(
             map(lambda x: str(x), range(page_num + 1, page_count + 1)))
