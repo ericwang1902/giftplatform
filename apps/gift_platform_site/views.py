@@ -1590,6 +1590,7 @@ def one_send_product_list(request):
             else:
                 query_set = query_set.filter(inprivatearea=False)
         else:
+            query_set = query_set.filter(Q(privatearea=request.user.privatearea) | Q(inprivatearea=False))
             result_data_dict['in_private'] = '0'
     else:
         result_data_dict['has_private_area'] = False
