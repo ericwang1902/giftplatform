@@ -57,7 +57,7 @@
             {% endif %}
             <a href="{% url "gift_platform_site:product_details" product_id=product.id %}"><img class="image-cover" src="{{ product.images.first.productimage.url }}" /></a>
             <div class="desc-wrap">
-                <div class="name"><a href="{% url "gift_platform_site:product_details" product_id=product.id %}">{{ product.name }}</a></div>
+                <div class="name"><a href="{% url "gift_platform_site:product_details" product_id=product.id %}">{{ product.name }}</a><a href="javascript:void(0)" product_id={{ product.id }} class="add-cart-btn"></a></div>
                 <div class="price">市场价：￥{{ product.productItems|to_price_output }}</div>
                 <div class="price">供货价：￥{{ product.productItems|to_sell_price_output }}</div>
             </div>
@@ -112,4 +112,23 @@
     </div>
     <div class="clear"></div>
 </div>
+<script>
+    (function($){
+        $('.add-cart-btn').click(function(){
+            $.ajax({
+                url: '{% url "gift_platform_site:cart" %}',
+                type: 'POST',
+                data: {
+                    productId: $(this).attr('product_id')
+                },
+                headers: {
+                    'X-CSRFToken': csrftoken
+                },
+                success: function() {
+                    refreshCart();// 更新方案车
+                }
+            });
+        });
+    })(jQuery);
+</script>
 {% endblock %}
