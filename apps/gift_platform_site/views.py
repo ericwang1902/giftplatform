@@ -70,6 +70,7 @@ def home(request):
 
 class IndexView(LoginRequiredMixin, View):
     def get(self, request):
+        result_data_dict = {}  # 视图信息数据字典
         queryset = product.objects.filter(Q(status=0) & Q(isdelete=False))
         queryset = queryset.filter(Q(inprivatearea=False) | Q(privatearea = request.user.privatearea ))
         t = request.GET.get('t', '0')
@@ -82,10 +83,19 @@ class IndexView(LoginRequiredMixin, View):
         queryset = queryset.order_by('-createtime')
 
         currentuser = request.user
+        paginator = Paginator(queryset, 16)
+        page = request.GET.get('page')
+        products = paginator.get_page(page)
 
-        products = queryset[0:16]
+        result_data_dict['products'] = products
+        result_data_dict['page_range'] = range(1, products.paginator.num_pages)
 
-        return render(request, "home/index.html", {"products": products, "currentuser": currentuser, "t": t})
+        pager_array = generate_pager_array(products.number, products.paginator.num_pages)
+        result_data_dict['pager_array'] = pager_array
+        result_data_dict['currentuser'] = currentuser
+        result_data_dict['t'] = t
+
+        return render(request, "home/index.html", result_data_dict)
 
 
 # 支持手机号或者用户名登陆

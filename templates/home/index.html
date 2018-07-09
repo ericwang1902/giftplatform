@@ -40,6 +40,53 @@
         {% endfor %}
         <div class="clear"></div>
     </div>
+
+    <div class="pagination">
+        {% if products.has_previous %}
+            <span class="page-item">
+            <a href="{% url 'gift_platform_site:home' %}?t={{ t }}&page={{ products.previous_page_number }}">上一页</a>
+        </span>
+        {% endif %}
+        {% for i in pager_array %}
+            {% if i is '...' %}
+                <span class="page-item more">
+                    ...
+                </span>
+            {% else %}
+                <span class="page-item {% if i == products.number|stringformat:"i" %} current-page {% endif %}">
+                    <a href="{% url 'gift_platform_site:home' %}?t={{ t }}&page={{ i }}">{{ i }}</a>
+                </span>
+            {% endif %}
+        {% endfor %}
+        <span class="page-item">
+            {% if products.has_next %}
+                <a href="{% url 'gift_platform_site:home' %}?t={{ t }}&page={{ products.next_page_number }}">下一页</a>
+            {% endif %}
+        </span>
+        <div class="jump-to">
+            <span>到</span>
+            <input type="text" class="jump-to-input" />
+            <span>页</span>
+            <a href="javascript:void(0)" class="jump-btn">确定</a>
+        </div>
+        <script>
+            function updateQueryStringParameter(uri, key, value) {
+                var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+                var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+                if (uri.match(re)) {
+                    return uri.replace(re, '$1' + key + "=" + value + '$2');
+                }
+                else {
+                    return uri + separator + key + "=" + value;
+                }
+            }
+            $('.jump-btn').click(function () {
+                var nextUrl = updateQueryStringParameter(window.location.href, 'page', parseInt($('.jump-to-input').val()))
+                window.location.href = nextUrl;
+            });
+        </script>
+    </div>
+    <div class="clear"></div>
 </div>
 <script>
     (function($){

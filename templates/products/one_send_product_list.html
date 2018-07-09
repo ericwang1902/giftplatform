@@ -78,7 +78,7 @@
                 </span>
             {% else %}
                 <span class="page-item {% if i == products.number|stringformat:"i" %} current-page {% endif %}">
-                    <a href="{% url 'gift_platform_site:one_send_products' %}?category={{ category.id }}&page={{ 1 }}&in_private={{ in_private }}&price_range={{ price_range }}">{{ i }}</a>
+                    <a href="{% url 'gift_platform_site:one_send_products' %}?category={{ category.id }}&page={{ i }}&in_private={{ in_private }}&price_range={{ price_range }}">{{ i }}</a>
                 </span>
             {% endif %}
         {% endfor %}
