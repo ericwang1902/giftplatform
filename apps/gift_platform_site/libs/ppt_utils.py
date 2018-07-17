@@ -32,7 +32,7 @@ def generate_ppt(product_list, path):
 
         # 规格图片
         print(len(product_list))
-        spec_pics = product.images.all()[1:4]
+        spec_pics = product.images.all()[1:5]
         spec_img_width = Cm(2.5)
         spec_img_space = Cm(0.31)
         spec_img_top = Cm(14.6)
