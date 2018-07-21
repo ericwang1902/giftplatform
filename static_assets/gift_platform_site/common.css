@@ -65,21 +65,21 @@ a:hover{color:#0b876f;}
 
 .head{height:55px;padding:6px 0px;}
 .head .logo{width:500px;height:auto;float:left;}
-.head .tell{color:#b19b70;height:54px;line-height:54px;float:right;background:url(../image/h-ico-tell.png) no-repeat left center;font-size:20px;padding-left:40px;}
+.head .tell{color:#b19b70;height:54px;line-height:54px;float:right;background:url(images/h-ico-tell.png) no-repeat left center;font-size:20px;padding-left:40px;}
 .head .FreeApply{height:auto;float:right;margin-left:30px;margin-top:6px;}
 .head .FreeApply a{display:inline-block;padding:10px 30px;background:#b19b70;border-radius:30px;-webkit-border-radius:30px;-moz-border-radius:30px;color:#fff;}
 /*foot*/
 .foot{min-width:1200px;height:auto;background:#333;padding:20px 0px;}
 .foot .fico{height:52px;text-align:center;padding:30px 0px;}
 .foot .fico span{display:inline-block;height:52px;line-height:52px;font-size:18px;color:#fff;padding-left:60px;margin:0px 100px;}
-.foot .fico span:nth-child(1){background:url(../image/f-ico-1.png) no-repeat left center;}
-.foot .fico span:nth-child(2){background:url(../image/f-ico-2.png) no-repeat left center;}
-.foot .fico span:nth-child(3){background:url(../image/f-ico-3.png) no-repeat left center;}
+.foot .fico span:nth-child(1){background:url(images/f-ico-1.png) no-repeat left center;}
+.foot .fico span:nth-child(2){background:url(images/f-ico-2.png) no-repeat left center;}
+.foot .fico span:nth-child(3){background:url(images/f-ico-3.png) no-repeat left center;}
 .foot .fnav{height:40px;line-height:40px;text-align:center;border-top:1px solid #999;color:#999;margin-top:20px;padding-top:20px;}
 .foot .fnav a{color:#999;margin:0px 20px;}
 .foot .Copyright{height:30px;line-height:30px;color:#999;text-align:center;}
 /*index*/
-.banner{min-width:1200px;height:520px;background:url(../image/banner.png) no-repeat center center;}
+.banner{min-width:1200px;height:520px;background:url(images/banner.png) no-repeat center center;}
 .banner .row{position:relative;height:520px;}
 .banner .row a{width:130px;height:42px;line-height:42px;text-align:center;font-size:16px;color:#b19b70;display:inline-block;border:1px solid #b19b70;background:#fff;border-radius:36px;-webkit-border-radius:36px;-moz-border-radius:36px;position:absolute;bottom:40px;z-index:99;}
 .banner .row .go-reg{right:270px;}
@@ -93,7 +93,7 @@ a:hover{color:#0b876f;}
 .in_box1 p span{color:#b19b70;font-weight:700;}
 
 .in_box2{padding:50px 0px;}
-.in_box2 ul{background:url(../image/in-box2-bg.png) no-repeat center 85px;padding-bottom:90px;}
+.in_box2 ul{background:url(images/in-box2-bg.png) no-repeat center 85px;padding-bottom:90px;}
 .in_box2 ul li{width:40%;height:158px;margin:20px 5%;background:#333333;float:left;position:relative;color:#d4d4d4;font-size:16px;line-height:36px;padding:43px 25px 0px 140px;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;}
 .in_box2 ul li:nth-child(5){padding:25px 25px 0px 25px;}
 .in_box2 ul li:nth-child(2),.in_box2 ul li:nth-child(6){padding:61px 25px 0px 140px;}
@@ -123,11 +123,11 @@ a:hover{color:#0b876f;}
 .in_box4 .Ontrial .Ontrial-input{height:auto;}
 .in_box4 .Ontrial .Ontrial-input>div{border-radius:100px;height:44px;line-height:44px;margin:10px 0px;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;padding:0px 20px 0px 60px;}
 .in_box4 .Ontrial .Ontrial-input>div input{width:100%;height:44px;line-height:44px;background:none;border:none;}
-.in_box4 .Ontrial .company{background:#F5F5F5 url(../image/ico-company.png) no-repeat 20px center;}
-.in_box4 .Ontrial .name{background:#F5F5F5 url(../image/ico-name.png) no-repeat 20px center;width:48%;float:left;}
-.in_box4 .Ontrial .job{background:#F5F5F5 url(../image/ico-job.png) no-repeat 20px center;width:48%;float:right;}
-.in_box4 .Ontrial .tell{background:#F5F5F5 url(../image/ico-tell.png) no-repeat 20px center;width:48%;float:left;}
-.in_box4 .Ontrial .email{background:#F5F5F5 url(../image/ico-email.png) no-repeat 20px center;width:48%;float:right;}
+.in_box4 .Ontrial .company{background:#F5F5F5 url(images/ico-company.png) no-repeat 20px center;}
+.in_box4 .Ontrial .name{background:#F5F5F5 url(images/ico-name.png) no-repeat 20px center;width:48%;float:left;}
+.in_box4 .Ontrial .job{background:#F5F5F5 url(images/ico-job.png) no-repeat 20px center;width:48%;float:right;}
+.in_box4 .Ontrial .tell{background:#F5F5F5 url(images/ico-tell.png) no-repeat 20px center;width:48%;float:left;}
+.in_box4 .Ontrial .email{background:#F5F5F5 url(images/ico-email.png) no-repeat 20px center;width:48%;float:right;}
 
 .in_box4 .Ontrial .Ontrial-btn{height:44px;text-align:right;margin-top:10px;}
 .in_box4 .Ontrial .Ontrial-btn a{width:136px;height:44px;display:inline-block;text-align:center;line-height:44px;background:#B19B70;border-radius:100px;color:#fff;}

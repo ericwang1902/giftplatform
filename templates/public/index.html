@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,13 +18,13 @@
 </div>
 <div class="row head">
 	<div class="logo"><img src="{% static 'gift_platform_site/images/logo_index.png' %}"/></div>
-	<div class="FreeApply"><a href="">免费申请试用</a></div>
+	<div class="FreeApply"><a href="#invite">免费申请试用</a></div>
 	<div class="tell">400-679-8289</div>
 
 </div>
 
 <div class="banner">
-	<div class="row"><a href="#" class="go-reg">注册</a><a href="#" class="go-login">登录</a></div>
+	<div class="row"><a href="{% url 'gift_platform_site:reg1' %}" class="go-reg">注册</a><a href="{% url 'gift_platform_site:login' %}" class="go-login">登录</a></div>
 </div>
 
 <div class="in_box1">
@@ -59,35 +60,35 @@
 					<p>　　一点科技由来自知名互联网公司和IT咨询公司的人员，以及对礼赠品行业和市场有深度理解的人员组成。通过灵活高效的团队协作，为礼品公司持续提供简单有效的互联网工具。</p></div>
 			</li>
 			<li>
-				<img src="{% static 'gift_platform_site/images/i-ico3-2.png' %}"/>
+				<img src="{% static 'gift_platform_site/images/i-3-2.png' %}"/>
 				<div class="item"><p><img src="{% static 'gift_platform_site/images/i-ico3-2.png' %}"/></p><p>资源优势</p></div>
 				<div class="words">
 					<h5>资源优势</h5>
 					<p>　　一点科技</span>具有强大的资源整合优势，平台会持续拓展和更新，为礼品公司提供超过5000家供应商、10万个单品的选择，涵盖衣食住行各个方面各个品类的供应商及产品资源。满足终端客户日益增长的个性化多元化需求。</p></div>
 			</li>
 			<li>
-				<img src="{% static 'gift_platform_site/images/i-ico3-3.png' %}"/>
+				<img src="{% static 'gift_platform_site/images/i-3-3.png' %}"/>
 				<div class="item"><p><img src="{% static 'gift_platform_site/images/i-ico3-3.png' %}"/></p><p>技术优势</p></div>
 				<div class="words">
 					<h5>技术优势</h5>
 					<p>　　一点科技拥有一个强大的技术研发团队，多年来一直致力于互联网应用领域的技术开发，始终紧跟网络及软件前端技术，将技术的延伸性、先进性和行业特性及需求有机结合，形成了现在非常稳定可靠的技术优势。</p></div>
 			</li>
 			<li>
-				<img src="{% static 'gift_platform_site/images/i-ico3-4.png' %}"/>
+				<img src="{% static 'gift_platform_site/images/i-3-4.png' %}"/>
 				<div class="item"><p><img src="{% static 'gift_platform_site/images/i-ico3-4.png' %}"/></p><p>安全优势</p></div>
 				<div class="words">
 					<h5>安全优势</h5>
 					<p>　　一点科技是首个通过“公有域、私有域、一键方案生成工具”帮助礼品公司实现资源在线化管理及高效为客户提供礼品方案的系统，并拥有自主知识产权。我们将通过技术以及理念的不断创新，持续推出更好的软件工具，帮助礼品公司更加便捷智能的服务终端企业客户。</p></div>
 			</li>
 			<li>
-				<img src="{% static 'gift_platform_site/images/i-ico3-5.png' %}"/>
+				<img src="{% static 'gift_platform_site/images/i-3-5.png' %}"/>
 				<div class="item"><p><img src="{% static 'gift_platform_site/images/i-ico3-5.png' %}"/></p><p>创新优势</p></div>
 				<div class="words">
 					<h5>创新优势</h5>
 					<p>　　一点科技聚焦于长期可持续、有比较优势、不轻易被模仿或超越的功能及技术开发，并通过技术的最简化更加灵活高效的满足客户需求，在巩固提升已有核心功能的同时，持续打造新的核心功能，不断提升自身核心竞争力，让我们的客户在行业中更具竞争优势。</p></div>
 			</li>
 			<li>
-				<img src="{% static 'gift_platform_site/images/i-ico3-6.png' %}"/>
+				<img src="{% static 'gift_platform_site/images/i-3-6.png' %}"/>
 				<div class="item"><p><img src="{% static 'gift_platform_site/images/i-ico3-6.png' %}"/></p><p>理念优势</p></div>
 				<div class="words">
 					<h5>理念优势</h5>
@@ -97,7 +98,7 @@
 	</div>
 </div>
 
-<div class="in_box4">
+<div class="in_box4" id="invite">
 	<div class="row clearfix">
 		<div class="img">
 			<p><img src="{% static 'gift_platform_site/images/Mostrar.png' %}"/></p>
@@ -123,10 +124,10 @@
 		<div class="fico">
 			<span>海量选择</span>
 			<span>核心管理</span>
-			<span>键生成</span>
+			<span>一键生成</span>
 		</div>
-		<div class="fnav"><a href="">关于我们</a>|<a href="">助中心</a>|<a href="">售后服务</a>|<a href="">友情链接</a></div>
-		<div class="Copyright">一点公司版权所有 © 1997-2018   食品经营许可证：JY133****0111719</div>
+		<div class="fnav"><a href="">关于我们</a>|<a href="{% url 'gift_platform_site:protocol' %}">帮助中心</a>|<a href="">售后服务</a>|<a href="">友情链接</a></div>
+		<div class="Copyright">一点公司版权所有 © 2018   沪ICP备 18016054号-1</div>
     </div>
 </div>
 <script type="text/javascript">

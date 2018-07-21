@@ -65,7 +65,7 @@ def home(request):
     :param request:
     :return:
     """
-    pass
+    return render(request, "public/index.html")
 
 
 class IndexView(LoginRequiredMixin, View):
