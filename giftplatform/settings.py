@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 
 CORS_ALLOW_HEADERS = default_headers + (
     'x-file-name',
+    'x-csrftoken'
 )
 
 AUTHENTICATION_BACKENDS=(
@@ -57,7 +58,7 @@ INSTALLED_APPS = [
     'apps.viplevels',
     'apps.products',
     'apps.gift_platform_site',
-    'apps.advertising'
+    'apps.advertising',
 ]
 
 AUTH_USER_MODEL = "users.UserProfile"
@@ -72,7 +73,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ),
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 20
 
 }
@@ -123,6 +124,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'giftplatform.wsgi.application'
 
+SESSION_SAVE_EVERY_REQUEST = True
+
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
@@ -160,6 +163,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+SESSION_COOKIE_AGE = 20 * 60 # cookie 20分钟过期
 
 
 # Internationalization
