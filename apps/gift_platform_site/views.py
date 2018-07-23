@@ -1,3 +1,6 @@
+import json
+from captcha.models import CaptchaStore
+from captcha.helpers import captcha_image_url
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.views import View
@@ -32,6 +35,8 @@ from django.db.models import Q
 from django.utils import timezone
 from django.db.models import Sum
 from django.db.models.functions import Coalesce
+from django.views.generic.edit import CreateView
+from .models import Invitation
 
 
 def limit_sessions(sender, user, request, **kwargs):
@@ -65,7 +70,43 @@ def home(request):
     :param request:
     :return:
     """
-    return render(request, "public/index.html")
+    form = forms.InvitationForm()
+    return render(request, "public/index.html", {"form": form})
+
+
+def handle_invitation_form(request):
+    """
+    邀请试用视图
+    """
+
+    if request.is_ajax():
+        form = forms.InvitationForm(request.POST)
+        if form.is_valid():
+            to_json_response = dict()
+            to_json_response['status'] = 1
+            to_json_response['new_cptch_key'] = CaptchaStore.generate_key()
+            to_json_response['new_cptch_image'] = captcha_image_url(to_json_response['new_cptch_key'])
+
+            invitation_instance = Invitation.objects.create(
+                company_name=form.cleaned_data["company_name"],
+                name=form.cleaned_data["name"],
+                job_position=form.cleaned_data["job_position"],
+                tel=form.cleaned_data["tel"],
+                email=form.cleaned_data["email"],
+            )
+
+            invitation_instance.save()
+
+            return HttpResponse(json.dumps(to_json_response), content_type='application/json')
+        else:
+            to_json_response = dict()
+            to_json_response['status'] = 0
+            to_json_response['form_errors'] = form.errors
+
+            to_json_response['new_cptch_key'] = CaptchaStore.generate_key()
+            to_json_response['new_cptch_image'] = captcha_image_url(to_json_response['new_cptch_key'])
+
+            return HttpResponse(json.dumps(to_json_response))
 
 
 class IndexView(LoginRequiredMixin, View):
