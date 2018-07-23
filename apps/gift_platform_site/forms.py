@@ -1,5 +1,7 @@
 from django import forms
 from apps.users.models import UserProfile
+from .models import Invitation
+from captcha.fields import CaptchaField
 
 class regForm(forms.Form):
     username =forms.CharField(required=True,error_messages={'required':u'用户名不能为空'})
@@ -50,8 +52,23 @@ class PrivateAreaSupplierForm(forms.Form):
     qq = forms.CharField(label="QQ", required=False)
     email = forms.CharField(label="Email", required=False)
 
+
 class findpwdform(forms.Form):
     mobile = forms.CharField(label="手机号",required=True,error_messages={'required':u'手机号不能为空'})
     checkcode = forms.CharField(required=True, error_messages={'required': u'验证码不能为空'})
     pwd1 = forms.CharField(required=True, error_messages={'required': u'密码不能为空'})
     pwd2 = forms.CharField(required=True, error_messages={'required': u'请重复输入密码'})
+
+
+class InvitationForm(forms.Form):
+    """
+    邀请试用表单
+    """
+    name = forms.CharField(label="姓名", required=True, error_messages={"required": u"姓名不能为空"})
+    job_position = forms.CharField(label="职位", required=True, error_messages={"required": u"职位不能为空"})
+    company_name = forms.CharField(label="公司", required=True, error_messages={"required": u"公司不能为空"})
+    tel = forms.CharField(label="联系电话", required=True)
+    email = forms.CharField(label="Email", required=False)
+    captcha = CaptchaField()
+
+

@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'apps.products',
     'apps.gift_platform_site',
     'apps.advertising',
+    'captcha',
 ]
 
 AUTH_USER_MODEL = "users.UserProfile"

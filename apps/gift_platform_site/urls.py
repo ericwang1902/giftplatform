@@ -5,8 +5,9 @@ from apps.gift_platform_site.views import MyaccountView,ModifyPwdView,logoutView
 from apps.gift_platform_site.views import search_supplier, CartView, product_details, supplier_products
 
 from apps.gift_platform_site.views import msgCenterView,sysinfoView,findpwdView,protocolView,delete_from_cart,export_ppt,brands_product_list,one_send_product_list, PrivateSupplier
-from  apps.gift_platform_site.views import msgdetailView, edit_private_supplier,sysinfodetailView,home
+from  apps.gift_platform_site.views import msgdetailView, edit_private_supplier,sysinfodetailView,home,handle_invitation_form
 from django.views.generic.base import RedirectView
+from django.conf.urls import url,include
 
 app_name = 'gift_platform_site'
 
@@ -23,6 +24,7 @@ urlpatterns =  [
     path('sign/verifycodeFindpwd',findpwdCodeView.as_view(),name="findpwdcode"),
 
     path('home/', IndexView.as_view(),name="home"),
+    path('home/invitation', handle_invitation_form,name="create_invitation"),
     path('cart/', CartView.as_view(), name="cart"),
     path('cart/<int:product_id>', delete_from_cart, name="cart_delete"),
     path('cart/export', export_ppt, name="export_ppt"),
@@ -54,4 +56,5 @@ urlpatterns =  [
 
 
 ]
+
 

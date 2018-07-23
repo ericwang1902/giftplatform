@@ -107,14 +107,30 @@
 		</div>
 		<div class="Ontrial">
 			<h4>邀请您免费试用</h4>
+            <form id="invitation-form">
+                {% csrf_token %}
 			<div class="Ontrial-input clearfix">
-				<div class="company"><input type="text" name="company" placeholder="公司名称" /></div>
-				<div class="name"><input type="text" name="name" placeholder="姓名" /></div>
-				<div class="job"><input type="text" name="job" placeholder="职位" /></div>
-				<div class="tell"><input type="text" name="tell" placeholder="电话" /></div>
-				<div class="email"><input type="text" name="email" placeholder="邮箱" /></div>
+				<div class="company">
+                    <input type="text" id="company_name" name="company_name" placeholder="公司名称" />
+                </div>
+				<div class="name">
+                    <input name="name" id="name" type="text" name="name" placeholder="姓名" />
+                </div>
+				<div class="job">
+                    <input type="text" id="job_position" name="job_position" placeholder="职位" />
+                </div>
+				<div class="tell">
+                    <input type="text" id="tel" name="tel" placeholder="电话" />
+                </div>
+				<div class="email">
+                    <input type="text" id="email" name="email" placeholder="邮箱" />
+                </div>
+                <div>
+                    {{ form.captcha }}
+                </div>
 			</div>
 			<div class="Ontrial-btn"><a href="javascript:void(0);" onclick="check()">提交</a></div>
+            </form>
 		</div>
 	</div>
 </div>
@@ -132,15 +148,61 @@
 </div>
 <script type="text/javascript">
 function check(){
+    var checkResult = true;
 	$(".Ontrial-input input").each(function(){
 		if($(this).val()==''){
 			$(this).focus();
 			layer.msg("请输入"+$(this).attr("placeholder"));
-			return false;
+			checkResult = false;
+			return;
 		}
 	})
 
+    var url = "{% url "gift_platform_site:create_invitation"%}";
+
+    if(checkResult) {
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: $("#invitation-form").serialize(),
+            success: function (data) {
+                var result;
+                if(typeof (data) !== 'object') {
+                    result = JSON.parse(data);
+                } else {
+                    result = data;
+                }
+                if (result.status === 1) {
+                    layer.msg("提交成功");
+                    $('#name').val('');
+                    $('#company_name').val('');
+                    $('#tel').val('');
+                    $('#email').val('');
+                    $('#job_position').val('');
+                    $('.captcha').attr('src', result['new_cptch_image']);
+                    $('#id_captcha_0').val(result['new_cptch_key'])
+                    return;
+                } else {
+                    if (result.form_errors.captcha.length > 0) {
+                        layer.msg("验证码错误");
+                        $('#id_captcha_1').val('');
+                        $('.captcha').attr('src', result['new_cptch_image']);
+                        $('#id_captcha_0').val(result['new_cptch_key'])
+                    }
+                }
+            }
+        });
+    }
 }
+$('.captcha').click(function
+    () {
+    $.getJSON("/captcha/refresh/", function (result) {
+        $('.captcha').attr('src', result['image_url']);
+        $('#id_captcha_0').val(result['key'])
+    });
+
+
+});
 </script>
 </body>
 </html>
