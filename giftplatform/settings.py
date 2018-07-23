@@ -193,3 +193,5 @@ MEDIA_URL='/media/'
 
 LOGIN_URL = '/sign/login'
 #LOGIN_REDIRECT_URL = '/home'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
