@@ -39,6 +39,8 @@ urlpatterns = [
 
     path('api/', include('apps.advertising.api.urls')),
 
+    path('api/', include('apps.invitation.api.urls')),
+
     path('', include('apps.gift_platform_site.urls'))
 
 

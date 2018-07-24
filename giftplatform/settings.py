@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'apps.products',
     'apps.gift_platform_site',
     'apps.advertising',
+    'apps.invitation',
     'captcha',
 ]
 
