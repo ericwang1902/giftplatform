@@ -239,6 +239,13 @@ WHERE NOT EXISTS (
 	SELECT * FROM auth_permission WHERE codename='list_sitemessage'
 ) LIMIT 1;
 
+/*邀请试用列表*/
+INSERT INTO auth_permission(name, content_type_id, codename)
+SELECT * FROM (SELECT 'Can list invitation',(SELECT id FROM django_content_type WHERE model='invitation' LIMIT 1), 'list_invitation') AS tmp
+WHERE NOT EXISTS (
+	SELECT * FROM auth_permission WHERE codename='list_invitation'
+) LIMIT 1;
+
 /*私有域管理权限初始化*/
 INSERT INTO auth_permission(name, content_type_id, codename)
 SELECT * FROM (SELECT 'Can list privatearea',(SELECT id FROM django_content_type WHERE model='privatearea' LIMIT 1), 'list_privatearea') AS tmp
