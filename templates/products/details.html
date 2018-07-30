@@ -1,6 +1,8 @@
 {% extends "share/base_layout_with_search.html" %}
 {% block title %}一点礼品-所有品牌{% endblock %}
 {% block content %}
+    {%  load static %}
+<script src="{% static "gift_platform_site/js/jquery.fly.min.js" %}"></script>
 <div class="container">
     <div class="bread-crumb">
         <a href="/home">首页</a>>商品详情</a>
@@ -150,7 +152,7 @@
                 $('.preview img').attr('src', hasSelectedSku.image);
             }
         });
-        $('.add-cart-btn').click(function(){
+        $('.add-cart-btn').click(function(event){
             $.ajax({
                 url: '{% url "gift_platform_site:cart" %}',
                 type: 'POST',
@@ -161,10 +163,31 @@
                     'X-CSRFToken': csrftoken
                 },
                 success: function() {
+                    var offset = $(".cart").offset();
+                    flyer = $('<img class="u-flyer" src="'+$('.preview').find('img').attr('src')+'"/>');
+                    flyer.fly({
+                        start: {
+                            left: event.pageX,
+                            top: event.pageY
+                        },
+                        end: {
+                            left: offset.left,
+                            top: offset.top,
+                            width: 20,height: 20
+                        },
+                        onEnd: function () {
+                            $(flyer).remove();
+                        }
+                    });
                     refreshCart();// 更新方案车
                 }
             });
         });
     })(jQuery);
 </script>
+    <style>
+    .u-flyer{
+  display: block;width: 50px;height: 50px;border-radius: 50px;position: fixed;z-index: 9999;
+}
+    </style>
 {% endblock %}
