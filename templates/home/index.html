@@ -3,6 +3,7 @@
 {% block title %}一点礼品-登录{% endblock %}
 {% block content %}
     {% load static %}
+    <script src="{% static "gift_platform_site/js/jquery.fly.min.js" %}"></script>
 <div class="container">
     <div class="btn-group dynamic-latest-sellout-btn-group">
         <div class="{% if t != '1' %}active{% endif %}">
@@ -90,7 +91,8 @@
 </div>
 <script>
     (function($){
-        $('.add-cart-btn').click(function(){
+        $('.add-cart-btn').click(function(event){
+            var _this= this;
             $.ajax({
                 url: '{% url "gift_platform_site:cart" %}',
                 type: 'POST',
@@ -101,10 +103,31 @@
                     'X-CSRFToken': csrftoken
                 },
                 success: function() {
+                    var offset = $(".cart").offset();
+                    flyer = $('<img class="u-flyer" src="'+$(_this).parent().parent().parent().find('.image-cover').attr('src')+'"/>');
+                    flyer.fly({
+                        start: {
+                            left: event.pageX,
+                            top: event.pageY
+                        },
+                        end: {
+                            left: offset.left,
+                            top: offset.top,
+                            width: 20,height: 20
+                        },
+                        onEnd: function () {
+                            $(flyer).remove();
+                        }
+                    });
                     refreshCart();// 更新方案车
                 }
             });
         });
     })(jQuery);
 </script>
+<style>
+    .u-flyer{
+        display: block;width: 50px;height: 50px;border-radius: 50px;position: fixed;z-index: 9999;
+    }
+</style>
 {% endblock %}
