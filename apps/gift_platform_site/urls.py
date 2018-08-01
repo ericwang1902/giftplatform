@@ -2,7 +2,7 @@ from django.urls import path
 from apps.gift_platform_site.views import LoginView,RegView1,RegView2,RegView3,verifyCodeView,findpwdCodeView
 from apps.gift_platform_site.views import IndexView, new_private_supplier
 from apps.gift_platform_site.views import MyaccountView,ModifyPwdView,logoutView, brands_list, categories_list, category_product_list, root_category_product_list, search_products
-from apps.gift_platform_site.views import search_supplier, CartView, product_details, supplier_products
+from apps.gift_platform_site.views import search_supplier, CartView, product_details, supplier_products, selected_product_list
 
 from apps.gift_platform_site.views import msgCenterView,sysinfoView,findpwdView,protocolView,delete_from_cart,export_ppt,brands_product_list,one_send_product_list, PrivateSupplier
 from  apps.gift_platform_site.views import msgdetailView, edit_private_supplier,sysinfodetailView,home,handle_invitation_form
@@ -35,6 +35,7 @@ urlpatterns =  [
     path('product/categories/<int:parent_category_id>/<int:child_category_id>/products', category_product_list, name="category_product_list"),
     path('product/search', search_products, name="search_products"),
     path('product/onesend', one_send_product_list, name="one_send_products"),
+    path('product/selected', selected_product_list, name="selected_products"),
     path('product/<int:product_id>', product_details, name="product_details"),
     path('supplier/search', search_supplier, name="search_supplier"),
     path('supplier/<int:supplier_id>/products', supplier_products, name="supplier_products"),

@@ -94,7 +94,7 @@
     <div class="nav-wrap">
         <a {% ifequal request.path '/home/' %}class="active" {% endifequal %}
            href="{% url 'gift_platform_site:home' %}">最新动态</a>
-        <a {% ifequal request.path '/jxzt/' %}class="active" {% endifequal %} href="#">精选专题</a>
+        <a {% ifequal request.path '/product/selected' %}class="active" {% endifequal %} href="/product/selected">精选专题</a>
         <a {% ifequal request.path '/product/categories' %}class="active" {% endifequal %} href="/product/categories">产品分类</a>
         <a {% ifequal request.path '/product/brands' %}class="active" {% endifequal %} href="/product/brands">品牌专区</a>
         <a {% ifequal request.path '/product/onesend' %}class="active" {% endifequal %} href="/product/onesend">一件代发</a>

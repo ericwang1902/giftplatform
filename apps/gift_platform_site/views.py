@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login
 from django.views import View
 from django.contrib.auth.backends import ModelBackend
 from apps.users.models import UserProfile, supplier, siteMessge
-from apps.products.models import product, brands, category, productItem
+from apps.products.models import product, brands, category, productItem, scene,tags
 from apps.advertising.models import Advertising
 from django.db.models import Q
 from django.contrib.auth.hashers import make_password
@@ -614,6 +614,139 @@ def generate_pager_array(page_num, page_count):
             out.append('...')
             out.append(page_count)
         return out
+
+@login_required
+def selected_product_list(request):
+    """
+    精选商品列表
+    :param request:
+    :return:
+    """
+    scenes = tags.objects.all().order_by('id')
+    price_range = request.GET.get('price_range')  # 1: 0-20 2: 20-50 3: 50-100 4: 100-200 5: 200-500 6: 500-1000 7: 1000-5000 8: 5000以上 0: 无限
+    amount_range = request.GET.get('amount_range')  # 1: 0-20 2: 20-50 3: 50-100 4: 100-200 5: 200-500 6: 500-1000 7: 1000-5000 8: 5000以上 0: 无限
+    in_private = request.GET.get('in_private')
+    scene_id = request.GET.get('scene', None)
+    result_data_dict = {}  # 视图信息数据字典
+
+    result_data_dict['scenes'] = scenes
+
+    query_set = product.objects.filter(Q(state=0) and Q(isdelete=False))
+
+    if scene_id is not None:
+        scene_instance = get_object_or_404(tags,pk=int(scene_id))
+        result_data_dict['selected_scene'] = scene_instance
+        query_set = query_set.filter(scenes__exact=scene_instance)
+    else:
+        result_data_dict['selected_scene'] = None
+
+    # 价格查询逻辑
+    def price_0_to_20(queryset):
+        return queryset.filter(productItems__favouredprice__range =[0, 20]).distinct()
+
+    def price_20_to_50(queryset):
+        print(1)
+        return queryset.filter(productItems__favouredprice__range=[20, 50]).distinct()
+
+    def price_50_to_100(queryset):
+        return queryset.filter(productItems__favouredprice__range=[50, 100]).distinct()
+
+    def price_100_to_200(queryset):
+        return queryset.filter(productItems__favouredprice__range=[100, 200]).distinct()
+
+    def price_200_to_500(queryset):
+        return queryset.filter(productItems__favouredprice__range=[200, 500]).distinct()
+
+    def price_500_to_1000(queryset):
+        return queryset.filter(productItems__favouredprice__range=[500, 1000]).distinct()
+
+    def price_1000_to_5000(queryset):
+        return queryset.filter(productItems__favouredprice__range=[1000, 5000]).distinct()
+
+    def price_gte_5000(queryset):
+        return queryset.filter(productItems__favouredprice__gte=5000).distinct()
+
+    price_query_switch = {
+        '1': price_0_to_20,
+        '2': price_20_to_50,
+        '3': price_50_to_100,
+        '4': price_100_to_200,
+        '5': price_200_to_500,
+        '6': price_500_to_1000,
+        '7': price_1000_to_5000,
+        '8': price_gte_5000,
+        '0': lambda x: x
+    }
+
+    if price_range is not None:
+        if price_range not in ['1', '2', '3', '4', '5', '6', '7', '8']:
+            price_range = '0'
+        query_set = price_query_switch[price_range](query_set)
+        result_data_dict['price_range'] = price_range
+    else:
+        result_data_dict['price_range'] = '0'
+
+    # 库存查询逻辑
+    # TODO:待确认具体的库存逻辑
+    '''
+    def amount_0_to_20(queryset):
+        return queryset.filter(productItems__price__range = [0, 20])
+
+    def amount_20_to_50(queryset):
+        return queryset.filter(productItems__price__range = [20, 50])
+
+    def amount_50_to_100(queryset):
+        return queryset.filter(productItems__price__range = [50, 100])
+
+    def amount_100_to_200(queryset):
+        return queryset.filter(productItems__price__range = [100, 200])
+
+    def amount_gte_200(queryset):
+        return queryset.filter(productItems__price__gte = 200)
+
+    amount_query_switch = {
+        '1': amount_0_to_20,
+        '2': amount_20_to_50,
+        '3': amount_50_to_100,
+        '4': amount_100_to_200,
+        '5': amount_gte_200
+    }
+
+    if amount_query_switch is not None:
+        if amount_range not in ['1', '2', '3', '4', '5']:
+            amount_range = '1'
+        query_set = amount_query_switch[price_range](query_set)
+    '''
+
+    if request.user.privatearea is not None:  # 如果当前用户不存在私有域
+        result_data_dict['has_private_area'] = True
+        if in_private is not None:
+            result_data_dict['in_private'] = in_private
+            if in_private is '1':
+                query_set = query_set.filter(privatearea=request.user.privatearea)
+            elif in_private is '0':  # 0 则是所有类型，不做任何处理
+                query_set = query_set.filter(Q(privatearea=request.user.privatearea) | Q(inprivatearea=False))
+            else:
+                query_set = query_set.filter(inprivatearea=False)
+        else:
+            query_set = query_set.filter(Q(privatearea=request.user.privatearea) | Q(inprivatearea=False))
+            result_data_dict['in_private'] = '0'
+    else:
+        result_data_dict['has_private_area'] = False
+
+    query_set = query_set.order_by('id')
+    # 分页处理
+    paginator = Paginator(query_set, 12)
+    page = request.GET.get('page')
+    products = paginator.get_page(page)
+
+    result_data_dict['products'] = products
+    result_data_dict['page_range'] = range(1, products.paginator.num_pages)
+
+    pager_array = generate_pager_array(products.number, products.paginator.num_pages)
+    result_data_dict['pager_array'] = pager_array
+
+    return render(request, 'products/selected_product_list.html', result_data_dict)
 
 
 @login_required
