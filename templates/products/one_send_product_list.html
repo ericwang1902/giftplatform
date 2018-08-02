@@ -9,11 +9,11 @@
         <a href="#">首页</a>><a href="{% url 'gift_platform_site:one_send_products' %}">一件代发</a>
     </div>
     <div class="query-area">
-        <div class="query-item-wrap">
+        <div class="query-item-wrap" style="line-height: 30px;">
             <span class="query-name">分类</span>
             <a  style="margin-left: 1em" class="query-param {% if category == None %} select {% endif %}" href="{% url 'gift_platform_site:one_send_products' %}">不限</a>
             {% for category_existed in one_send_categories %}
-                <a class="query-param {% if category_existed.id == category.id %} select {% endif %}" href="{% url 'gift_platform_site:one_send_products' %}?category={{ category_existed.id }}&price_range=0&in_private=0">{{ category_existed.name }}</a>
+                <a style="margin-left:1em;" class="query-param {% if category_existed.id == category.id %} select {% endif %}" href="{% url 'gift_platform_site:one_send_products' %}?category={{ category_existed.id }}&price_range=0&in_private=0">{{ category_existed.name }}</a>
             {% endfor %}
         </div>
         <div class="query-item-wrap">
