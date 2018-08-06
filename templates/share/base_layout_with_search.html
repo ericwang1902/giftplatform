@@ -172,19 +172,40 @@
         });
         $('#export-ppt-btn').click(function () {
             if (confirm('保存PPT至本地?')) {
-                $.ajax({
-                    url: '{% url 'gift_platform_site:export_ppt' %}',
-                    type: 'POST',
-                    headers: {
-                        'X-CSRFToken': csrftoken
-                    },
-                    success: function (data) {
-                        console.log(data.file_url)
-                        refreshCart();
-                        //window.location.href = data.file_url;
-                        window.open(data.file_url);
-                    }
-                });
+                if (/Apple/.test(navigator.vendor)) {
+                    var winRef = window.open('', '_blank');
+                    $.ajax({
+                        url: '{% url 'gift_platform_site:export_ppt' %}',
+                        type: 'POST',
+                        headers: {
+                            'X-CSRFToken': csrftoken
+                        },
+                        success: function (data) {
+                            console.log(data.file_url)
+                            refreshCart();
+                            //window.location.href = data.file_url;
+                            //window.open(data.file_url);
+                            var ioc = function (url) {
+                                winRef.location = url;
+                            };
+                            setTimeout(ioc(data.file_url), 800);
+                        }
+                    });
+                }  else {
+                    $.ajax({
+                        url: '{% url 'gift_platform_site:export_ppt' %}',
+                        type: 'POST',
+                        headers: {
+                            'X-CSRFToken': csrftoken
+                        },
+                        success: function (data) {
+                            console.log(data.file_url)
+                            refreshCart();
+                            //window.location.href = data.file_url;
+                            window.open(data.file_url);
+                        }
+                    });
+                }
             }
         });
         $('.product-list').mCustomScrollbar({
