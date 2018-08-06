@@ -16,11 +16,11 @@
     {% endifequal %}
 
     {% ifequal usertype "2" %}
-        <div class="reg-step-div">
-            <div class="nocurrentstep">1.选择类型</div>
-            <div class="btwsteps"></div>
-            <div class="currentstep">2.填写信息</div>
-        </div>
+{#        <div class="reg-step-div">#}
+{#            <div class="nocurrentstep">1.选择类型</div>#}
+{#            <div class="btwsteps"></div>#}
+{#            <div class="currentstep">2.填写信息</div>#}
+{#        </div>#}
         <div class="regform">
             <form method="post" enctype="multipart/form-data" action="{% url 'gift_platform_site:reg2' %}?type={{ usertype }}" id="reg2form">
                 <div class="usernamereg">
