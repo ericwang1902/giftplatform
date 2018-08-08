@@ -98,7 +98,6 @@
         <a {% ifequal request.path '/product/categories' %}class="active" {% endifequal %} href="/product/categories">产品分类</a>
         <a {% ifequal request.path '/product/brands' %}class="active" {% endifequal %} href="/product/brands">品牌专区</a>
         <a {% ifequal request.path '/product/onesend' %}class="active" {% endifequal %} href="/product/onesend">一件代发</a>
-        <a {% ifequal request.path '/aboutus/' %}class="active" {% endifequal %} href="#">关于我们</a>
         <a {% if currentpage == 'msgcenter' %}class="active"
            {% elif currentpage == 'msgdetail' %}class="active"{% endif %}
            href="{% url 'gift_platform_site:msgcenter' %}" >公告中心</a>
