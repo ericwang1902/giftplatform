@@ -60,8 +60,8 @@ def limit_sessions(sender, user, request, **kwargs):
 
     return
 
-
-user_logged_in.connect(limit_sessions)
+# 根据需求暂时去除单用户登录功能
+# user_logged_in.connect(limit_sessions)
 
 
 def home(request):
