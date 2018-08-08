@@ -14,12 +14,12 @@
                     <div class="usernamelogin">
                         <img id="uricon" src="{% static 'gift_platform_site/images/loginusername.png' %}">
                         <input name="username" placeholder="请输入用户名"/>
-                        <img id="clearicon" src="{% static 'gift_platform_site/images/clear.png' %}">
+                        <img onclick="deleteInput(this)" id="clearicon" src="{% static 'gift_platform_site/images/clear.png' %}">
                     </div>
                     <div class="pwdlogin">
                         <img id="pwdicon" src="{% static 'gift_platform_site/images/pwd.png' %}">
                         <input name="password" type="password" placeholder="请输入密码"/>
-                        <img id="clearicon2" src="{% static 'gift_platform_site/images/clear.png' %}">
+                        <img onclick="deleteInput(this)" id="clearicon2" src="{% static 'gift_platform_site/images/clear.png' %}">
                     </div>
                     <div class="loginbtndiv">
                         <a href="javascript:void(0)" onclick="document.getElementById('loginform').submit()">登录</a>
@@ -53,7 +53,16 @@
                         alert("您上传的图片未通过审核，请重新上传")
                         window.location="{% url 'gift_platform_site:reg3' %}"
                     }
+                    $('input').keydown(function(e) {
+                        if (e.keyCode === 13) {
+                            $('#loginform').submit();
+                        }
+                    });
 
+                }
+
+                var deleteInput = function (_this) {
+                    $(_this).parent().find('input').val('');
                 }
 
             </script>
