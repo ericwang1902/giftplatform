@@ -4,7 +4,7 @@
 {% block content %}
     {% load static %}
     <script src="{% static "gift_platform_site/js/jquery.fly.min.js" %}"></script>
-<div class="container">
+<div class="container" style="min-height: calc(100vh - 503px);">
     <div class="btn-group dynamic-latest-sellout-btn-group">
         <div class="{% if t != '1' %}active{% endif %}">
             <a href="{% url "gift_platform_site:home" %}">全部</a>

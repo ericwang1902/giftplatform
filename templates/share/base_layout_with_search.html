@@ -255,6 +255,11 @@
                     window.location.href = '{% url 'gift_platform_site:search_supplier' %}?q=' + queryContent;// 供应商检索
                 }
             });
+            $('#search-content-input').keydown(function(e) {
+                if (e.keyCode === 13) {
+                    $('#search-btn').click();
+                }
+            });
         })(jQuery);
 
         (function ($) {

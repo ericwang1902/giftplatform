@@ -2,7 +2,7 @@
 {% block title %}一点礼品-所有分类{% endblock %}
 {% block content %}
 {% load gift_platform_extras %}
-<div class="container category-list">
+<div class="container category-list"  style="min-height: calc(100vh - 503px);">
     {% for category in categories_list %}
     <div class="category-item">
         <span class="father-category">{{ category.name }}</span>
