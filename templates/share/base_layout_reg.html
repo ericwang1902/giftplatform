@@ -5,9 +5,17 @@
     <title>{% block title %}一点礼品注册{% endblock %}</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'gift_platform_site/style.css' %}">
-
+<style>
+    html,body{
+        height: 100%;
+    }
+    body{
+        background: #333;
+    }
+</style>
 </head>
 <body>
+<div style="background: #fff;">
 <div class="container">
     <div class="reg-login-wrap">
         <a href="/home"><img class="logo" src="{%  static 'gift_platform_site/images/logo_index.png' %}" style="height: 55px;width:178px;"></a>
@@ -17,9 +25,10 @@
 <hr class="hrline"/>
 
 {% block content %}
+    </div>
 
 {% endblock %}
-<div class="footer" style="position:absolute;width:100%;bottom:0px;">
+<div class="footer">
     <div class="container">
         <div class="item-wrap">
             <div class="footer-icon-group">
