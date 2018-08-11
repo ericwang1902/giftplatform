@@ -5,13 +5,23 @@
     <title>{% block title %}一点礼品{% endblock %}</title>
     {%  load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'gift_platform_site/style.css' %}">
+    <style>
+        html, body {
+            height: 100%;
+        }
+        body{
+            background: #d8d8d8;
+        }
+    </style>
 </head>
 <body>
+<div style="background:#fff;">
 <div class="container">
     <div class="reg-login-wrap">
         <a href="/home"><img class="logo" src="{%  static 'gift_platform_site/images/logo_index.png' %}" style="height: 55px;width:178px;"></a>
         <div class="tell">400-679-8289</div>
     </div>
+</div>
 </div>
 <hr class="hrline"/>
 {% block content %}
