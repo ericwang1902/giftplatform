@@ -633,7 +633,7 @@ def selected_product_list(request):
 
     query_set = product.objects.filter(Q(state=0) and Q(isdelete=False))
 
-    if scene_id is not None:
+    if scene_id is not None and scene_id is not '':
         scene_instance = get_object_or_404(tags,pk=int(scene_id))
         result_data_dict['selected_scene'] = scene_instance
         query_set = query_set.filter(scenes__exact=scene_instance)
@@ -1186,7 +1186,7 @@ def search_supplier(request):
     query_set = supplier.objects
 
     if query_content is not None:
-        query_set = query_set.filter(suppliername__contains=query_content)
+        query_set = query_set.filter(suppliername__icontains=query_content)
         result_data_dict['search_query'] = query_content
     else:
         result_data_dict['search_query'] = ''
@@ -1224,7 +1224,7 @@ def search_products(request):
     query_set = product.objects.filter(Q(state=0) and Q(isdelete=False))
 
     if query_content is not None:
-        query_set = query_set.filter(name__contains=query_content)
+        query_set = query_set.filter(name__icontains=query_content)
         result_data_dict['search_query'] = query_content
     else:
         result_data_dict['search_query'] = ''
