@@ -2,11 +2,12 @@
 {% block title %}一点礼品-登录{% endblock %}
 {% block content %}
     {% load static %}
-    <div class="container"   style="width:1000px;min-height: calc(100vh - 265px);display: flex;align-items: center;">
+    <div style="width: 100%;background:#d8d8d8;">
+    <div class="container" style="padding:40px 0; background:#d8d8d8;">
         <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"type="text/javascript"></script>
-        <div class="login-center" style="margin-top:0px">
-            <div><img src="{% static 'gift_platform_site/images/login_cover.png' %}" style="width: 600px;height:400px;"></div>
-            <div class="loginform">
+        <div class="login-center" style="margin-top:0px;height:auto;">
+            <div><img src="{% static 'gift_platform_site/images/login_cover.png' %}" style="width: 750px;height:500px;"></div>
+            <div class="loginform" style="height:500px;">
                 <p>请登录</p>
 
                 <form action="{% url 'gift_platform_site:login' %}" method="post" id="loginform">
@@ -45,6 +46,7 @@
                     <input hidden id="shtp" value="{{ msg }}"/>
                 </form>
             </div>
+        <div class="clear"></div>
             <script type="text/javascript">
                 window.onload=function () {
                     shtp= $("#shtp").val()
@@ -68,5 +70,6 @@
             </script>
 
         </div>
+    </div>
     </div>
 {% endblock %}
