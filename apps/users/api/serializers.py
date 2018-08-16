@@ -20,6 +20,15 @@ class AuthInfoSerializer(ModelSerializer):
 class privateareaSerialzer(ModelSerializer):
     supplier_count = serializers.SerializerMethodField('get_private_supplier_count')
     product_count = serializers.SerializerMethodField('get_private_product_count')
+    gift_company_name = serializers.SerializerMethodField('get_gift_company')
+
+    def get_gift_company(self, privatearea):
+        print(privatearea.id)
+        gift_company = UserProfile.objects.filter(Q(type='giftcompany') & Q(privatearea = privatearea)).first()
+        if gift_company is None:
+            return ''
+        else:
+            return gift_company.username
 
     def get_private_supplier_count(self, privatearea):
         supplier_count = supplier.objects.filter(userid__privatearea_id = privatearea.id).count()
@@ -51,6 +60,7 @@ class SupplierShopInfoSerializer(ModelSerializer):
 class SupplierSerializer(ModelSerializer):
 
     supplier = SupplierShopInfoSerializer(many=False)
+    privatearea = privateareaSerialzer(read_only=True)
 
     class Meta:
         model = UserProfile
