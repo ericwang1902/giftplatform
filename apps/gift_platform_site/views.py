@@ -586,7 +586,7 @@ def generate_pager_array(page_num, page_count):
             map(lambda x: str(x), range(page_num + 1, page_count + 1)))
     else:
         out = []
-        if page_num - window_size <= 2:
+        if page_num - window_size < 0:
             for i in map(lambda x: str(x), list(range(1, window_size + 1))):
                 if i == str(page_num):
                     out.append('{}'.format(i))
@@ -594,7 +594,7 @@ def generate_pager_array(page_num, page_count):
                     out.append(i)
             out.append('...')
             out.append(page_count)
-        elif page_num - window_size > 2 and page_count - window_size <= page_num:
+        elif page_num - window_size >= 0 and page_count - window_size <= page_num:
             out.append('1')
             out.append('...')
             for i in map(lambda x: str(x), list(range(page_count - window_size + 1, page_count))):
