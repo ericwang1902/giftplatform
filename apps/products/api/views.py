@@ -59,7 +59,8 @@ class brandsDetail(generics.GenericAPIView,mixins.RetrieveModelMixin,mixins.Upda
         return self.update(request,*args,**kwargs)
 
     def perform_destroy(self, instance):
-        instance.update(isdelete=True)
+        pk = self.kwargs.get('pk', None)
+        brands.objects.filter(id=pk).update(isdelete=True)
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
