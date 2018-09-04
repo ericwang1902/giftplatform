@@ -58,6 +58,9 @@ class brandsDetail(generics.GenericAPIView,mixins.RetrieveModelMixin,mixins.Upda
         kwargs['partial'] = True
         return self.update(request,*args,**kwargs)
 
+    def perform_destroy(self, instance):
+        instance.update(isdelete=True)
+
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
 
