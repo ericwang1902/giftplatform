@@ -31,7 +31,7 @@ class ProductDescriptionMedia(APIView):
 
 
 class brandsList(generics.GenericAPIView,mixins.ListModelMixin,mixins.CreateModelMixin):
-    queryset = brands.objects.all()
+    queryset = brands.objects.all().filter(isdelete=False)
     serializer_class = brandSerializer
     parser_classes = (MultiPartParser,)
     filter_backends = (filters.SearchFilter,)
