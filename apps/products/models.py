@@ -66,7 +66,7 @@ class productItem(models.Model):
 
 #产品的图片
 def product_directory_path(instance,filename):
-    filename = '%s%s' % (filename, uuid.uuid4())
+    filename = '%s_%s' % (uuid.uuid4(),filename)
     return 'product_{0}/{1}'.format(datetime.date.today().strftime("%Y%m%d"),filename)
 
 class productImage(models.Model):

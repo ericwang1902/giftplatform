@@ -15,7 +15,7 @@ from rest_framework.parsers import MultiPartParser
 from rest_framework.views import APIView
 from giftplatform.settings import MEDIA_ROOT
 from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
-import os
+import os, uuid
 
 class ProductDescriptionMedia(APIView):
 
@@ -24,7 +24,7 @@ class ProductDescriptionMedia(APIView):
         dest_folder = os.path.join(MEDIA_ROOT, 'products/description/')
         if not os.path.exists(dest_folder):
             os.makedirs(dest_folder)
-        with open(os.path.join(dest_folder, '{0}'.format(file.name)), 'wb+') as destination:
+        with open(os.path.join(dest_folder, '{0}_{1}'.format(uuid.uuid4(), file.name)), 'wb+') as destination:
             for chunk in file.chunks():
                 destination.write(chunk)
         return Response({'success': True, 'msg': 'ok', 'file_path': ('http://' + request.get_host() + '/media/products/description/{0}'.format(file.name))})
