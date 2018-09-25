@@ -51,6 +51,7 @@ class PrivateAreaSupplierForm(forms.Form):
     tel = forms.CharField(required=True, label="联系电话")
     qq = forms.CharField(label="QQ", required=False)
     email = forms.CharField(label="Email", required=False)
+    contacts = forms.CharField(label="联系人", required=False)
 
 
 class findpwdform(forms.Form):

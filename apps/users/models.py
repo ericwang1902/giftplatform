@@ -81,3 +81,4 @@ class supplier(models.Model):
     userid = models.OneToOneField(UserProfile, on_delete=models.CASCADE, blank=True, null=True)
     wechat_qr_code_img = models.ImageField(upload_to=wechat_qr_path, blank=True, null=True)
     contact_info_description = models.TextField(null=True, blank=True)
+    contacts = models.CharField(max_length=100, null=True, blank=True)

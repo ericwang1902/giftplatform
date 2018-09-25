@@ -1876,7 +1876,7 @@ class PrivateSupplier(View):
             user.save()
 
             supplier_info = supplier(suppliername=form.cleaned_data['supplier_name'], tel=form.cleaned_data['tel'],
-                                     qq=form.cleaned_data['qq'], email=form.cleaned_data['email'], userid=user)
+                                     qq=form.cleaned_data['qq'], email=form.cleaned_data['email'], userid=user, contacts=form.cleaned_data['contacts'])
             supplier_info.save()
             messages.add_message(request, messages.SUCCESS, '已成功创建私有供应商')
 

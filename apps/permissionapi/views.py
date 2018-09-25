@@ -31,7 +31,10 @@ class permissionList(generics.GenericAPIView,mixins.ListModelMixin):
     pagination_class = PageNumberPagination
     pagination_class.page_size = 1000
 
+
+
     def get(self, request, *args, **kwargs):
+        self.pagination_class.page_size = 1000
         return self.list(request, *args, **kwargs)
 
 

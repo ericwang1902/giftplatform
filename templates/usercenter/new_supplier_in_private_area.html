@@ -27,10 +27,17 @@
                 <input name="confirm_password" type="password" placeholder="请再次输入密码" />
             </div>
             <div class="form-item">
-                <label>店铺名：</label>
+                <label>公司名称：</label>
                 <input name="supplier_name" placeholder="请输入店铺名" value="{{ form_data.supplier_name }}" />
                 {% if form.errors.supplier_name %}
                     <label id="supplier_name-error" class="error" for="supplier_name">{{ form.errors.supplier_name }}</label>
+                {% endif %}
+            </div>
+            <div class="form-item">
+                <label>联系人：</label>
+                <input name="contacts" placeholder="请输入联系人" value="{{ form_data.contacts }}" />
+                {% if form.errors.contacts %}
+                    <label id="supplier_name-error" class="error" for="contacts">{{ form.errors.contacts }}</label>
                 {% endif %}
             </div>
             <div class="form-item">
