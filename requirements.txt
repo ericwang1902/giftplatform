@@ -1,7 +1,7 @@
 aliyun-python-sdk-core-v3==2.8.6
 aliyun-python-sdk-dysmsapi==1.0.0
 astroid==1.6.1
-certifi==2018.1.18
+certifi==2022.12.7
 chardet==3.0.4
 colorama==0.3.9
 Django==2.0.1
