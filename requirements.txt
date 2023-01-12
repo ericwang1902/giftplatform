@@ -26,7 +26,7 @@ pypng==0.0.18
 PyQRCode==1.2.1
 python-pptx==0.6.7
 pytz==2017.3
-requests==2.18.4
+requests==2.20.0
 six==1.11.0
 urllib3==1.22
 wrapt==1.10.11
